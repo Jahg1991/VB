@@ -1,0 +1,2392 @@
+﻿CREATE DATABASE SEMSAL
+GO
+USE [SEMSAL]
+	CREATE TABLE USERS (
+		NOMBRE VARCHAR(20) PRIMARY KEY,
+		PASS   VARCHAR(20),
+		USUARIOS INT,
+		SOMATOMETRIA INT,
+		LABORATORIO INT,
+		DENTAL INT,
+		NUTRICION INT,
+		MUJER INT,
+		OPTOMETRIA INT,
+		IMPRESION INT,
+		EDITAR INT,
+		IMPORTAR INT,
+		EXPORTAR INT,
+		FAMILIARES INT
+);
+GO
+USE [SEMSAL]
+	INSERT INTO USERS(
+		NOMBRE,
+		PASS,
+		USUARIOS,
+		SOMATOMETRIA,
+		LABORATORIO,
+		DENTAL,
+		NUTRICION,
+		MUJER,
+		OPTOMETRIA,
+		IMPRESION,
+		EDITAR,
+		IMPORTAR,
+		EXPORTAR,
+		FAMILIARES)
+	VALUES 
+		('Administrador',
+	'jahg91-SS',
+	1,
+	1,
+	1,
+	1,
+	1,
+	1,
+	1,
+	1,
+	1,
+	1,
+	1,
+	1);
+USE [SEMSAL]
+	CREATE TABLE SOMAT (
+		ID_AST 	VARCHAR(10) PRIMARY KEY,
+		NOMBRE 	VARCHAR(50),
+		FE_NAC 	VARCHAR(10),
+		GENERO 	VARCHAR(9),
+		TRAB_E 	VARCHAR(2),
+		AREA_T 	VARCHAR(50),
+		ID_EMP 	VARCHAR(10),
+		PARENT 	VARCHAR(10),
+		PES_KG 	VARCHAR(6),
+		TAL_MT 	VARCHAR(4),
+		TA		VARCHAR(20),
+		VAC_TX 	VARCHAR(2),
+		VAC_OT 	VARCHAR(50),
+		OBSERV	VARCHAR(50)
+	);
+USE [SEMSAL]
+	CREATE TABLE LABOR (	
+		ID_AST 	VARCHAR(10) PRIMARY KEY,
+		COLEST 	INT,
+		TRIGLI	INT,
+		GLUCOS	INT,
+		PSA		INT,
+		OBSERV	VARCHAR(50)
+	);
+USE [SEMSAL]
+	CREATE TABLE DENTA (
+		ID_AST 	VARCHAR(10) PRIMARY KEY,
+		ASISTE	VARCHAR(2),
+		OBSERV	VARCHAR(50)
+	);
+USE [SEMSAL]
+	CREATE TABLE NUTRI (
+		ID_AST 	VARCHAR(10) PRIMARY KEY,
+		ASISTE	VARCHAR(2),
+		TIPO	VARCHAR(20),
+		OBSERV	VARCHAR(50)
+	);
+USE [SEMSAL]
+	CREATE TABLE SD_MU (
+		ID_AST 	VARCHAR(10) PRIMARY KEY,
+		COCAMA	VARCHAR(2),
+		COCCU	VARCHAR(2),
+		MSTGFA	VARCHAR(2),
+		OBSERV	VARCHAR(50)
+	);
+USE [SEMSAL]
+	CREATE TABLE OP_AD (
+		ID_AST 	VARCHAR(10) PRIMARY KEY,
+		AUDIOM	VARCHAR(2),
+		OPTOME	VARCHAR(2),
+		OBSERV	VARCHAR(50)
+	);
+USE [SEMSAL]
+GO
+/****** Objeto:  View [dbo].[All_date]    Fecha de la secuencia de comandos: 08/12/2015 22:08:29 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+	CREATE VIEW [dbo].[All_date]
+		AS
+		SELECT  
+			dbo.SOMAT.ID_AST, 
+			dbo.SOMAT.NOMBRE, 
+			dbo.SOMAT.FE_NAC AS FECHA_NACIMIENTO, 
+			dbo.SOMAT.GENERO, 
+			dbo.SOMAT.TRAB_E AS TRABAJADOR_EMPRESA, 
+			dbo.SOMAT.AREA_T AS AREA_TRABAJO, 
+			dbo.SOMAT.ID_EMP AS ID_PARIENTE, 
+			dbo.SOMAT.PARENT AS RELACION, 
+			dbo.SOMAT.PES_KG AS PESO, 
+			dbo.SOMAT.TAL_MT AS TALLA, 
+			dbo.SOMAT.TA, 
+			dbo.SOMAT.VAC_TX AS VACUNA_TOXOIDE, 
+			dbo.SOMAT.VAC_OT AS OTRAS_VACUNAS, 
+			dbo.SOMAT.OBSERV AS OBSERVACIONES_SOMATOMETRÍA, 
+			dbo.DENTA.ASISTE AS ASISTENCIA_DENTAL, 
+			dbo.DENTA.OBSERV AS OBSERVACIONES_DENTAL, 
+			dbo.OP_AD.AUDIOM AS AUDIOMETRIA, 
+			dbo.OP_AD.OPTOME AS OPTOMETRIA, 
+			dbo.OP_AD.OBSERV AS OBSERVACIONES_AUDIOMETRIA_Y_OPTOMETRIA, 
+			dbo.LABOR.COLEST AS COLESTEROL, 
+			dbo.LABOR.TRIGLI AS TRIGLICERIDOS, 
+			dbo.LABOR.GLUCOS AS GLUCOSA, 
+			dbo.LABOR.PSA, 
+			dbo.LABOR.OBSERV AS OBSERVACIONES_LABORATORIO, 
+			dbo.SD_MU.COCAMA AS DOCMA, 
+			dbo.SD_MU.COCCU AS DOCCU, 
+			dbo.SD_MU.MSTGFA AS MASTOGRAFIA, 
+			dbo.SD_MU.OBSERV AS OBSERVACIONES_SALUD_DE_LA_MUJER, 
+			dbo.NUTRI.ASISTE AS ASISTENCIA_NUTRICION, 
+			dbo.NUTRI.TIPO, 
+			dbo.NUTRI.OBSERV AS OBSERVACIONES_NUTRICION
+		FROM    
+			dbo.SOMAT FULL OUTER JOIN
+			dbo.LABOR ON dbo.SOMAT.ID_AST = dbo.LABOR.ID_AST FULL OUTER JOIN
+			dbo.NUTRI ON dbo.SOMAT.ID_AST = dbo.NUTRI.ID_AST FULL OUTER JOIN
+			dbo.OP_AD ON dbo.SOMAT.ID_AST = dbo.OP_AD.ID_AST FULL OUTER JOIN
+			dbo.SD_MU ON dbo.SOMAT.ID_AST = dbo.SD_MU.ID_AST FULL OUTER JOIN
+			dbo.DENTA ON dbo.SOMAT.ID_AST = dbo.DENTA.ID_AST
+	);
+Global Cn As New ADODB.Connection
+Global RsSomatometria As New ADODB.Recordset
+Global RsLaboratorio As New ADODB.Recordset
+Global RsDental As New ADODB.Recordset
+Global RsNutricion As New ADODB.Recordset
+Global RsSaludMujer As New ADODB.Recordset
+Global RsOptometriaAudiometria As New ADODB.Recordset
+Global RSTrabajador As New ADODB.Recordset
+Global RsMujer As New ADODB.Recordset
+Global RsAllDate As New ADODB.Recordset
+Global RsNombre As New ADODB.Recordset
+Global RsCodigo As New ADODB.Recordset
+Global RsFamiliar As New ADODB.Recordset
+Global RsUsers As New ADODB.Recordset
+Global RRsUsers As New ADODB.Recordset
+Global RSSexo As New ADODB.Recordset
+Global DRID_AST As String
+Global DRNOMBRE As String
+Global DRFECHA_NACIMIENTO As String
+Global DRGENERO As String
+Global DRPESO As String
+Global DRTALLA As String
+Global DRTA As String
+Global DRVACUNA_TOXOIDE As String
+Global DROTRAS_VACUNAS As String
+Global DROBSERVACIONES_SOMATOMETRÍA As String
+Global DRCOLESTEROL As String
+Global DRTRIGLICERIDOS As String
+Global DRGLUCOSA As String
+Global DRPSA As String
+Global DROBSERVACIONES_LABORATORIO As String
+Global DRASISTENCIA_DENTAL As String
+Global DROBSERVACIONES_DENTAL As String
+Global DRASISTENCIA_NUTRICION As String
+Global DRTIPO As String
+Global DROBSERVACIONES_NUTRICION As String
+Global DRDOCMA As String
+Global DRDOCCU As String
+Global DRMASTOGRAFIA As String
+Global DROBSERVACIONES_SALUD_DE_LA_MUJER As String
+Global DRAUDIOMETRIA As String
+Global DROPTOMETRIA As String
+Global DROBSERVACIONES_AUDIOMETRIA_Y_OPTOMETRIA As String
+Sub Main()
+    With Cn
+        .CursorLocation = adUseClient
+        .Open "Provider=SQLOLEDB.1;Password=jahg91;Persist Security Info=True;User ID=sa;Initial Catalog=SEMSAL;Data Source=ALFREDO\SQLEXPRESS;"
+    End With
+    frmSplash.Show
+End Sub
+Private Sub Timer1_Timer()
+    On Error Resume Next
+    Form1.Show
+    Form1.Usuario.Enabled = False
+    Form1.Somatometria.Enabled = False
+    Form1.Laboratorio.Enabled = False
+    Form1.Dental.Enabled = False
+    Form1.Nutricion.Enabled = False
+    Form1.Salud_mujer.Enabled = False
+    Form1.Optometría_Audiometría.Enabled = False
+    Form1.Impresion.Enabled = False
+    Form1.Editar_eliminar_registros.Enabled = False
+    Form1.Importar_Somatometria.Enabled = False
+    Form1.Exportar_informacion.Enabled = False
+    Form1.Familiares.Enabled = False
+    Form1.Enabled = False
+    frmLogin.Show
+    Unload frmSplash
+End Sub
+Private Sub cmdCancel_Click()
+    On Error Resume Next
+    Unload FormSomatometriaRegistrado
+    Unload FormSomatometriaNuevo
+    Unload BuscarTrabajador
+    Unload FormLaboratorio
+    Unload FormDental
+    Unload FormNutricion
+    Unload FormMujer
+    Unload FormOptometria
+    Unload FormImpresion
+    Unload DataReport1
+    Unload FormImportarSomatometria
+    Unload FormEditar
+    Unload FormExportarTodo
+    Unload DataReport2
+    Unload ReporteFamiliares
+    Unload Usuarios
+    Unload frmLogin
+    Unload frmAbout
+    Unload Form1
+End Sub
+Private Sub cmdOK_Click()
+    On Error Resume Next
+    If txtUserName = Text1(0).Text And txtPassword = Text1(2).Text Then
+        MsgBox "Bienvenido(a) " & txtUserName, , "Inicio de sesión"
+        Unload frmLogin
+        Form1.Enabled = True
+    Else
+        MsgBox "El usuario o contraseña no son válidos. Vuelva a intentarlo", , "Inicio de sesión"
+        txtPassword.SetFocus
+        txtPassword.Text = ""
+    End If
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RRsUsers
+        If .State = 1 Then .Close
+            .Open "Select * from USERS", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Form1.Usuario.Enabled = False
+    Form1.Somatometria.Enabled = False
+    Form1.Laboratorio.Enabled = False
+    Form1.Dental.Enabled = False
+    Form1.Nutricion.Enabled = False
+    Form1.Salud_mujer.Enabled = False
+    Form1.Optometría_Audiometría.Enabled = False
+    Form1.Impresion.Enabled = False
+    Form1.Editar_eliminar_registros.Enabled = False
+    Form1.Importar_Somatometria.Enabled = False
+    Form1.Exportar_informacion.Enabled = False
+    Form1.Familiares.Enabled = False
+    Set frmLogin.Text1(0).DataSource = RRsUsers
+    Set frmLogin.Text1(2).DataSource = RRsUsers
+    Set frmLogin.Check1.DataSource = RRsUsers
+    Set frmLogin.Check2(0).DataSource = RRsUsers
+    Set frmLogin.Check2(1).DataSource = RRsUsers
+    Set frmLogin.Check2(2).DataSource = RRsUsers
+    Set frmLogin.Check2(3).DataSource = RRsUsers
+    Set frmLogin.Check2(4).DataSource = RRsUsers
+    Set frmLogin.Check2(5).DataSource = RRsUsers
+    Set frmLogin.Check2(6).DataSource = RRsUsers
+    Set frmLogin.Check3(0).DataSource = RRsUsers
+    Set frmLogin.Check3(1).DataSource = RRsUsers
+    Set frmLogin.Check3(2).DataSource = RRsUsers
+    Set frmLogin.Check4.DataSource = RRsUsers
+    frmLogin.Text1(0).DataField = ("NOMBRE")
+    frmLogin.Text1(2).DataField = ("PASS")
+    frmLogin.Check1.DataField = ("USUARIOS")
+    frmLogin.Check2(0).DataField = ("SOMATOMETRIA")
+    frmLogin.Check2(1).DataField = ("LABORATORIO")
+    frmLogin.Check2(2).DataField = ("DENTAL")
+    frmLogin.Check2(3).DataField = ("NUTRICION")
+    frmLogin.Check2(4).DataField = ("MUJER")
+    frmLogin.Check2(5).DataField = ("OPTOMETRIA")
+    frmLogin.Check2(6).DataField = ("IMPRESION")
+    frmLogin.Check3(0).DataField = ("EDITAR")
+    frmLogin.Check3(1).DataField = ("IMPORTAR")
+    frmLogin.Check3(2).DataField = ("EXPORTAR")
+    frmLogin.Check4.DataField = ("FAMILIARES")
+    If frmLogin.Check1.Value = 1 Then
+        Form1.Usuario.Enabled = True
+    Else
+        Form1.Usuario.Enabled = False
+    End If
+    If frmLogin.Check2(0).Value = 1 Then
+        Form1.Somatometria.Enabled = True
+    Else
+        Form1.Somatometria.Enabled = False
+    End If
+    If frmLogin.Check2(1).Value = 1 Then
+        Form1.Laboratorio.Enabled = True
+    Else
+        Form1.Laboratorio.Enabled = False
+    End If
+    If frmLogin.Check2(2).Value = 1 Then
+        Form1.Dental.Enabled = True
+    Else
+        Form1.Dental.Enabled = False
+    End If
+    If frmLogin.Check2(3).Value = 1 Then
+        Form1.Nutricion.Enabled = True
+    Else
+        Form1.Nutricion.Enabled = False
+    End If
+    If frmLogin.Check2(4).Value = 1 Then
+        Form1.Salud_mujer.Enabled = True
+    Else
+        Form1.Salud_mujer.Enabled = False
+    End If
+    If frmLogin.Check2(5).Value = 1 Then
+        Form1.Optometría_Audiometría.Enabled = True
+    Else
+        Form1.Optometría_Audiometría.Enabled = False
+    End If
+    If frmLogin.Check2(6).Value = 1 Then
+        Form1.Impresion.Enabled = True
+    Else
+        Form1.Impresion.Enabled = False
+    End If
+    If frmLogin.Check3(0).Value = 1 Then
+        Form1.Editar_eliminar_registros.Enabled = True
+    Else
+        Form1.Editar_eliminar_registros.Enabled = False
+    End If
+    If frmLogin.Check3(1).Value = 1 Then
+        Form1.Importar_Somatometria.Enabled = True
+    Else
+        Form1.Importar_Somatometria.Enabled = False
+    End If
+    If frmLogin.Check3(2).Value = 1 Then
+        Form1.Exportar_informacion.Enabled = True
+    Else
+        Form1.Exportar_informacion.Enabled = False
+    End If
+    If frmLogin.Check4.Value = 1 Then
+        Form1.Familiares.Enabled = True
+    Else
+        Form1.Familiares.Enabled = False
+    End If
+End Sub
+Private Sub txtUserName_Change()
+    On Error Resume Next
+    With RRsUsers
+        .Requery
+        If option1.Value = True Then
+            .Filter = "NOMBRE LIKE '*" & txtUserName & "*'"
+            If frmLogin.Check1.Value = 1 Then
+                Form1.Usuario.Enabled = True
+            Else
+                Form1.Usuario.Enabled = False
+            End If
+            If frmLogin.Check2(0).Value = 1 Then
+                Form1.Somatometria.Enabled = True
+            Else
+                Form1.Somatometria.Enabled = False
+            End If
+            If frmLogin.Check2(1).Value = 1 Then
+                Form1.Laboratorio.Enabled = True
+            Else
+                Form1.Laboratorio.Enabled = False
+            End If
+            If frmLogin.Check2(2).Value = 1 Then
+                Form1.Dental.Enabled = True
+            Else
+                Form1.Dental.Enabled = False
+            End If
+            If frmLogin.Check2(3).Value = 1 Then
+                Form1.Nutricion.Enabled = True
+            Else
+                Form1.Nutricion.Enabled = False
+            End If
+            If frmLogin.Check2(4).Value = 1 Then
+                Form1.Salud_mujer.Enabled = True
+            Else
+                Form1.Salud_mujer.Enabled = False
+            End If
+            If frmLogin.Check2(5).Value = 1 Then
+                Form1.Optometría_Audiometría.Enabled = True
+            Else
+                Form1.Optometría_Audiometría.Enabled = False
+            End If
+            If frmLogin.Check2(6).Value = 1 Then
+                Form1.Impresion.Enabled = True
+            Else
+                Form1.Impresion.Enabled = False
+            End If
+            If frmLogin.Check3(0).Value = 1 Then
+                Form1.Editar_eliminar_registros.Enabled = True
+            Else
+                Form1.Editar_eliminar_registros.Enabled = False
+            End If
+            If frmLogin.Check3(1).Value = 1 Then
+                Form1.Importar_Somatometria.Enabled = True
+            Else
+                Form1.Importar_Somatometria.Enabled = False
+            End If
+            If frmLogin.Check3(2).Value = 1 Then
+                Form1.Exportar_informacion.Enabled = True
+            Else
+                Form1.Exportar_informacion.Enabled = False
+            End If
+            If frmLogin.Check4.Value = 1 Then
+                Form1.Familiares.Enabled = True
+            Else
+                Form1.Familiares.Enabled = False
+            End If
+        Else
+            .Filter = ""
+            .MoveFirst
+        End If
+    End With
+End Sub
+Private Sub Acerca_Click()
+    On Error Resume Next
+    frmAbout.Show
+End Sub
+Private Sub CerrarSesion_Click()
+    On Error Resume Next
+    Form1.Usuario.Enabled = False
+    Form1.Somatometria.Enabled = False
+    Form1.Laboratorio.Enabled = False
+    Form1.Dental.Enabled = False
+    Form1.Nutricion.Enabled = False
+    Form1.Salud_mujer.Enabled = False
+    Form1.Optometría_Audiometría.Enabled = False
+    Form1.Impresion.Enabled = False
+    Form1.Editar_eliminar_registros.Enabled = False
+    Form1.Importar_Somatometria.Enabled = False
+    Form1.Exportar_informacion.Enabled = False
+    Form1.Familiares.Enabled = False
+    frmLogin.Show
+    frmLogin.txtUserName.Text = ""
+    frmLogin.txtPassword.Text = ""
+    frmLogin.txtUserName.SetFocus
+    Me.Enabled = False
+End Sub
+Private Sub Dental_Click()
+    On Error Resume Next
+    FormDental.Show
+    Me.Enabled = False
+End Sub
+Private Sub Editar_eliminar_registros_Click()
+    On Error Resume Next
+    FormEditar.Show
+    Me.Enabled = False
+End Sub
+Private Sub Exportar_informacion_Click()
+    On Error Resume Next
+    FormExportarTodo.Show
+    Me.Enabled = False
+End Sub
+Private Sub Familiares_Click()
+    On Error Resume Next
+    ReporteFamiliares.Show
+    Me.Enabled = False
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RsUsers
+        If .State = 1 Then .Close
+            .Open "Select * from USERS", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+End Sub
+Private Sub Importar_Somatometria_Click()
+    On Error Resume Next
+    FormImportarSomatometria.Show
+    Me.Enabled = False
+End Sub
+Private Sub Impresion_Click()
+    On Error Resume Next
+    FormImpresion.Show
+    Me.Enabled = False
+End Sub
+Private Sub Laboratorio_Click()
+    On Error Resume Next
+    FormLaboratorio.Show
+    Me.Enabled = False
+End Sub
+Private Sub Nuevo_Click()
+    On Error Resume Next
+    FormSomatometriaNuevo.Show
+    Me.Enabled = False
+End Sub
+Private Sub Nutricion_Click()
+    On Error Resume Next
+    FormNutricion.Show
+    Me.Enabled = False
+End Sub
+Private Sub Optometría_Audiometría_Click()
+    On Error Resume Next
+    FormOptometria.Show
+    Me.Enabled = False
+End Sub
+Private Sub Registrado_Click()
+    On Error Resume Next
+    FormSomatometriaRegistrado.Show
+    Me.Enabled = False
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    Unload FormSomatometriaRegistrado
+    Unload FormSomatometriaNuevo
+    Unload BuscarTrabajador
+    Unload FormLaboratorio
+    Unload FormDental
+    Unload FormNutricion
+    Unload FormMujer
+    Unload FormOptometria
+    Unload FormImpresion
+    Unload DataReport1
+    Unload FormImportarSomatometria
+    Unload FormEditar
+    Unload FormExportarTodo
+    Unload DataReport2
+    Unload ReporteFamiliares
+    Unload Usuarios
+    Unload frmLogin
+    Unload frmAbout
+    Unload Form1
+End Sub
+Private Sub Salud_mujer_Click()
+    On Error Resume Next
+    FormMujer.Show
+    Me.Enabled = False
+End Sub
+Private Sub Usuario_Click()
+    On Error Resume Next
+    Me.Enabled = False
+    Usuarios.Show
+    Set Usuarios.Text1(2).DataSource = RsUsers
+    Set Usuarios.Text1(3).DataSource = RsUsers
+    Set Usuarios.Check7(0).DataSource = RsUsers
+    Set Usuarios.Check8(0).DataSource = RsUsers
+    Set Usuarios.Check8(1).DataSource = RsUsers
+    Set Usuarios.Check8(2).DataSource = RsUsers
+    Set Usuarios.Check8(3).DataSource = RsUsers
+    Set Usuarios.Check8(4).DataSource = RsUsers
+    Set Usuarios.Check8(5).DataSource = RsUsers
+    Set Usuarios.Check8(6).DataSource = RsUsers
+    Set Usuarios.Check9(0).DataSource = RsUsers
+    Set Usuarios.Check9(1).DataSource = RsUsers
+    Set Usuarios.Check9(2).DataSource = RsUsers
+    Set Usuarios.Check10.DataSource = RsUsers
+    Usuarios.Text1(2).DataField = ("NOMBRE")
+    Usuarios.Text1(3).DataField = ("PASS")
+    Usuarios.Check7(0).DataField = ("USUARIOS")
+    Usuarios.Check8(0).DataField = ("SOMATOMETRIA")
+    Usuarios.Check8(1).DataField = ("LABORATORIO")
+    Usuarios.Check8(2).DataField = ("DENTAL")
+    Usuarios.Check8(3).DataField = ("NUTRICION")
+    Usuarios.Check8(4).DataField = ("MUJER")
+    Usuarios.Check8(5).DataField = ("OPTOMETRIA")
+    Usuarios.Check8(6).DataField = ("IMPRESION")
+    Usuarios.Check9(0).DataField = ("EDITAR")
+    Usuarios.Check9(1).DataField = ("IMPORTAR")
+    Usuarios.Check9(2).DataField = ("EXPORTAR")
+    Usuarios.Check10.DataField = ("FAMILIARES")
+End Sub
+Private Sub Command1_Click()
+    On Error Resume Next
+    If Not Usuarios.Text1(0) = "" And Not Usuarios.Text1(1) = "" Then
+        With RsUsers
+            .Requery
+            .AddNew
+                .Fields("NOMBRE") = Usuarios.Text1(0).Text
+                .Fields("PASS") = Usuarios.Text1(1).Text
+                .Fields("USUARIOS") = Usuarios.Check1.Value
+                .Fields("SOMATOMETRIA") = Usuarios.Check2(0).Value
+                .Fields("LABORATORIO") = Usuarios.Check2(1).Value
+                .Fields("DENTAL") = Usuarios.Check2(2).Value
+                .Fields("NUTRICION") = Usuarios.Check2(3).Value
+                .Fields("MUJER") = Usuarios.Check2(4).Value
+                .Fields("OPTOMETRIA") = Usuarios.Check2(5).Value
+                .Fields("IMPRESION") = Usuarios.Check2(6).Value
+                .Fields("EDITAR") = Usuarios.Check3(0).Value
+                .Fields("IMPORTAR") = Usuarios.Check3(1).Value
+                .Fields("EXPORTAR") = Usuarios.Check3(2).Value
+                .Fields("FAMILIARES") = Usuarios.Check4.Value
+            .Update
+            .Requery
+            MsgBox ("Ususario" & Usuarios.Text1(0) & "creado con éxito"), vbOKOnly, "Usuario"
+        End With
+    Else
+        MsgBox ("Usuario y contraseña necesarios para crear el usuario"), vbOKOnly, "Error"
+    End If
+    Usuarios.Text1(0).Text = ""
+    Usuarios.Text1(1).Text = ""
+    Usuarios.Check1.Value = 0
+    Usuarios.Check2(0).Value = 0
+    Usuarios.Check2(1).Value = 0
+    Usuarios.Check2(2).Value = 0
+    Usuarios.Check2(3).Value = 0
+    Usuarios.Check2(4).Value = 0
+    Usuarios.Check2(5).Value = 0
+    Usuarios.Check2(6).Value = 0
+    Usuarios.Check3(0).Value = 0
+    Usuarios.Check3(1).Value = 0
+    Usuarios.Check3(2).Value = 0
+    Usuarios.Check4.Value = 0
+End Sub
+Private Sub Command2_Click()
+    On Error Resume Next
+    With RsUsers
+        .Update
+    End With
+End Sub
+Private Sub Command3_Click(Index As Integer)
+    On Error Resume Next
+    With RsUsers
+        Select Case Index
+            Case 0
+                .MoveFirst
+            Case 1
+                .MovePrevious
+            Case 2
+                .MoveNext
+            Case 3
+                .MoveLast
+            Case 4
+                .Delete
+                .MovePrevious
+        End Select
+    End With
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RsUsers
+        If .State = 1 Then .Close
+            .Open "Select * from USERS", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set Usuarios.Text1(2).DataSource = RsUsers
+    Set Usuarios.Text1(3).DataSource = RsUsers
+    Set Usuarios.Check7(0).DataSource = RsUsers
+    Set Usuarios.Check8(0).DataSource = RsUsers
+    Set Usuarios.Check8(1).DataSource = RsUsers
+    Set Usuarios.Check8(2).DataSource = RsUsers
+    Set Usuarios.Check8(3).DataSource = RsUsers
+    Set Usuarios.Check8(4).DataSource = RsUsers
+    Set Usuarios.Check8(5).DataSource = RsUsers
+    Set Usuarios.Check8(6).DataSource = RsUsers
+    Set Usuarios.Check9(0).DataSource = RsUsers
+    Set Usuarios.Check9(1).DataSource = RsUsers
+    Set Usuarios.Check9(2).DataSource = RsUsers
+    Set Usuarios.Check10.DataSource = RsUsers
+    Usuarios.Text1(2).DataField = ("NOMBRE")
+    Usuarios.Text1(3).DataField = ("PASS")
+    Usuarios.Check7(0).DataField = ("USUARIOS")
+    Usuarios.Check8(0).DataField = ("SOMATOMETRIA")
+    Usuarios.Check8(1).DataField = ("LABORATORIO")
+    Usuarios.Check8(2).DataField = ("DENTAL")
+    Usuarios.Check8(3).DataField = ("NUTRICION")
+    Usuarios.Check8(4).DataField = ("MUJER")
+    Usuarios.Check8(5).DataField = ("OPTOMETRIA")
+    Usuarios.Check8(6).DataField = ("IMPRESION")
+    Usuarios.Check9(0).DataField = ("EDITAR")
+    Usuarios.Check9(1).DataField = ("IMPORTAR")
+    Usuarios.Check9(2).DataField = ("EXPORTAR")
+    Usuarios.Check10.DataField = ("FAMILIARES")
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    Usuarios.Text1(0).Text = ""
+    Usuarios.Text1(1).Text = ""
+    Usuarios.Check1.Value = 0
+    Usuarios.Check2(0).Value = 0
+    Usuarios.Check2(1).Value = 0
+    Usuarios.Check2(2).Value = 0
+    Usuarios.Check2(3).Value = 0
+    Usuarios.Check2(4).Value = 0
+    Usuarios.Check2(5).Value = 0
+    Usuarios.Check2(6).Value = 0
+    Usuarios.Check3(0).Value = 0
+    Usuarios.Check3(1).Value = 0
+    Usuarios.Check3(2).Value = 0
+    Usuarios.Check4.Value = 0
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Cancelar_Click()
+    On Error Resume Next
+    FormSomatometriaNuevo.Text1(0).Text = ""
+    FormSomatometriaNuevo.Text1(1).Text = ""
+    FormSomatometriaNuevo.DTPicker1.Value = Date
+    FormSomatometriaNuevo.Combo1(0).Text = ""
+    FormSomatometriaNuevo.Combo1(1).Text = ""
+    FormSomatometriaNuevo.Text1(2).Text = ""
+    FormSomatometriaNuevo.Label1(14).Caption = ""
+    FormSomatometriaNuevo.Label1(15).Caption = ""
+    FormSomatometriaNuevo.Text1(3).Text = ""
+    FormSomatometriaNuevo.Text1(4).Text = ""
+    FormSomatometriaNuevo.Text1(5).Text = ""
+    FormSomatometriaNuevo.Combo1(3).Text = ""
+    FormSomatometriaNuevo.Text1(6).Text = ""
+    FormSomatometriaNuevo.Text1(7).Text = ""
+    BuscarTrabajador.Text1.Text = ""
+    BuscarTrabajador.Combo1.Text = ""
+End Sub
+Private Sub Combo1_Click(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 1
+            If Combo1(1).Text = "Si" Then
+                Text1(2).Enabled = True
+                Label1(14).Caption = ""
+                Label1(15).Caption = ""
+            Else
+                If Combo1(1).Text = "No" Then
+                    Text1(2).Text = ""
+                    Text1(2).Enabled = False
+                    BuscarTrabajador.Show
+                    FormSomatometriaNuevo.Enabled = False
+                End If
+            End If
+    End Select
+End Sub
+Private Sub Command1_Click()
+    On Error Resume Next
+    If Not Usuarios.Text1(0) = "" And Not Usuarios.Text1(1) = "" Then
+        With RsSomatometria
+            .Requery
+            .AddNew
+                .Fields("ID_AST") = FormSomatometriaNuevo.Text1(0).Text
+                .Fields("NOMBRE") = FormSomatometriaNuevo.Text1(1).Text
+                .Fields("FE_NAC") = FormSomatometriaNuevo.DTPicker1.Value
+                .Fields("GENERO") = FormSomatometriaNuevo.Combo1(0).Text
+                .Fields("TRAB_E") = FormSomatometriaNuevo.Combo1(1).Text
+                .Fields("AREA_T") = FormSomatometriaNuevo.Text1(2).Text
+                .Fields("ID_EMP") = FormSomatometriaNuevo.Label1(14).Caption
+                .Fields("PARENT") = FormSomatometriaNuevo.Label1(15).Caption
+                .Fields("PES_KG") = FormSomatometriaNuevo.Text1(3).Text
+                .Fields("TAL_MT") = FormSomatometriaNuevo.Text1(4).Text
+                .Fields("TA") = FormSomatometriaNuevo.Text1(5).Text
+                .Fields("VAC_TX") = FormSomatometriaNuevo.Combo1(3).Text
+                .Fields("VAC_OT") = FormSomatometriaNuevo.Text1(6).Text
+                .Fields("OBSERV") = FormSomatometriaNuevo.Text1(7).Text
+            .Update
+            MsgBox ("Asistente" & FormSomatometriaNuevo.Text1(1) & "registrado"), vbOKOnly, "Completado"
+        End With
+    Else
+        MsgBox ("Código y nombre necesarios para registrar al asistente"), vbOKOnly, "Error"
+    End If
+    FormSomatometriaNuevo.Text1(0).Text = ""
+    FormSomatometriaNuevo.Text1(1).Text = ""
+    FormSomatometriaNuevo.DTPicker1.Value = Date
+    FormSomatometriaNuevo.Combo1(0).Text = ""
+    FormSomatometriaNuevo.Combo1(1).Text = ""
+    FormSomatometriaNuevo.Text1(2).Text = ""
+    FormSomatometriaNuevo.Label1(14).Caption = ""
+    FormSomatometriaNuevo.Label1(15).Caption = ""
+    FormSomatometriaNuevo.Text1(3).Text = ""
+    FormSomatometriaNuevo.Text1(4).Text = ""
+    FormSomatometriaNuevo.Text1(5).Text = ""
+    FormSomatometriaNuevo.Combo1(3).Text = ""
+    FormSomatometriaNuevo.Text1(6).Text = ""
+    FormSomatometriaNuevo.Text1(7).Text = ""
+    BuscarTrabajador.Text1.Text = ""
+    BuscarTrabajador.Combo1.Text = ""
+    RSTrabajador.Filter = ""
+    RSTrabajador.MoveFirst
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RsSomatometria
+        If .State = 1 Then .Close
+            .Open "Select * from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+        With RSTrabajador
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT Where TRAB_E = 'Si'", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Combo1(0).AddItem "Femenino"
+    Combo1(0).AddItem "Masculino"
+    Combo1(1).AddItem "Si"
+    Combo1(1).AddItem "No"
+    Combo1(3).AddItem "Si"
+    Combo1(3).AddItem "No"
+    DTPicker1.Value = Date
+End Sub
+Private Sub Guardar_Click()
+    On Error Resume Next
+    If Not Usuarios.Text1(0) = "" And Not Usuarios.Text1(1) = "" Then
+        With RsSomatometria
+            .Requery
+            .AddNew
+                .Fields("ID_AST") = FormSomatometriaNuevo.Text1(0).Text
+                .Fields("NOMBRE") = FormSomatometriaNuevo.Text1(1).Text
+                .Fields("FE_NAC") = FormSomatometriaNuevo.DTPicker1.Value
+                .Fields("GENERO") = FormSomatometriaNuevo.Combo1(0).Text
+                .Fields("TRAB_E") = FormSomatometriaNuevo.Combo1(1).Text
+                .Fields("AREA_T") = FormSomatometriaNuevo.Text1(2).Text
+                .Fields("ID_EMP") = FormSomatometriaNuevo.Label1(14).Caption
+                .Fields("PARENT") = FormSomatometriaNuevo.Label1(15).Caption
+                .Fields("PES_KG") = FormSomatometriaNuevo.Text1(3).Text
+                .Fields("TAL_MT") = FormSomatometriaNuevo.Text1(4).Text
+                .Fields("TA") = FormSomatometriaNuevo.Text1(5).Text
+                .Fields("VAC_TX") = FormSomatometriaNuevo.Combo1(3).Text
+                .Fields("VAC_OT") = FormSomatometriaNuevo.Text1(6).Text
+                .Fields("OBSERV") = FormSomatometriaNuevo.Text1(7).Text
+            .Update
+            MsgBox ("Asistente" & FormSomatometriaNuevo.Text1(1) & "registrado"), vbOKOnly, "Completado"
+        End With
+    Else
+        MsgBox ("Código y nombre necesarios para registrar al asistente"), vbOKOnly, "Error"
+    End If
+    FormSomatometriaNuevo.Text1(0).Text = ""
+    FormSomatometriaNuevo.Text1(1).Text = ""
+    FormSomatometriaNuevo.DTPicker1.Value = Date
+    FormSomatometriaNuevo.Combo1(0).Text = ""
+    FormSomatometriaNuevo.Combo1(1).Text = ""
+    FormSomatometriaNuevo.Text1(2).Text = ""
+    FormSomatometriaNuevo.Label1(14).Caption = ""
+    FormSomatometriaNuevo.Label1(15).Caption = ""
+    FormSomatometriaNuevo.Text1(3).Text = ""
+    FormSomatometriaNuevo.Text1(4).Text = ""
+    FormSomatometriaNuevo.Text1(5).Text = ""
+    FormSomatometriaNuevo.Combo1(3).Text = ""
+    FormSomatometriaNuevo.Text1(6).Text = ""
+    FormSomatometriaNuevo.Text1(7).Text = ""
+    BuscarTrabajador.Text1.Text = ""
+    BuscarTrabajador.Combo1.Text = ""
+    RSTrabajador.Filter = ""
+    RSTrabajador.MoveFirst
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    FormSomatometriaNuevo.Text1(0).Text = ""
+    FormSomatometriaNuevo.Text1(1).Text = ""
+    FormSomatometriaNuevo.DTPicker1.Value = Date
+    FormSomatometriaNuevo.Combo1(0).Text = ""
+    FormSomatometriaNuevo.Combo1(1).Text = ""
+    FormSomatometriaNuevo.Text1(2).Text = ""
+    FormSomatometriaNuevo.Label1(14).Caption = ""
+    FormSomatometriaNuevo.Label1(15).Caption = ""
+    FormSomatometriaNuevo.Text1(3).Text = ""
+    FormSomatometriaNuevo.Text1(4).Text = ""
+    FormSomatometriaNuevo.Text1(5).Text = ""
+    FormSomatometriaNuevo.Combo1(3).Text = ""
+    FormSomatometriaNuevo.Text1(6).Text = ""
+    FormSomatometriaNuevo.Text1(7).Text = ""
+    BuscarTrabajador.Text1.Text = ""
+    BuscarTrabajador.Combo1.Text = ""
+    Form1.Enabled = True
+    Unload Me
+End Sub
+Private Sub Command1_Click()
+    On Error Resume Next
+    FormSomatometriaNuevo.Enabled = True
+    FormSomatometriaNuevo.Label1(14).Caption = Label1(1).Caption
+    FormSomatometriaNuevo.Label1(15).Caption = Combo1.Text
+    Unload Me
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RSTrabajador
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT Where TRAB_E = 'Si'", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set DataGrid1.DataSource = RSTrabajador
+    Set Label1(1).DataSource = RSTrabajador
+    Label1(1).DataField = ("ID_AST")
+    Set Label1(5).DataSource = RSTrabajador
+    Label1(5).DataField = ("NOMBRE")
+    Combo1.AddItem "Padres"
+    Combo1.AddItem "Conyúgue"
+    Combo1.AddItem "Hijo(a)"
+    Combo1.AddItem "Otro"
+End Sub
+Private Sub Text1_Change()
+    On Error Resume Next
+        With RSTrabajador
+            .Requery
+            If option1.Value = True Then
+                .Filter = "NOMBRE LIKE '*" & Text1 & "*'"
+            Else
+                .Filter = ""
+                Set DataGrid1.DataSource = RSTrabajador
+                .MoveFirst
+            End If
+        End With
+End Sub
+Private Sub Cancelar_Click()
+    On Error Resume Next
+    FormSomatometriaRegistrado.Text1(1).Text = ""
+End Sub
+Private Sub Command1_Click()
+    On Error Resume Next
+    With RsSomatometria
+        .Update
+    End With
+    FormSomatometriaRegistrado.Text1(1).Text = ""
+    RsSomatometria.Filter = ""
+    RsSomatometria.MoveFirst
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RsSomatometria
+        If .State = 1 Then .Close
+            .Open "Select * from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    With RsNombre
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set FormSomatometriaRegistrado.Label1(15).DataSource = RsNombre
+    Set FormSomatometriaRegistrado.Label1(16).DataSource = RsNombre
+    Set FormSomatometriaRegistrado.DTPicker1.DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Combo1(0).DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Combo1(1).DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Text1(2).DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Text1(0).DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Text1(3).DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Text1(4).DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Text1(5).DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Text1(6).DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Combo1(3).DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Text1(7).DataSource = RsSomatometria
+    Set FormSomatometriaRegistrado.Text1(8).DataSource = RsSomatometria
+    FormSomatometriaRegistrado.Label1(15).DataField = ("ID_AST")
+    FormSomatometriaRegistrado.Label1(16).DataField = ("NOMBRE")
+    FormSomatometriaRegistrado.DTPicker1.DataField = ("FE_NAC")
+    FormSomatometriaRegistrado.Combo1(0).DataField = ("GENERO")
+    FormSomatometriaRegistrado.Combo1(1).DataField = ("TRAB_E")
+    FormSomatometriaRegistrado.Text1(2).DataField = ("AREA_T")
+    FormSomatometriaRegistrado.Text1(0).DataField = ("ID_EMP")
+    FormSomatometriaRegistrado.Text1(3).DataField = ("PARENT")
+    FormSomatometriaRegistrado.Text1(4).DataField = ("PES_KG")
+    FormSomatometriaRegistrado.Text1(5).DataField = ("TAL_MT")
+    FormSomatometriaRegistrado.Text1(6).DataField = ("TA")
+    FormSomatometriaRegistrado.Combo1(3).DataField = ("VAC_TX")
+    FormSomatometriaRegistrado.Text1(7).DataField = ("VAC_OT")
+    FormSomatometriaRegistrado.Text1(8).DataField = ("OBSERV")
+    Combo1(0).AddItem "Femenino"
+    Combo1(0).AddItem "Masculino"
+    Combo1(1).AddItem "Si"
+    Combo1(1).AddItem "No"
+    Combo1(3).AddItem "Si"
+    Combo1(3).AddItem "No"
+    Set DataGrid1.DataSource = RsNombre
+End Sub
+Private Sub Guardar_Click()
+    On Error Resume Next
+    With RsSomatometria
+        .Update
+    End With
+    FormSomatometriaRegistrado.Text1(1).Text = ""
+    RsSomatometria.Filter = ""
+    RsSomatometria.MoveFirst
+End Sub
+Private Sub Label1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 15
+            With RsSomatometria
+                .Requery
+                If option1.Value = True Then
+                    .Filter = "ID_AST LIKE '*" & Label1(15) & "*'"
+                Else
+                    .Filter = ""
+                    .MoveFirst
+                End If
+            End With
+    End Select
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    FormSomatometriaRegistrado.Text1(1).Text = ""
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Text1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 1
+            Set FormSomatometriaRegistrado.Label1(15).DataSource = RsNombre
+            Set FormSomatometriaRegistrado.Label1(16).DataSource = RsNombre
+            Set FormSomatometriaRegistrado.DTPicker1.DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Combo1(0).DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Combo1(1).DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Text1(2).DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Text1(0).DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Text1(3).DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Text1(4).DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Text1(5).DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Text1(6).DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Combo1(3).DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Text1(7).DataSource = RsSomatometria
+            Set FormSomatometriaRegistrado.Text1(8).DataSource = RsSomatometria
+            FormSomatometriaRegistrado.Label1(15).DataField = ("ID_AST")
+            FormSomatometriaRegistrado.Label1(16).DataField = ("NOMBRE")
+            FormSomatometriaRegistrado.DTPicker1.DataField = ("FE_NAC")
+            FormSomatometriaRegistrado.Combo1(0).DataField = ("GENERO")
+            FormSomatometriaRegistrado.Combo1(1).DataField = ("TRAB_E")
+            FormSomatometriaRegistrado.Text1(2).DataField = ("AREA_T")
+            FormSomatometriaRegistrado.Text1(0).DataField = ("ID_EMP")
+            FormSomatometriaRegistrado.Text1(3).DataField = ("PARENT")
+            FormSomatometriaRegistrado.Text1(4).DataField = ("PES_KG")
+            FormSomatometriaRegistrado.Text1(5).DataField = ("TAL_MT")
+            FormSomatometriaRegistrado.Text1(6).DataField = ("TA")
+            FormSomatometriaRegistrado.Combo1(3).DataField = ("VAC_TX")
+            FormSomatometriaRegistrado.Text1(7).DataField = ("VAC_OT")
+            FormSomatometriaRegistrado.Text1(8).DataField = ("OBSERV")
+            With RsNombre
+                .Requery
+                If option1.Value = True Then
+                    .Filter = "NOMBRE LIKE '*" & Text1(1) & "*'"
+                Else
+                    .Filter = ""
+                    Set DataGrid1.DataSource = RsNombre
+                    .MoveFirst
+                End If
+            End With
+    End Select
+End Sub
+Private Sub Cancelar_Click()
+    On Error Resume Next
+    FormLaboratorio.Text1(0).Text = ""
+    FormLaboratorio.Text1(1).Text = ""
+    FormLaboratorio.Text1(2).Text = ""
+    FormLaboratorio.Text1(3).Text = ""
+    FormLaboratorio.Text1(4).Text = ""
+    FormLaboratorio.Text1(5).Text = ""
+End Sub
+Private Sub Command1_Click()
+    On Error Resume Next
+    If Text1(2).Text > 200 Or Text1(0).Text > 160 Or Text1(3).Text > 120 Or Text1(4).Text > 4 Then
+        MsgBox "Necesita pasar al módulo de nutrición", vbOKOnly, "Atención"
+    End If
+    With RsLaboratorio
+        .Requery
+        .AddNew
+            .Fields("ID_AST") = FormLaboratorio.Label1(15).Caption
+            .Fields("COLEST") = FormLaboratorio.Text1(2).Text
+            .Fields("TRIGLI") = FormLaboratorio.Text1(0).Text
+            .Fields("GLUCOS") = FormLaboratorio.Text1(3).Text
+            .Fields("PSA") = FormLaboratorio.Text1(4).Text
+            .Fields("OBSERV") = FormLaboratorio.Text1(5).Text
+        .Update
+        .Requery
+    End With
+    MsgBox ("Información guardada con éxito"), vbOKOnly, "Completado"
+    FormLaboratorio.Text1(0).Text = ""
+    FormLaboratorio.Text1(1).Text = ""
+    FormLaboratorio.Text1(2).Text = ""
+    FormLaboratorio.Text1(3).Text = ""
+    FormLaboratorio.Text1(4).Text = ""
+    FormLaboratorio.Text1(5).Text = ""
+    RsNombre.Filter = ""
+    RsNombre.MoveFirst
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RsLaboratorio
+        If .State = 1 Then .Close
+            .Open "Select * from LABOR", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    With RsNombre
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    With RSSexo
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, GENERO from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set DataGrid1.DataSource = RsNombre
+    Set FormLaboratorio.Label1(15).DataSource = RsNombre
+    Set FormLaboratorio.Label1(16).DataSource = RsNombre
+    FormLaboratorio.Label1(15).DataField = ("ID_AST")
+    FormLaboratorio.Label1(16).DataField = ("NOMBRE")
+    Set Label2.DataSource = RSSexo
+    Label2.DataField = ("GENERO")
+End Sub
+Private Sub Guardar_Click()
+    On Error Resume Next
+    With RsLaboratorio
+        .Requery
+        .AddNew
+            .Fields("ID_AST") = FormLaboratorio.Label1(15).Caption
+            .Fields("COLEST") = FormLaboratorio.Text1(2).Text
+            .Fields("TRIGLI") = FormLaboratorio.Text1(0).Text
+            .Fields("GLUCOS") = FormLaboratorio.Text1(3).Text
+            .Fields("PSA") = FormLaboratorio.Text1(4).Text
+            .Fields("OBSERV") = FormLaboratorio.Text1(5).Text
+        .Update
+        .Requery
+    End With
+    MsgBox ("Información guardada con éxito"), vbOKOnly, "Completado"
+    FormLaboratorio.Text1(0).Text = ""
+    FormLaboratorio.Text1(1).Text = ""
+    FormLaboratorio.Text1(2).Text = ""
+    FormLaboratorio.Text1(3).Text = ""
+    FormLaboratorio.Text1(4).Text = ""
+    FormLaboratorio.Text1(5).Text = ""
+    RsNombre.Filter = ""
+    RsNombre.MoveFirst
+End Sub
+Private Sub Label1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 15
+            Set Label2.DataSource = RSSexo
+            Label2.DataField = ("GENERO")
+            With RSSexo
+                .Requery
+                    If option1.Value = True Then
+                        .Filter = "ID_AST LIKE '*" & Label1(15) & "*'"
+                    Else
+                        .Filter = ""
+                        .MoveFirst
+                    End If
+            End With
+    End Select
+End Sub
+Private Sub Label2_Change()
+    On Error Resume Next
+    If Label2.Caption = "Femenino" Then
+        Text1(4).Enabled = False
+        Text1(4).Text = ""
+    Else
+        Text1(4).Enabled = True
+    End If
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    FormLaboratorio.Text1(0).Text = ""
+    FormLaboratorio.Text1(1).Text = ""
+    FormLaboratorio.Text1(2).Text = ""
+    FormLaboratorio.Text1(3).Text = ""
+    FormLaboratorio.Text1(4).Text = ""
+    FormLaboratorio.Text1(5).Text = ""
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Text1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 1
+            With RsNombre
+                .Requery
+                If option1.Value = True Then
+                    .Filter = "NOMBRE LIKE '*" & Text1(1) & "*'"
+                Else
+                    .Filter = ""
+                    Set DataGrid1.DataSource = RsNombre
+                    .MoveFirst
+                End If
+            End With
+            Set FormLaboratorio.Label1(15).DataSource = RsNombre
+            Set FormLaboratorio.Label1(16).DataSource = RsNombre
+            FormLaboratorio.Label1(15).DataField = ("ID_AST")
+            FormLaboratorio.Label1(16).DataField = ("NOMBRE")
+    End Select
+End Sub
+Private Sub Cancelar_Click()
+    On Error Resume Next
+    FormDental.Text1(1).Text = ""
+    FormDental.Text1(5).Text = ""
+    FormDental.Combo1(1).Text = ""
+End Sub
+Private Sub Command1_Click()
+    On Error Resume Next
+    With RsDental
+        .Requery
+        .AddNew
+            .Fields("ID_AST") = FormDental.Label1(15).Caption
+            .Fields("ASISTE") = FormDental.Combo1(1).Text
+            .Fields("OBSERV") = FormDental.Text1(5).Text
+        .Update
+        .Requery
+    End With
+    MsgBox ("Información guardada con éxito"), vbOKOnly, "Completado"
+    FormDental.Text1(1).Text = ""
+    FormDental.Text1(5).Text = ""
+    FormDental.Combo1(1).Text = ""
+    RsNombre.Filter = ""
+    RsNombre.MoveFirst
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    Combo1(1).AddItem "Si"
+    Combo1(1).AddItem "No"
+    With RsDental
+        If .State = 1 Then .Close
+            .Open "Select * from DENTA", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    With RsNombre
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set DataGrid1.DataSource = RsNombre
+    Set FormDental.Label1(15).DataSource = RsNombre
+    Set FormDental.Label1(16).DataSource = RsNombre
+    FormDental.Label1(15).DataField = ("ID_AST")
+    FormDental.Label1(16).DataField = ("NOMBRE")
+End Sub
+Private Sub Guardar_Click()
+    On Error Resume Next
+    With RsDental
+        .Requery
+        .AddNew
+            .Fields("ID_AST") = FormDental.Label1(15).Caption
+            .Fields("ASISTE") = FormDental.Combo1(1).Text
+            .Fields("OBSERV") = FormDental.Text1(5).Text
+        .Update
+        .Requery
+    End With
+    MsgBox ("Información guardada con éxito"), vbOKOnly, "Completado"
+    FormDental.Text1(1).Text = ""
+    FormDental.Text1(5).Text = ""
+    FormDental.Combo1(1).Text = ""
+    RsNombre.Filter = ""
+    RsNombre.MoveFirst
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    FormDental.Text1(1).Text = ""
+    FormDental.Text1(5).Text = ""
+    FormDental.Combo1(1).Text = ""
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Text1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 1
+            With RsNombre
+                .Requery
+                If option1.Value = True Then
+                    .Filter = "NOMBRE LIKE '*" & Text1(1) & "*'"
+                Else
+                    .Filter = ""
+                    Set DataGrid1.DataSource = RsNombre
+                    .MoveFirst
+                End If
+            End With
+            Set FormDental.Label1(15).DataSource = RsNombre
+            Set FormDental.Label1(16).DataSource = RsNombre
+            FormDental.Label1(15).DataField = ("ID_AST")
+            FormDental.Label1(16).DataField = ("NOMBRE")
+    End Select
+End Sub
+Private Sub Cancelar_Click()
+    On Error Resume Next
+    FormNutricion.Text1(1).Text = ""
+    FormNutricion.Text1(5).Text = ""
+    FormNutricion.Combo1(0).Text = ""
+    FormNutricion.Combo1(1).Text = ""
+End Sub
+Private Sub Command1_Click()
+    On Error Resume Next
+    With RsNutricion
+        .Requery
+        .AddNew
+            .Fields("ID_AST") = FormNutricion.Label1(15).Caption
+            .Fields("ASISTE") = FormNutricion.Combo1(1).Text
+            .Fields("TIPO") = FormNutricion.Combo1(0).Text
+            .Fields("OBSERV") = FormNutricion.Text1(5).Text
+        .Update
+        .Requery
+    End With
+    MsgBox ("Información guardada con éxito"), vbOKOnly, "Completado"
+    FormNutricion.Text1(1).Text = ""
+    FormNutricion.Text1(5).Text = ""
+    FormNutricion.Combo1(0).Text = ""
+    FormNutricion.Combo1(1).Text = ""
+    RsNombre.Filter = ""
+    RsNombre.MoveFirst
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    Combo1(0).AddItem "Consulta"
+    Combo1(0).AddItem "Plática General"
+    Combo1(1).AddItem "Si"
+    Combo1(1).AddItem "No"
+    With RsNutricion
+        If .State = 1 Then .Close
+            .Open "Select * from NUTRI", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    With RsNombre
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set DataGrid1.DataSource = RsNombre
+    Set FormNutricion.Label1(15).DataSource = RsNombre
+    Set FormNutricion.Label1(16).DataSource = RsNombre
+    FormNutricion.Label1(15).DataField = ("ID_AST")
+    FormNutricion.Label1(16).DataField = ("NOMBRE")
+End Sub
+Private Sub Guardar_Click()
+    On Error Resume Next
+    With RsNutricion
+        .Requery
+        .AddNew
+            .Fields("ID_AST") = FormNutricion.Label1(15).Caption
+            .Fields("ASISTE") = FormNutricion.Combo1(1).Text
+            .Fields("TIPO") = FormNutricion.Combo1(0).Text
+            .Fields("OBSERV") = FormNutricion.Text1(5).Text
+        .Update
+        .Requery
+    End With
+    MsgBox ("Información guardada con éxito"), vbOKOnly, "Completado"
+    FormNutricion.Text1(1).Text = ""
+    FormNutricion.Text1(5).Text = ""
+    FormNutricion.Combo1(0).Text = ""
+    FormNutricion.Combo1(1).Text = ""
+    RsNombre.Filter = ""
+    RsNombre.MoveFirst
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    FormNutricion.Text1(1).Text = ""
+    FormNutricion.Text1(5).Text = ""
+    FormNutricion.Combo1(0).Text = ""
+    FormNutricion.Combo1(1).Text = ""
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Text1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 1
+            With RsNombre
+                .Requery
+                If option1.Value = True Then
+                    .Filter = "NOMBRE LIKE '*" & Text1(1) & "*'"
+                Else
+                    .Filter = ""
+                    Set DataGrid1.DataSource = RsNombre
+                    .MoveFirst
+                End If
+            End With
+            Set FormNutricion.Label1(15).DataSource = RsNombre
+            Set FormNutricion.Label1(16).DataSource = RsNombre
+            FormNutricion.Label1(15).DataField = ("ID_AST")
+            FormNutricion.Label1(16).DataField = ("NOMBRE")
+    End Select
+End Sub
+Private Sub Cancelar_Click()
+    On Error Resume Next
+    FormMujer.Text1(1).Text = ""
+    FormMujer.Text1(5).Text = ""
+    FormMujer.Combo1(0).Text = ""
+    FormMujer.Combo1(1).Text = ""
+    FormMujer.Combo1(2).Text = ""
+End Sub
+Private Sub Command1_Click()
+    On Error Resume Next
+    With RsSaludMujer
+        .Requery
+        .AddNew
+            .Fields("ID_AST") = FormMujer.Label1(15).Caption
+            .Fields("COCAMA") = FormMujer.Combo1(1).Text
+            .Fields("COCCU") = FormMujer.Combo1(0).Text
+            .Fields("MSTGFA") = FormMujer.Combo1(2).Text
+            .Fields("OBSERV") = FormMujer.Text1(5).Text
+        .Update
+        .Requery
+    End With
+    MsgBox ("Información guardada con éxito"), vbOKOnly, "Completado"
+    FormMujer.Text1(1).Text = ""
+    FormMujer.Text1(5).Text = ""
+    FormMujer.Combo1(0).Text = ""
+    FormMujer.Combo1(1).Text = ""
+    FormMujer.Combo1(2).Text = ""
+    RsMujer.Filter = ""
+    RsMujer.MoveFirst
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    Combo1(0).AddItem "Si"
+    Combo1(0).AddItem "No"
+    Combo1(1).AddItem "Si"
+    Combo1(1).AddItem "No"
+    Combo1(2).AddItem "Si"
+    Combo1(2).AddItem "No"
+    With RsSaludMujer
+        If .State = 1 Then .Close
+            .Open "Select * from SD_MU", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    With RsMujer
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT Where GENERO = 'Femenino'", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set DataGrid1.DataSource = RsMujer
+    Set FormMujer.Label1(15).DataSource = RsMujer
+    Set FormMujer.Label1(16).DataSource = RsMujer
+    FormMujer.Label1(15).DataField = ("ID_AST")
+    FormMujer.Label1(16).DataField = ("NOMBRE")
+End Sub
+Private Sub Guardar_Click()
+    On Error Resume Next
+    With RsSaludMujer
+        .Requery
+        .AddNew
+            .Fields("ID_AST") = FormMujer.Label1(15).Caption
+            .Fields("COCAMA") = FormMujer.Combo1(1).Text
+            .Fields("COCCU") = FormMujer.Combo1(0).Text
+            .Fields("MSTGFA") = FormMujer.Combo1(2).Text
+            .Fields("OBSERV") = FormMujer.Text1(5).Text
+        .Update
+        .Requery
+    End With
+    MsgBox ("Información guardada con éxito"), vbOKOnly, "Completado"
+    FormMujer.Text1(1).Text = ""
+    FormMujer.Text1(5).Text = ""
+    FormMujer.Combo1(0).Text = ""
+    FormMujer.Combo1(1).Text = ""
+    FormMujer.Combo1(2).Text = ""
+    RsMujer.Filter = ""
+    RsMujer.MoveFirst
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    FormMujer.Text1(1).Text = ""
+    FormMujer.Text1(5).Text = ""
+    FormMujer.Combo1(0).Text = ""
+    FormMujer.Combo1(1).Text = ""
+    FormMujer.Combo1(2).Text = ""
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Text1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 1
+            With RsMujer
+                .Requery
+                If option1.Value = True Then
+                    .Filter = "NOMBRE LIKE '*" & Text1(1) & "*'"
+                Else
+                    .Filter = ""
+                    Set DataGrid1.DataSource = RsMujer
+                    .MoveFirst
+                End If
+            End With
+            Set FormMujer.Label1(15).DataSource = RsMujer
+            Set FormMujer.Label1(16).DataSource = RsMujer
+            FormMujer.Label1(15).DataField = ("ID_AST")
+            FormMujer.Label1(16).DataField = ("NOMBRE")
+    End Select
+End Sub
+Private Sub Cancelar_Click()
+    On Error Resume Next
+    FormOptometria.Text1(1).Text = ""
+    FormOptometria.Text1(5).Text = ""
+    FormOptometria.Combo1(0).Text = ""
+    FormOptometria.Combo1(1).Text = ""
+End Sub
+Private Sub Command1_Click()
+    On Error Resume Next
+    With RsOptometriaAudiometria
+        .Requery
+        .AddNew
+            .Fields("ID_AST") = FormOptometria.Label1(15).Caption
+            .Fields("AUDIOM") = FormOptometria.Combo1(1).Text
+            .Fields("OPTOME") = FormOptometria.Combo1(0).Text
+            .Fields("OBSERV") = FormOptometria.Text1(5).Text
+        .Update
+        .Requery
+    End With
+    MsgBox ("Información guardada con éxito"), vbOKOnly, "Completado"
+    FormOptometria.Text1(1).Text = ""
+    FormOptometria.Text1(5).Text = ""
+    FormOptometria.Combo1(0).Text = ""
+    FormOptometria.Combo1(1).Text = ""
+    RsNombre.Filter = ""
+    RsNombre.MoveFirst
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    Combo1(0).AddItem "Si"
+    Combo1(0).AddItem "No"
+    Combo1(1).AddItem "Si"
+    Combo1(1).AddItem "No"
+    With RsOptometriaAudiometria
+        If .State = 1 Then .Close
+            .Open "Select * from OP_AD", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    With RsNombre
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set DataGrid1.DataSource = RsNombre
+    Set FormOptometria.Label1(15).DataSource = RsNombre
+    Set FormOptometria.Label1(16).DataSource = RsNombre
+    FormOptometria.Label1(15).DataField = ("ID_AST")
+    FormOptometria.Label1(16).DataField = ("NOMBRE")
+End Sub
+Private Sub Guardar_Click()
+    On Error Resume Next
+    With RsOptometriaAudiometria
+        .Requery
+        .AddNew
+            .Fields("ID_AST") = FormOptometria.Label1(15).Caption
+            .Fields("AUDIOM") = FormOptometria.Combo1(1).Text
+            .Fields("OPTOME") = FormOptometria.Combo1(0).Text
+            .Fields("OBSERV") = FormOptometria.Text1(5).Text
+        .Update
+        .Requery
+    End With
+    MsgBox ("Información guardada con éxito"), vbOKOnly, "Completado"
+    FormOptometria.Text1(1).Text = ""
+    FormOptometria.Text1(5).Text = ""
+    FormOptometria.Combo1(0).Text = ""
+    FormOptometria.Combo1(1).Text = ""
+    RsNombre.Filter = ""
+    RsNombre.MoveFirst
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    FormOptometria.Text1(1).Text = ""
+    FormOptometria.Text1(5).Text = ""
+    FormOptometria.Combo1(0).Text = ""
+    FormOptometria.Combo1(1).Text = ""
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Text1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 1
+            With RsNombre
+                .Requery
+                If option1.Value = True Then
+                    .Filter = "NOMBRE LIKE '*" & Text1(1) & "*'"
+                Else
+                    .Filter = ""
+                    Set DataGrid1.DataSource = RsNombre
+                    .MoveFirst
+                End If
+            End With
+            Set FormOptometria.Label1(15).DataSource = RsNombre
+            Set FormOptometria.Label1(16).DataSource = RsNombre
+            FormOptometria.Label1(15).DataField = ("ID_AST")
+            FormOptometria.Label1(16).DataField = ("NOMBRE")
+    End Select
+End Sub
+Private Sub Cancelar_Click()
+    On Error Resume Next
+    FormImpresion.Text1(1).Text = ""
+    FormImpresion.Label2(2).Caption = ""
+    FormImpresion.Label2(3).Caption = ""
+    FormImpresion.Label2(4).Caption = ""
+    FormImpresion.Label2(5).Caption = ""
+    FormImpresion.Label2(6).Caption = ""
+    FormImpresion.Label2(7).Caption = ""
+    FormImpresion.Label2(8).Caption = ""
+    FormImpresion.Label2(9).Caption = ""
+    FormImpresion.Label3(0).Caption = ""
+    FormImpresion.Label3(1).Caption = ""
+    FormImpresion.Label3(2).Caption = ""
+    FormImpresion.Label3(3).Caption = ""
+    FormImpresion.Label3(4).Caption = ""
+    FormImpresion.Label4(0).Caption = ""
+    FormImpresion.Label4(1).Caption = ""
+    FormImpresion.Label5(0).Caption = ""
+    FormImpresion.Label5(1).Caption = ""
+    FormImpresion.Label5(2).Caption = ""
+    FormImpresion.Label6(0).Caption = ""
+    FormImpresion.Label6(1).Caption = ""
+    FormImpresion.Label6(2).Caption = ""
+    FormImpresion.Label6(3).Caption = ""
+    FormImpresion.Label7(0).Caption = ""
+    FormImpresion.Label7(1).Caption = ""
+    FormImpresion.Label7(2).Caption = ""
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RsAllDate
+        If .State = 1 Then .Close
+            .Open "Select * from All_date", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    With RsNombre
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set DataGrid1.DataSource = RsNombre
+    Set FormImpresion.Label1(15).DataSource = RsNombre
+    Set FormImpresion.Label1(16).DataSource = RsNombre
+    Set FormImpresion.Label2(2).DataSource = RsAllDate
+    Set FormImpresion.Label2(3).DataSource = RsAllDate
+    Set FormImpresion.Label2(4).DataSource = RsAllDate
+    Set FormImpresion.Label2(5).DataSource = RsAllDate
+    Set FormImpresion.Label2(6).DataSource = RsAllDate
+    Set FormImpresion.Label2(7).DataSource = RsAllDate
+    Set FormImpresion.Label2(8).DataSource = RsAllDate
+    Set FormImpresion.Label2(9).DataSource = RsAllDate
+    Set FormImpresion.Label3(0).DataSource = RsAllDate
+    Set FormImpresion.Label3(1).DataSource = RsAllDate
+    Set FormImpresion.Label3(2).DataSource = RsAllDate
+    Set FormImpresion.Label3(3).DataSource = RsAllDate
+    Set FormImpresion.Label3(4).DataSource = RsAllDate
+    Set FormImpresion.Label4(0).DataSource = RsAllDate
+    Set FormImpresion.Label4(1).DataSource = RsAllDate
+    Set FormImpresion.Label5(0).DataSource = RsAllDate
+    Set FormImpresion.Label5(1).DataSource = RsAllDate
+    Set FormImpresion.Label5(2).DataSource = RsAllDate
+    Set FormImpresion.Label6(0).DataSource = RsAllDate
+    Set FormImpresion.Label6(1).DataSource = RsAllDate
+    Set FormImpresion.Label6(2).DataSource = RsAllDate
+    Set FormImpresion.Label6(3).DataSource = RsAllDate
+    Set FormImpresion.Label7(0).DataSource = RsAllDate
+    Set FormImpresion.Label7(1).DataSource = RsAllDate
+    Set FormImpresion.Label7(2).DataSource = RsAllDate
+    FormImpresion.Label1(15).DataField = ("ID_AST")
+    FormImpresion.Label1(16).DataField = ("NOMBRE")
+    FormImpresion.Label2(2).DataField = ("FECHA_NACIMIENTO")
+    FormImpresion.Label2(3).DataField = ("GENERO")
+    FormImpresion.Label2(4).DataField = ("PESO")
+    FormImpresion.Label2(5).DataField = ("TALLA")
+    FormImpresion.Label2(6).DataField = ("TA")
+    FormImpresion.Label2(7).DataField = ("VACUNA_TOXOIDE")
+    FormImpresion.Label2(8).DataField = ("OTRAS_VACUNAS")
+    FormImpresion.Label2(9).DataField = ("OBSERVACIONES_SOMATOMETRÍA")
+    FormImpresion.Label3(0).DataField = ("COLESTEROL")
+    FormImpresion.Label3(1).DataField = ("TRIGLICERIDOS")
+    FormImpresion.Label3(2).DataField = ("GLUCOSA")
+    FormImpresion.Label3(3).DataField = ("PSA")
+    FormImpresion.Label3(4).DataField = ("OBSERVACIONES_LABORATORIO")
+    FormImpresion.Label4(0).DataField = ("ASISTENCIA_DENTAL")
+    FormImpresion.Label4(1).DataField = ("OBSERVACIONES_DENTAL")
+    FormImpresion.Label5(0).DataField = ("ASISTENCIA_NUTRICION")
+    FormImpresion.Label5(1).DataField = ("TIPO")
+    FormImpresion.Label5(2).DataField = ("OBSERVACIONES_NUTRICION")
+    FormImpresion.Label6(0).DataField = ("DOCMA")
+    FormImpresion.Label6(1).DataField = ("DOCCU")
+    FormImpresion.Label6(2).DataField = ("MASTOGRAFIA")
+    FormImpresion.Label6(3).DataField = ("OBSERVACIONES_SALUD_DE_LA_MUJER")
+    FormImpresion.Label7(0).DataField = ("AUDIOMETRIA")
+    FormImpresion.Label7(1).DataField = ("OPTOMETRIA")
+    FormImpresion.Label7(2).DataField = ("OBSERVACIONES_AUDIOMETRIA_Y_OPTOMETRIA")
+End Sub
+Private Sub Imprimir_Click()
+    On Error Resume Next
+    Set DataReport1.DataSource = RsNombre
+    DRID_AST = FormImpresion.Label1(15).Caption
+    DRNOMBRE = FormImpresion.Label1(16).Caption
+    DRFECHA_NACIMIENTO = FormImpresion.Label2(2).Caption
+    DRGENERO = FormImpresion.Label2(3).Caption
+    DRPESO = FormImpresion.Label2(4).Caption
+    DRTALLA = FormImpresion.Label2(5).Caption
+    DRTA = FormImpresion.Label2(6).Caption
+    DRVACUNA_TOXOIDE = FormImpresion.Label2(7).Caption
+    DROTRAS_VACUNAS = FormImpresion.Label2(8).Caption
+    DROBSERVACIONES_SOMATOMETRÍA = FormImpresion.Label2(9).Caption
+    DRCOLESTEROL = FormImpresion.Label3(0).Caption
+    DRTRIGLICERIDOS = FormImpresion.Label3(1).Caption
+    DRGLUCOSA = FormImpresion.Label3(2).Caption
+    DRPSA = FormImpresion.Label3(3).Caption
+    DROBSERVACIONES_LABORATORIO = FormImpresion.Label3(4).Caption
+    DRASISTENCIA_DENTAL = FormImpresion.Label4(0).Caption
+    DROBSERVACIONES_DENTAL = FormImpresion.Label4(1).Caption
+    DRASISTENCIA_NUTRICION = FormImpresion.Label5(0).Caption
+    DRTIPO = FormImpresion.Label5(1).Caption
+    DROBSERVACIONES_NUTRICION = FormImpresion.Label5(2).Caption
+    DRDOCMA = FormImpresion.Label6(0).Caption
+    DRDOCCU = FormImpresion.Label6(1).Caption
+    DRMASTOGRAFIA = FormImpresion.Label6(2).Caption
+    DROBSERVACIONES_SALUD_DE_LA_MUJER = FormImpresion.Label6(3).Caption
+    DRAUDIOMETRIA = FormImpresion.Label7(0).Caption
+    DROPTOMETRIA = FormImpresion.Label7(1).Caption
+    DROBSERVACIONES_AUDIOMETRIA_Y_OPTOMETRIA = FormImpresion.Label7(2).Caption
+    DataReport1.Sections("Sección2").Controls("Etiqueta35").Caption = DRNOMBRE
+    DataReport1.Sections("Sección1").Controls("Etiqueta36").Caption = DRFECHA_NACIMIENTO
+    DataReport1.Sections("Sección1").Controls("Etiqueta37").Caption = DRGENERO
+    DataReport1.Sections("Sección1").Controls("Etiqueta38").Caption = DRPESO
+    DataReport1.Sections("Sección1").Controls("Etiqueta39").Caption = DRTALLA
+    DataReport1.Sections("Sección1").Controls("Etiqueta40").Caption = DRT
+    DataReport1.Sections("Sección1").Controls("Etiqueta41").Caption = DRVACUNA_TOXOIDE
+    DataReport1.Sections("Sección1").Controls("Etiqueta42").Caption = DROTRAS_VACUNAS
+    DataReport1.Sections("Sección1").Controls("Etiqueta43").Caption = DROBSERVACIONES_SOMATOMETRÍA
+    DataReport1.Sections("Sección1").Controls("Etiqueta44").Caption = DRCOLESTEROL
+    DataReport1.Sections("Sección1").Controls("Etiqueta45").Caption = DRTRIGLICERIDOS
+    DataReport1.Sections("Sección1").Controls("Etiqueta46").Caption = DRGLUCOSA
+    DataReport1.Sections("Sección1").Controls("Etiqueta47").Caption = DRPSA
+    DataReport1.Sections("Sección1").Controls("Etiqueta48").Caption = DROBSERVACIONES_LABORATORIO
+    DataReport1.Sections("Sección1").Controls("Etiqueta49").Caption = DRASISTENCIA_DENTAL
+    DataReport1.Sections("Sección1").Controls("Etiqueta50").Caption = DROBSERVACIONES_DENTAL
+    DataReport1.Sections("Sección1").Controls("Etiqueta51").Caption = DRTIPO
+    DataReport1.Sections("Sección1").Controls("Etiqueta52").Caption = DROBSERVACIONES_NUTRICION
+    DataReport1.Sections("Sección1").Controls("Etiqueta53").Caption = DRDOCMA
+    DataReport1.Sections("Sección1").Controls("Etiqueta54").Caption = DRDOCCU
+    DataReport1.Sections("Sección1").Controls("Etiqueta55").Caption = DRMASTOGRAFIA
+    DataReport1.Sections("Sección1").Controls("Etiqueta56").Caption = DROBSERVACIONES_SALUD_DE_LA_MUJER
+    DataReport1.Sections("Sección1").Controls("Etiqueta57").Caption = DRAUDIOMETRIA
+    DataReport1.Sections("Sección1").Controls("Etiqueta58").Caption = DROPTOMETRIA
+    DataReport1.Sections("Sección1").Controls("Etiqueta59").Caption = DROBSERVACIONES_AUDIOMETRIA_Y_OPTOMETRIA
+    DataReport1.Show
+    FormImpresion.Text1(1).Text = ""
+    FormImpresion.Label2(2).Caption = ""
+    FormImpresion.Label2(3).Caption = ""
+    FormImpresion.Label2(4).Caption = ""
+    FormImpresion.Label2(5).Caption = ""
+    FormImpresion.Label2(6).Caption = ""
+    FormImpresion.Label2(7).Caption = ""
+    FormImpresion.Label2(8).Caption = ""
+    FormImpresion.Label2(9).Caption = ""
+    FormImpresion.Label3(0).Caption = ""
+    FormImpresion.Label3(1).Caption = ""
+    FormImpresion.Label3(2).Caption = ""
+    FormImpresion.Label3(3).Caption = ""
+    FormImpresion.Label3(4).Caption = ""
+    FormImpresion.Label4(0).Caption = ""
+    FormImpresion.Label4(1).Caption = ""
+    FormImpresion.Label5(0).Caption = ""
+    FormImpresion.Label5(1).Caption = ""
+    FormImpresion.Label5(2).Caption = ""
+    FormImpresion.Label6(0).Caption = ""
+    FormImpresion.Label6(1).Caption = ""
+    FormImpresion.Label6(2).Caption = ""
+    FormImpresion.Label6(3).Caption = ""
+    FormImpresion.Label7(0).Caption = ""
+    FormImpresion.Label7(1).Caption = ""
+    FormImpresion.Label7(2).Caption = ""
+    RsNombre.Filter = ""
+    RsNombre.MoveFirst
+End Sub
+Private Sub Label1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 15
+            Set FormImpresion.Label2(2).DataSource = RsAllDate
+            Set FormImpresion.Label2(3).DataSource = RsAllDate
+            Set FormImpresion.Label2(4).DataSource = RsAllDate
+            Set FormImpresion.Label2(5).DataSource = RsAllDate
+            Set FormImpresion.Label2(6).DataSource = RsAllDate
+            Set FormImpresion.Label2(7).DataSource = RsAllDate
+            Set FormImpresion.Label2(8).DataSource = RsAllDate
+            Set FormImpresion.Label2(9).DataSource = RsAllDate
+            Set FormImpresion.Label3(0).DataSource = RsAllDate
+            Set FormImpresion.Label3(1).DataSource = RsAllDate
+            Set FormImpresion.Label3(2).DataSource = RsAllDate
+            Set FormImpresion.Label3(3).DataSource = RsAllDate
+            Set FormImpresion.Label3(4).DataSource = RsAllDate
+            Set FormImpresion.Label4(0).DataSource = RsAllDate
+            Set FormImpresion.Label4(1).DataSource = RsAllDate
+            Set FormImpresion.Label5(0).DataSource = RsAllDate
+            Set FormImpresion.Label5(1).DataSource = RsAllDate
+            Set FormImpresion.Label5(2).DataSource = RsAllDate
+            Set FormImpresion.Label6(0).DataSource = RsAllDate
+            Set FormImpresion.Label6(1).DataSource = RsAllDate
+            Set FormImpresion.Label6(2).DataSource = RsAllDate
+            Set FormImpresion.Label6(3).DataSource = RsAllDate
+            Set FormImpresion.Label7(0).DataSource = RsAllDate
+            Set FormImpresion.Label7(1).DataSource = RsAllDate
+            Set FormImpresion.Label7(2).DataSource = RsAllDate
+            FormImpresion.Label2(2).DataField = ("FECHA_NACIMIENTO")
+            FormImpresion.Label2(3).DataField = ("GENERO")
+            FormImpresion.Label2(4).DataField = ("PESO")
+            FormImpresion.Label2(5).DataField = ("TALLA")
+            FormImpresion.Label2(6).DataField = ("TA")
+            FormImpresion.Label2(7).DataField = ("VACUNA_TOXOIDE")
+            FormImpresion.Label2(8).DataField = ("OTRAS_VACUNAS")
+            FormImpresion.Label2(9).DataField = ("OBSERVACIONES_SOMATOMETRÍA")
+            FormImpresion.Label3(0).DataField = ("COLESTEROL")
+            FormImpresion.Label3(1).DataField = ("TRIGLICERIDOS")
+            FormImpresion.Label3(2).DataField = ("GLUCOSA")
+            FormImpresion.Label3(3).DataField = ("PSA")
+            FormImpresion.Label3(4).DataField = ("OBSERVACIONES_LABORATORIO")
+            FormImpresion.Label4(0).DataField = ("ASISTENCIA_DENTAL")
+            FormImpresion.Label4(1).DataField = ("OBSERVACIONES_DENTAL")
+            FormImpresion.Label5(0).DataField = ("ASISTENCIA_NUTRICION")
+            FormImpresion.Label5(1).DataField = ("TIPO")
+            FormImpresion.Label5(2).DataField = ("OBSERVACIONES_NUTRICION")
+            FormImpresion.Label6(0).DataField = ("DOCMA")
+            FormImpresion.Label6(1).DataField = ("DOCCU")
+            FormImpresion.Label6(2).DataField = ("MASTOGRAFIA")
+            FormImpresion.Label6(3).DataField = ("OBSERVACIONES_SALUD_DE_LA_MUJER")
+            FormImpresion.Label7(0).DataField = ("AUDIOMETRIA")
+            FormImpresion.Label7(1).DataField = ("OPTOMETRIA")
+            FormImpresion.Label7(2).DataField = ("OBSERVACIONES_AUDIOMETRIA_Y_OPTOMETRIA")
+            With RsAllDate
+                .Requery
+                If option1.Value = True Then
+                    .Filter = "ID_AST LIKE '*" & Label1(15) & "*'"
+                Else
+                    .Filter = ""
+                    .MoveFirst
+                End If
+            End With
+    End Select
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    FormImpresion.Text1(1).Text = ""
+    FormImpresion.Label2(2).Caption = ""
+    FormImpresion.Label2(3).Caption = ""
+    FormImpresion.Label2(4).Caption = ""
+    FormImpresion.Label2(5).Caption = ""
+    FormImpresion.Label2(6).Caption = ""
+    FormImpresion.Label2(7).Caption = ""
+    FormImpresion.Label2(8).Caption = ""
+    FormImpresion.Label2(9).Caption = ""
+    FormImpresion.Label3(0).Caption = ""
+    FormImpresion.Label3(1).Caption = ""
+    FormImpresion.Label3(2).Caption = ""
+    FormImpresion.Label3(3).Caption = ""
+    FormImpresion.Label3(4).Caption = ""
+    FormImpresion.Label4(0).Caption = ""
+    FormImpresion.Label4(1).Caption = ""
+    FormImpresion.Label5(0).Caption = ""
+    FormImpresion.Label5(1).Caption = ""
+    FormImpresion.Label5(2).Caption = ""
+    FormImpresion.Label6(0).Caption = ""
+    FormImpresion.Label6(1).Caption = ""
+    FormImpresion.Label6(2).Caption = ""
+    FormImpresion.Label6(3).Caption = ""
+    FormImpresion.Label7(0).Caption = ""
+    FormImpresion.Label7(1).Caption = ""
+    FormImpresion.Label7(2).Caption = ""
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Text1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+    Case 1
+        Set FormImpresion.Label1(15).DataSource = RsNombre
+        Set FormImpresion.Label1(16).DataSource = RsNombre
+        FormImpresion.Label1(15).DataField = ("ID_AST")
+        FormImpresion.Label1(16).DataField = ("NOMBRE")
+        With RsNombre
+            .Requery
+            If option1.Value = True Then
+                .Filter = "NOMBRE LIKE '*" & Text1(1) & "*'"
+            Else
+                .Filter = ""
+                Set DataGrid1.DataSource = RsNombre
+                .MoveFirst
+            End If
+        End With
+    End Select
+End Sub
+Private Sub Command1_Click(Index As Integer)
+    On Error Resume Next
+    With RsAllDate
+        Select Case Index
+        Case 0
+            .MoveFirst
+        Case 1
+            .MovePrevious
+        Case 2
+            .MoveNext
+        Case 3
+            .MoveLast
+        Case 4
+            .Delete
+            .MovePrevious
+        Case 5
+            .Update
+        End Select
+    End With
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RsAllDate
+        If .State = 1 Then .Close
+            .Open "Select * from All_date", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    With RsNombre
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set DataGrid1.DataSource = RsAllDate
+End Sub
+Private Sub Guardar_Click()
+    On Error Resume Next
+    With RsAllDate
+        .Update
+    End With
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    RsNombre.Filter = ""
+    RsNombre.MoveFirst
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Text1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 1
+            With RsAllDate
+                .Requery
+                If option1.Value = True Then
+                    .Filter = "NOMBRE LIKE '*" & Text1(1) & "*'"
+                Else
+                    .Filter = ""
+                    Set DataGrid1.DataSource = RsAllDate
+                    .MoveFirst
+                End If
+            End With
+    End Select
+End Sub
+Dim ArchivoExcel As New Excel.Application
+Dim intLoopCounter As Integer
+Private Sub Command1_Click()
+    On Error Resume Next
+    List1.Clear
+    CommonDialog1.DialogTitle = "Elige un archivo"
+    CommonDialog1.Filter = "Archivo de excel 97-03|*.xls"
+    CommonDialog1.ShowOpen
+    If CommonDialog1.FileName = "" Then
+        Exit Sub
+    Else
+        Label1.Caption = CommonDialog1.FileName
+        ArchivoExcel.Workbooks.Open CommonDialog1.FileName
+        ArchivoExcel.Worksheets(1).Activate
+        With ArchivoExcel
+            .Workbooks.Open CommonDialog1.FileName
+            .Worksheets(1).Activate
+            .Workbooks(1).Worksheets(1).Select
+            For intLoopCounter = 1 To CInt(.ActiveSheet.Cells.SpecialCells(xlCellTypeLastCell).Row)
+                List1.AddItem .Range("B" & intLoopCounter)
+            Next intLoopCounter
+            .Workbooks.Close
+            .Quit
+        End With
+        Set ArchivoExcel = Nothing
+    End If
+End Sub
+Private Sub Command2_Click()
+    On Error Resume Next
+    With ArchivoExcel
+        .Workbooks.Open CommonDialog1.FileName
+        .Worksheets(1).Activate
+        .Workbooks(1).Worksheets(1).Select
+        For intLoopCounter = 1 To CInt(.ActiveSheet.Cells.SpecialCells(xlCellTypeLastCell).Row)
+            With RsSomatometria
+                .Requery
+                .AddNew
+                    .Fields("ID_AST") = ArchivoExcel.Cells(intLoopCounter, 1)
+                    .Fields("NOMBRE") = ArchivoExcel.Cells(intLoopCounter, 2)
+                    .Fields("FE_NAC") = ArchivoExcel.Cells(intLoopCounter, 3)
+                    .Fields("GENERO") = ArchivoExcel.Cells(intLoopCounter, 4)
+                    .Fields("TRAB_E") = ArchivoExcel.Cells(intLoopCounter, 5)
+                    .Fields("AREA_T") = ArchivoExcel.Cells(intLoopCounter, 6)
+                    .Fields("ID_EMP") = ArchivoExcel.Cells(intLoopCounter, 7)
+                    .Fields("PARENT") = ArchivoExcel.Cells(intLoopCounter, 8)
+                    .Fields("PES_KG") = ArchivoExcel.Cells(intLoopCounter, 9)
+                    .Fields("TAL_MT") = ArchivoExcel.Cells(intLoopCounter, 10)
+                    .Fields("TA") = ArchivoExcel.Cells(intLoopCounter, 11)
+                    .Fields("VAC_TX") = ArchivoExcel.Cells(intLoopCounter, 12)
+                    .Fields("VAC_OT") = ArchivoExcel.Cells(intLoopCounter, 13)
+                    .Fields("OBSERV") = ArchivoExcel.Cells(intLoopCounter, 14)
+                .Update
+                .Requery
+            End With
+    
+        Next intLoopCounter
+        Set ArchivoExcel = Nothing
+    End With
+    MsgBox "Importación completada", vbOKOnly, "Finalizado"
+    Label1.Caption = ""
+    List1.Clear
+    Me.Hide
+    Form1.Enabled = True
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RsSomatometria
+        If .State = 1 Then .Close
+            .Open "Select * from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+End Sub
+Private Sub Importar_Click()
+    On Error Resume Next
+    With ArchivoExcel
+        .Workbooks.Open CommonDialog1.FileName
+        .Worksheets(1).Activate
+        .Workbooks(1).Worksheets(1).Select
+        For intLoopCounter = 1 To CInt(.ActiveSheet.Cells.SpecialCells(xlCellTypeLastCell).Row)
+            With RsSomatometria
+                .Requery
+                .AddNew
+                    .Fields("ID_AST") = ArchivoExcel.Cells(intLoopCounter, 1)
+                    .Fields("NOMBRE") = ArchivoExcel.Cells(intLoopCounter, 2)
+                    .Fields("FE_NAC") = ArchivoExcel.Cells(intLoopCounter, 3)
+                    .Fields("GENERO") = ArchivoExcel.Cells(intLoopCounter, 4)
+                    .Fields("TRAB_E") = ArchivoExcel.Cells(intLoopCounter, 5)
+                    .Fields("AREA_T") = ArchivoExcel.Cells(intLoopCounter, 6)
+                    .Fields("ID_EMP") = ArchivoExcel.Cells(intLoopCounter, 7)
+                    .Fields("PARENT") = ArchivoExcel.Cells(intLoopCounter, 8)
+                    .Fields("PES_KG") = ArchivoExcel.Cells(intLoopCounter, 9)
+                    .Fields("TAL_MT") = ArchivoExcel.Cells(intLoopCounter, 10)
+                    .Fields("TA") = ArchivoExcel.Cells(intLoopCounter, 11)
+                    .Fields("VAC_TX") = ArchivoExcel.Cells(intLoopCounter, 12)
+                    .Fields("VAC_OT") = ArchivoExcel.Cells(intLoopCounter, 13)
+                    .Fields("OBSERV") = ArchivoExcel.Cells(intLoopCounter, 14)
+                .Update
+                .Requery
+            End With
+        Next intLoopCounter
+        Set ArchivoExcel = Nothing
+    End With
+    MsgBox "Importación completada", vbOKOnly, "Finalizado"
+    Label1.Caption = ""
+    List1.Clear
+    Me.Hide
+    Form1.Enabled = True
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    Form1.Enabled = True
+    Unload Me
+End Sub
+Private Sub Seleccionar_Click()
+    On Error Resume Next
+    List1.Clear
+    CommonDialog1.DialogTitle = "Elige un archivo"
+    CommonDialog1.Filter = "Archivo de excel 97-03|*.xls"
+    CommonDialog1.ShowOpen
+    If CommonDialog1.FileName = "" Then
+        MsgBox "No se seleccionó ningun archivo", vbOKOnly, "Atención"
+        Exit Sub
+    Else
+        Label1.Caption = CommonDialog1.FileName
+        With ArchivoExcel
+            .Workbooks.Open CommonDialog1.FileName
+            .Worksheets(1).Activate
+            .Workbooks(1).Worksheets(1).Select
+            For intLoopCounter = 1 To CInt(.ActiveSheet.Cells.SpecialCells(xlCellTypeLastCell).Row)
+                List1.AddItem .Range("B" & intLoopCounter)
+            Next intLoopCounter
+            .Workbooks.Close
+            .Quit
+        End With
+        Set ArchivoExcel = Nothing
+    End If
+End Sub
+Private Sub Command1_Click()
+    On Error Resume Next
+    CommonDialog1.DialogTitle = "Guardar como"
+    CommonDialog1.Filter = "Archivo de excel 97-03|*.xls"
+    CommonDialog1.ShowSave
+    If CommonDialog1.FileName = "" Then
+        MsgBox "Selecciona donde quieres guardar el archivo", vbOKOnly, "Atención"
+        Exit Sub
+    Else
+        Text1.Text = CommonDialog1.FileName
+    End If
+End Sub
+Private Sub Command2_Click()
+    On Error Resume Next
+    Dim xlApp As Excel.Application
+    Dim xlBook As Excel.Workbook
+    Dim xlSheet As Excel.Worksheet
+    Dim exportFileName As String
+    Dim i As Long
+    Dim j As Long
+    Dim numFilas As Long
+    i = 1
+    j = 1
+    numFilas = 0
+    exportFileName = FormExportarTodo.CommonDialog1.FileName
+    Set xlApp = New Excel.Application
+    Set xlBook = xlApp.Workbooks.Add
+    Set xlSheet = xlBook.Worksheets.Add
+    xlApp.DisplayAlerts = False
+    While (numFilas < RsAllDate.Fields.Count)
+        xlSheet.Cells(i, j) = RsAllDate.Fields(numFilas).Name
+        j = j + 1
+        numFilas = numFilas + 1
+    Wend
+        i = i + 1
+    While (Not RsAllDate.EOF)
+        j = 0
+        While (j < numFilas)
+            xlSheet.Cells(i, j + 1).Value = RsAllDate(j)
+            j = j + 1
+        Wend
+        i = i + 1
+        RsAllDate.MoveNext
+    Wend
+    xlSheet.SaveAs exportFileName
+    xlBook.Close
+    xlApp.Quit
+    Set xlApp = Nothing
+    Set xlBook = Nothing
+    Set xlSheet = Nothing
+    MsgBox "Archivo creado correctamente"
+    Exit Sub
+err:
+        Set xlApp = Nothing
+        Set xlBook = Nothing
+        Set xlSheet = Nothing
+        MsgBox "El archivo no ha podido ser creado" & vbNewLine & err.Description
+    Text1.Text = ""
+    Me.Hide
+    Form1.Enabled = True
+End Sub
+Private Sub Exportar_Click()
+    On Error Resume Next
+    Dim xlApp As Excel.Application
+    Dim xlBook As Excel.Workbook
+    Dim xlSheet As Excel.Worksheet
+    Dim exportFileName As String
+    Dim i As Long
+    Dim j As Long
+    Dim numFilas As Long
+    i = 1
+    j = 1
+    numFilas = 0
+    exportFileName = FormExportarTodo.CommonDialog1.FileName
+    Set xlApp = New Excel.Application
+    Set xlBook = xlApp.Workbooks.Add
+    Set xlSheet = xlBook.Worksheets.Add
+    xlApp.DisplayAlerts = False
+    While (numFilas < RsAllDate.Fields.Count)
+        xlSheet.Cells(i, j) = RsAllDate.Fields(numFilas).Name
+        j = j + 1
+        numFilas = numFilas + 1
+    Wend
+        i = i + 1
+    While (Not RsAllDate.EOF)
+        j = 0
+        While (j < numFilas)
+            xlSheet.Cells(i, j + 1).Value = RsAllDate(j)
+            j = j + 1
+        Wend
+        i = i + 1
+        RsAllDate.MoveNext
+    Wend
+    xlSheet.SaveAs exportFileName
+    xlBook.Close
+    xlApp.Quit
+    Set xlApp = Nothing
+    Set xlBook = Nothing
+    Set xlSheet = Nothing
+    MsgBox "Archivo creado correctamente"
+    Exit Sub
+err:
+        Set xlApp = Nothing
+        Set xlBook = Nothing
+        Set xlSheet = Nothing
+        MsgBox "El archivo no ha podido ser creado" & vbNewLine & err.Description
+    Text1.Text = ""
+    Me.Hide
+    Form1.Enabled = True
+End Sub
+
+Private Sub Form_Load()
+    On Error Resume Next
+    With RsAllDate
+        If .State = 1 Then .Close
+            .Open "Select * from All_date", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+End Sub
+
+Private Sub GuardarComo_Click()
+    On Error Resume Next
+    CommonDialog1.DialogTitle = "Guardar como"
+    CommonDialog1.Filter = "Archivo de excel 97-03|*.xls"
+    CommonDialog1.ShowSave
+    If CommonDialog1.FileName = "" Then
+        MsgBox "Selecciona donde quieres guardar el archivo", vbOKOnly, "Atención"
+        Exit Sub
+    Else
+        Text1.Text = ""
+    End If
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Command1_Click(Index As Integer)
+    On Error Resume Next
+    With RSTrabajador
+        Select Case Index
+            Case 0
+                .MoveFirst
+            Case 1
+                .MovePrevious
+            Case 2
+                .MoveNext
+            Case 3
+                .MoveLast
+        End Select
+    End With
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    With RSTrabajador
+        If .State = 1 Then .Close
+            .Open "Select ID_AST, NOMBRE from SOMAT Where TRAB_E = 'Si'", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    With RsFamiliar
+        If .State = 1 Then .Close
+            .Open "Select ID_EMP, NOMBRE, PARENT, FE_NAC from SOMAT", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+    End With
+    Set DataGrid1.DataSource = RSTrabajador
+    Set DataGrid2.DataSource = RsFamiliar
+    Set Label1(1).DataSource = RSTrabajador
+    Label1(1).DataField = ("ID_AST")
+    Set Label1(5).DataSource = RSTrabajador
+    Label1(5).DataField = ("NOMBRE")
+    DataGrid2.Columns(1).Width = 4095
+    DataGrid2.Columns(2).Width = 1935
+    DataGrid2.Columns(3).Width = 1935
+    DataGrid2.Columns(0).Visible = False
+End Sub
+Private Sub Imprimir_Click()
+    On Error Resume Next
+    Set DataReport2.DataSource = RsFamiliar
+    DRID_AST = ReporteFamiliares.Label1(1).Caption
+    DRNOMBRE = ReporteFamiliares.Label1(5).Caption
+    DataReport2.Sections("Sección2").Controls("Etiqueta2").Caption = DRID_AST
+    DataReport2.Sections("Sección2").Controls("Etiqueta3").Caption = DRNOMBRE
+    DataReport2.Show
+End Sub
+Private Sub Label1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+        Case 1
+            With RsFamiliar
+                .Requery
+                If option1.Value = True Then
+                    .Filter = "ID_EMP LIKE '*" & Label1(1) & "*'"
+                    DataGrid2.Columns(1).Width = 4095
+                    DataGrid2.Columns(2).Width = 1935
+                    DataGrid2.Columns(3).Width = 1935
+                    DataGrid2.Columns(0).Visible = False
+                Else
+                    .Filter = ""
+                    Set DataGrid2.DataSource = RsFamiliar
+                    .MoveFirst
+                    DataGrid2.Columns(1).Width = 4095
+                    DataGrid2.Columns(2).Width = 1935
+                    DataGrid2.Columns(3).Width = 1935
+                    DataGrid2.Columns(0).Visible = False
+                End If
+            End With
+    End Select
+End Sub
+Private Sub Salir_Click()
+    On Error Resume Next
+    Unload Me
+    Form1.Enabled = True
+End Sub
+Private Sub Text1_Change()
+    On Error Resume Next
+    With RSTrabajador
+        .Requery
+        If option1.Value = True Then
+            .Filter = "NOMBRE LIKE '*" & Text1 & "*'"
+        Else
+            .Filter = ""
+            Set DataGrid1.DataSource = RSTrabajador
+            .MoveFirst
+        End If
+    End With
+End Sub
+Option Explicit
+Const READ_CONTROL = &H20000
+Const KEY_QUERY_VALUE = &H1
+Const KEY_SET_VALUE = &H2
+Const KEY_CREATE_SUB_KEY = &H4
+Const KEY_ENUMERATE_SUB_KEYS = &H8
+Const KEY_NOTIFY = &H10
+Const KEY_CREATE_LINK = &H20
+Const KEY_ALL_ACCESS = KEY_QUERY_VALUE + KEY_SET_VALUE + _
+                       KEY_CREATE_SUB_KEY + KEY_ENUMERATE_SUB_KEYS + _
+                       KEY_NOTIFY + KEY_CREATE_LINK + READ_CONTROL
+Const HKEY_LOCAL_MACHINE = &H80000002
+Const ERROR_SUCCESS = 0
+Const REG_SZ = 1
+Const REG_DWORD = 4
+Const gREGKEYSYSINFOLOC = "SOFTWARE\Microsoft\Shared Tools Location"
+Const gREGVALSYSINFOLOC = "MSINFO"
+Const gREGKEYSYSINFO = "SOFTWARE\Microsoft\Shared Tools\MSINFO"
+Const gREGVALSYSINFO = "PATH"
+Private Declare Function RegOpenKeyEx Lib "advapi32" Alias "RegOpenKeyExA" (ByVal hKey As Long, ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, ByRef phkResult As Long) As Long
+Private Declare Function RegQueryValueEx Lib "advapi32" Alias "RegQueryValueExA" (ByVal hKey As Long, ByVal lpValueName As String, ByVal lpReserved As Long, ByRef lpType As Long, ByVal lpData As String, ByRef lpcbData As Long) As Long
+Private Declare Function RegCloseKey Lib "advapi32" (ByVal hKey As Long) As Long
+Private Sub cmdSysInfo_Click()
+  Call StartSysInfo
+End Sub
+Private Sub cmdOK_Click()
+  Unload Me
+End Sub
+Private Sub Form_Load()
+    Me.Caption = "Acerca de " & App.Title
+    lblVersion.Caption = "Versión " & App.Major & "." & App.Minor & "." & App.Revision
+    lblTitle.Caption = App.Title
+End Sub
+Public Sub StartSysInfo()
+    On Error GoTo SysInfoErr
+    Dim rc As Long
+    Dim SysInfoPath As String
+    If GetKeyValue(HKEY_LOCAL_MACHINE, gREGKEYSYSINFO, gREGVALSYSINFO, SysInfoPath) Then
+    ElseIf GetKeyValue(HKEY_LOCAL_MACHINE, gREGKEYSYSINFOLOC, gREGVALSYSINFOLOC, SysInfoPath) Then
+        If (Dir(SysInfoPath & "\MSINFO32.EXE") <> "") Then
+            SysInfoPath = SysInfoPath & "\MSINFO32.EXE"
+        Else
+            GoTo SysInfoErr
+        End If
+    Else
+        GoTo SysInfoErr
+    End If
+    Call Shell(SysInfoPath, vbNormalFocus)
+    Exit Sub
+SysInfoErr:
+    MsgBox "La información del sistema no está disponible en este momento", vbOKOnly
+End Sub
+Public Function GetKeyValue(KeyRoot As Long, KeyName As String, SubKeyRef As String, ByRef KeyVal As String) As Boolean
+    Dim i As Long
+    Dim rc As Long
+    Dim hKey As Long
+    Dim hDepth As Long
+    Dim KeyValType As Long
+    Dim tmpVal As String
+    Dim KeyValSize As Long
+    rc = RegOpenKeyEx(KeyRoot, KeyName, 0, KEY_ALL_ACCESS, hKey)
+    If (rc <> ERROR_SUCCESS) Then GoTo GetKeyError
+    tmpVal = String$(1024, 0)
+    KeyValSize = 1024
+    rc = RegQueryValueEx(hKey, SubKeyRef, 0, _
+                         KeyValType, tmpVal, KeyValSize)
+    If (rc <> ERROR_SUCCESS) Then GoTo GetKeyError
+    If (Asc(Mid(tmpVal, KeyValSize, 1)) = 0) Then
+        tmpVal = Left(tmpVal, KeyValSize - 1)
+    Else
+        tmpVal = Left(tmpVal, KeyValSize)
+    End If
+    Select Case KeyValType
+    Case REG_SZ
+        KeyVal = tmpVal
+    Case REG_DWORD
+        For i = Len(tmpVal) To 1 Step -1
+            KeyVal = KeyVal + Hex(Asc(Mid(tmpVal, i, 1)))
+        Next
+        KeyVal = Format$("&h" + KeyVal)
+    End Select
+    GetKeyValue = True
+    rc = RegCloseKey(hKey)
+    Exit Function
+GetKeyError:
+    KeyVal = ""
+    GetKeyValue = False
+    rc = RegCloseKey(hKey)
+End Function

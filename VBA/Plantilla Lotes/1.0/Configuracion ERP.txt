@@ -1,0 +1,36 @@
+Configuracion
+	Flexfields
+		Descriptivo
+			Segmentos
+				Flexfield
+				Inventory	Artículos
+				20	Interfaz	Interfaz	ATTRIBUTE2	XXINV_Sistema_Origen
+
+Configuracion
+	Flexfields
+		Validacion
+			Valores
+				XXINV_Sistema_Origen
+					GRANJAS-ANS	GRANJAS-ANS	Sistema de Producción Granjas ANS (Granjas ANS-6)
+
+Configuracion
+	Transacciones
+		Tipos de Origen
+			Usuario
+				GRANJAS-ANS	Transacciones de Granjas ANS
+					Salida de cerdos a Sitios 3	Emitir desde almacenes	GRANJAS-ANS
+					Entrada de cerdos de Sitios 2	Recibir en almacenes	GRANJAS-ANS
+					Salida de cerdos de Remplazo	Emitir desde almacenes	GRANJAS-ANS
+					Entrada de cerdos de Remplazo	Recibir en almacenes	GRANJAS-ANS
+					Deceso "A"			Emitir desde almacenes	GRANJAS-ANS
+
+(En todas las organizaciones)
+Configuracion
+	Alias de Cuenta
+		Deceso "A"	GRANJAS-ANS
+		Traspaso Cerdos	GRANJAS-ANS
+
+(En todas las organizaciones)
+Articulos
+	Articulos de organizacion
+		Sistema de origen GRANJAS-ANS

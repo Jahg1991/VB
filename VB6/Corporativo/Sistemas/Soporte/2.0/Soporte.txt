@@ -1,0 +1,59 @@
+CREATE DATABASE SOPORTE;
+
+=======================================================================================
+
+USE [SOPORTE]
+GO
+
+CREATE TABLE SOLICITUDES(
+	ID INT IDENTITY PRIMARY KEY,
+	[FECHA] [varchar](10),
+	[HORA] [varchar](10),
+	[TIPO] [varchar](20),
+	[DETALLES] [varchar](200),
+	[ESTATUS] [varchar](20),
+	[SOLICITANTE] [varchar](50),
+	[ATENDIDO] [varchar](50)
+)
+
+GO
+
+===========================================================
+
+USE [SOPORTE]
+GO
+
+CREATE TABLE AGENDA(
+	[NOMBRE] [varchar](50),
+	[EXTENSION] [int],
+	[CELULAR] [varchar](10),
+	[RADIO] [varchar](20),
+	[INTERNO] [varchar](50),
+	[EXTERNO] [varchar](50)
+)
+
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

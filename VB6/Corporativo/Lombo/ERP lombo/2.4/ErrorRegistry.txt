@@ -1,0 +1,2 @@
+2021-05-20	10:11:13	Error en: Main	-2147221504	[Microsoft][ODBC SQL Server Driver][TCP/IP Sockets]No se encontró el servidor SQL Server especificado.
+[Microsoft][ODBC SQL Server Driver][TCP/IP Sockets]ConnectionOpen (Connect()).

@@ -1,0 +1,5 @@
+Línea 35: la clase MSComDlg.CommonDialog del control CommonDialog1 no era una clase de control cargada.
+Línea 20: la propiedad Icon de FormImportarSomatometria tenía una referencia a archivo no válida.
+Línea 38: el nombre de la propiedad _ExtentX de CommonDialog1 no es válido.
+Línea 39: el nombre de la propiedad _ExtentY de CommonDialog1 no es válido.
+Línea 40: el nombre de la propiedad _Version de CommonDialog1 no es válido.

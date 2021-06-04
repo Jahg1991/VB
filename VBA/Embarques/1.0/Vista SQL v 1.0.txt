@@ -1,0 +1,8 @@
+SELECT boleto_ent.clave_e AS clave_e, boleto_ent.clave_c AS clave_cliente, cliente.nombre_c AS nombre_cliente, boleto_ent.clave_o AS clave_operador, operador.nombre_o AS nombre_operador, boleto_ent.clave_p AS clave_producto, producto.nombre_p AS nombre_producto, boleto_ent.completo AS completo, boleto_ent.fecha_e AS fecha_entrada, boleto_ent.hora_e AS hora_entrada, boleto_ent.placas AS placas, boleto_ent.conductor AS conductor, boleto_ent.peso_e AS peso_entrada, boleto_ent.observa_e AS observaciones_entrada, boleto_ent.unidad_e AS unidad_entrada, boleto_ent.bascula_e AS bascula_entrada, boleto_ent.t_entrada AS t_entrada, boleto_ent.clave_u AS clave_u, boleto_ent.tipo_pesada AS tipo_pesada, boleto_ent.adicional1 AS adicional, boleto_ent.precio_producto AS precio_producto, boleto_ent.tipo_precio AS tipo_precio, boleto_sal.fecha_s AS fecha_salida, boleto_sal.hora_s AS hora_salida, boleto_sal.peso_s AS peso_salida, boleto_sal.peso_n AS peso_neto, boleto_sal.turno_s AS turno_salida, boleto_sal.bascula_s AS bascula_salida, boleto_sal.s_manual AS salida_manual, boleto_sal.precio_total AS precio_total, boleto_sal.nombre_os AS nombre_os, boleto_sal.observa_s AS observa_salida
+FROM producto, operador, cliente, boleto_ent, boleto_sal
+WHERE boleto_ent.clave_e = boleto_sal.clave_e
+AND boleto_ent.clave_c = cliente.clave_c
+AND boleto_ent.clave_o = operador.clave_o
+AND boleto_ent.clave_p = producto.clave_p
+AND cliente.nombre_c = 'AGROPECUARIA NUEVO SIGLO S.A.de C.V.'
+ORDER BY boleto_ent.clave_e DESC;

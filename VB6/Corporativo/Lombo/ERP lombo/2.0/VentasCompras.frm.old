@@ -1,0 +1,1583 @@
+VERSION 5.00
+Begin VB.Form frmVentasCompras 
+   BackColor       =   &H007298AF&
+   BorderStyle     =   0  'None
+   Caption         =   "Nuevo"
+   ClientHeight    =   8310
+   ClientLeft      =   135
+   ClientTop       =   480
+   ClientWidth     =   13815
+   ControlBox      =   0   'False
+   BeginProperty Font 
+      Name            =   "MS Sans Serif"
+      Size            =   12
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   Moveable        =   0   'False
+   ScaleHeight     =   8310
+   ScaleWidth      =   13815
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame Frame2 
+      BackColor       =   &H002B3A4A&
+      BorderStyle     =   0  'None
+      Caption         =   "Frame2"
+      Height          =   3240
+      Index           =   0
+      Left            =   3300
+      TabIndex        =   29
+      Top             =   2535
+      Visible         =   0   'False
+      Width           =   7215
+      Begin VB.Frame Frame2 
+         BackColor       =   &H007298AF&
+         BorderStyle     =   0  'None
+         Caption         =   "Frame2"
+         Height          =   3015
+         Index           =   1
+         Left            =   120
+         TabIndex        =   30
+         Top             =   120
+         Width           =   6975
+         Begin VB.TextBox Text2 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFFF&
+            Enabled         =   0   'False
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   13.5
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   540
+            Index           =   0
+            Left            =   1560
+            TabIndex        =   34
+            Top             =   120
+            Width           =   5055
+         End
+         Begin VB.TextBox Text2 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFFF&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   13.5
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   540
+            Index           =   1
+            Left            =   1560
+            TabIndex        =   33
+            Top             =   840
+            Width           =   5055
+         End
+         Begin VB.TextBox Text2 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFFF&
+            Enabled         =   0   'False
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   13.5
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   540
+            Index           =   2
+            Left            =   1560
+            TabIndex        =   32
+            Top             =   1560
+            Width           =   5055
+         End
+         Begin VB.CommandButton Command2 
+            BackColor       =   &H00FFFFFF&
+            Height          =   615
+            Left            =   2760
+            Picture         =   "VentasCompras.frx":0000
+            Style           =   1  'Graphical
+            TabIndex        =   31
+            Top             =   2280
+            Width           =   1455
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Total"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   13.5
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   11
+            Left            =   -600
+            TabIndex        =   37
+            Top             =   240
+            Width           =   2055
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Pagado"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   13.5
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   12
+            Left            =   -600
+            TabIndex        =   36
+            Top             =   960
+            Width           =   2055
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Cambio"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   13.5
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   13
+            Left            =   -600
+            TabIndex        =   35
+            Top             =   1680
+            Width           =   2055
+         End
+      End
+   End
+   Begin VB.Frame Frame1 
+      BackColor       =   &H002B3A4A&
+      BorderStyle     =   0  'None
+      Caption         =   "Frame1"
+      Height          =   8055
+      Index           =   0
+      Left            =   120
+      TabIndex        =   13
+      Top             =   120
+      Width           =   13575
+      Begin VB.Frame Frame1 
+         BackColor       =   &H007298AF&
+         BorderStyle     =   0  'None
+         Caption         =   "Frame1"
+         Height          =   7815
+         Index           =   1
+         Left            =   120
+         TabIndex        =   14
+         Top             =   120
+         Width           =   13335
+         Begin VB.TextBox Text1 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFFF&
+            BeginProperty DataFormat 
+               Type            =   1
+               Format          =   """$""#,##0.00"
+               HaveTrueFalseNull=   0
+               FirstDayOfWeek  =   0
+               FirstWeekOfYear =   0
+               LCID            =   2058
+               SubFormatType   =   2
+            EndProperty
+            Enabled         =   0   'False
+            Height          =   420
+            Index           =   6
+            Left            =   6600
+            TabIndex        =   26
+            Top             =   6120
+            Width           =   6495
+         End
+         Begin VB.TextBox Text1 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFFF&
+            BeginProperty DataFormat 
+               Type            =   1
+               Format          =   """$""#,##0.00"
+               HaveTrueFalseNull=   0
+               FirstDayOfWeek  =   0
+               FirstWeekOfYear =   0
+               LCID            =   2058
+               SubFormatType   =   2
+            EndProperty
+            Enabled         =   0   'False
+            Height          =   420
+            Index           =   5
+            Left            =   6600
+            TabIndex        =   25
+            Top             =   6600
+            Width           =   6495
+         End
+         Begin VB.TextBox Text1 
+            BackColor       =   &H00FFFFFF&
+            Height          =   420
+            Index           =   3
+            Left            =   1800
+            MaxLength       =   7
+            TabIndex        =   6
+            Top             =   2040
+            Width           =   10575
+         End
+         Begin VB.CommandButton Command1 
+            BackColor       =   &H00FFFFFF&
+            Caption         =   "..."
+            Height          =   375
+            Index           =   2
+            Left            =   12480
+            Style           =   1  'Graphical
+            TabIndex        =   2
+            Top             =   600
+            Width           =   615
+         End
+         Begin VB.TextBox Text1 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFFF&
+            BeginProperty DataFormat 
+               Type            =   1
+               Format          =   """$""#,##0.00"
+               HaveTrueFalseNull=   0
+               FirstDayOfWeek  =   0
+               FirstWeekOfYear =   0
+               LCID            =   2058
+               SubFormatType   =   2
+            EndProperty
+            Enabled         =   0   'False
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   13.5
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   420
+            Index           =   4
+            Left            =   6600
+            TabIndex        =   12
+            Top             =   7080
+            Width           =   6495
+         End
+         Begin VB.ListBox List1 
+            BeginProperty Font 
+               Name            =   "Consolas"
+               Size            =   12
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   2055
+            Left            =   240
+            TabIndex        =   11
+            Top             =   3960
+            Width           =   12855
+         End
+         Begin VB.CommandButton Command1 
+            BackColor       =   &H00FFFFFF&
+            Height          =   615
+            Index           =   1
+            Left            =   1800
+            Picture         =   "VentasCompras.frx":080F
+            Style           =   1  'Graphical
+            TabIndex        =   10
+            Top             =   3000
+            Width           =   1455
+         End
+         Begin VB.CommandButton Command1 
+            BackColor       =   &H00FFFFFF&
+            Height          =   615
+            Index           =   0
+            Left            =   240
+            Picture         =   "VentasCompras.frx":10E0
+            Style           =   1  'Graphical
+            TabIndex        =   9
+            Top             =   3000
+            Width           =   1455
+         End
+         Begin VB.TextBox Text1 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFFF&
+            Height          =   420
+            Index           =   2
+            Left            =   6000
+            MaxLength       =   7
+            TabIndex        =   5
+            Top             =   1560
+            Width           =   3015
+         End
+         Begin VB.TextBox Text1 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFFF&
+            Height          =   420
+            Index           =   1
+            Left            =   1800
+            MaxLength       =   7
+            TabIndex        =   4
+            Top             =   1560
+            Width           =   3015
+         End
+         Begin VB.ComboBox Combo1 
+            BackColor       =   &H00FFFFFF&
+            Height          =   420
+            Index           =   1
+            Left            =   1800
+            TabIndex        =   3
+            Top             =   1080
+            Width           =   10575
+         End
+         Begin VB.ComboBox Combo1 
+            BackColor       =   &H00FFFFFF&
+            Height          =   420
+            Index           =   0
+            Left            =   1800
+            TabIndex        =   1
+            Top             =   600
+            Width           =   10575
+         End
+         Begin VB.ComboBox Combo1 
+            BackColor       =   &H00FFFFFF&
+            Height          =   420
+            Index           =   3
+            Left            =   6000
+            Style           =   2  'Dropdown List
+            TabIndex        =   8
+            Top             =   2520
+            Width           =   3015
+         End
+         Begin VB.ComboBox Combo1 
+            BackColor       =   &H00FFFFFF&
+            Height          =   420
+            Index           =   2
+            Left            =   1800
+            Style           =   2  'Dropdown List
+            TabIndex        =   7
+            Top             =   2520
+            Width           =   3015
+         End
+         Begin VB.TextBox Text1 
+            BackColor       =   &H00FFFFFF&
+            Enabled         =   0   'False
+            Height          =   420
+            Index           =   0
+            Left            =   10080
+            TabIndex        =   0
+            Top             =   120
+            Width           =   3015
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Subtotal"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   10
+            Left            =   4440
+            TabIndex        =   28
+            Top             =   6120
+            Width           =   2055
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Iva"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   7
+            Left            =   4440
+            TabIndex        =   27
+            Top             =   6600
+            Width           =   2055
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Comentarios"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   3
+            Left            =   -360
+            TabIndex        =   24
+            Top             =   2160
+            Width           =   2055
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Total"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   13.5
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   9
+            Left            =   4440
+            TabIndex        =   23
+            Top             =   7080
+            Width           =   2055
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Mesa"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   8
+            Left            =   3720
+            TabIndex        =   22
+            Top             =   2520
+            Width           =   2055
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Tipo de venta"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   6
+            Left            =   -360
+            TabIndex        =   21
+            Top             =   2520
+            Width           =   2055
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Precio"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   5
+            Left            =   3360
+            TabIndex        =   20
+            Top             =   1680
+            Width           =   2535
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Cantidad"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   4
+            Left            =   -360
+            TabIndex        =   19
+            Top             =   1680
+            Width           =   2055
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Artículo"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   2
+            Left            =   -360
+            TabIndex        =   18
+            Top             =   1200
+            Width           =   2055
+         End
+         Begin VB.Label Label2 
+            BackStyle       =   0  'Transparent
+            Caption         =   "Id          Artículo                                              Cantidad          Precio  "
+            BeginProperty Font 
+               Name            =   "Consolas"
+               Size            =   12
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Left            =   240
+            TabIndex        =   17
+            Top             =   3720
+            Width           =   12495
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Nombre"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   1
+            Left            =   -360
+            TabIndex        =   16
+            Top             =   720
+            Width           =   2055
+         End
+         Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
+            BackStyle       =   0  'Transparent
+            Caption         =   "Folio"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Index           =   0
+            Left            =   9000
+            TabIndex        =   15
+            Top             =   240
+            Width           =   975
+         End
+      End
+   End
+   Begin VB.Menu Guardar 
+      Caption         =   "Guardar"
+   End
+   Begin VB.Menu Salir 
+      Caption         =   "Salir"
+   End
+End
+Attribute VB_Name = "frmVentasCompras"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Option Explicit
+Dim Rs As New ADODB.Recordset 'folio
+Dim Rs1 As New ADODB.Recordset 'clientesproveedores
+Dim Rs2 As New ADODB.Recordset 'items
+Dim Rs3 As New ADODB.Recordset 'ventascompras
+Dim Rs4 As New ADODB.Recordset 'lista de ingredientes
+Dim Rs5 As New ADODB.Recordset 'movimientos de inventarios
+Dim TipoErr As Integer
+Dim IdTransaccion As Integer 'folio
+Dim v1 As Integer 'idclienteproveedor
+Dim v2 As String 'nombre cliente proveedor
+Dim v3 As String 'folio
+Dim v4 As String 'LugarVenta
+Dim v5 As String 'mesa
+Dim v6 As Date 'fecha
+Dim v7 As String 'Tipoarticulo
+Dim v8 As Integer 'idarticulo
+Dim v9 As String 'codigo articulo
+Dim v10 As String 'descripcion articulo
+Dim v11 As String 'cantidad
+Dim v12 As String 'UDM
+Dim v13 As String 'precio
+Dim v14 As String 'subtotal
+Dim v15 As String 'iva
+Dim v16 As String 'total
+Dim v17 As String 'totalpagado
+Dim v18 As String 'cancelado
+Dim v19 As String 'comentarios
+Dim v20 As String 'tipo
+Dim InItemId As Integer
+' Constantes para indicar el color de fondo del combobox
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Const COLOR_NO_ENCONTRADO = &HC0C0FF ' color cuando no se encontró
+Const COLOR_NORMAL = vbWhite ' color cuando hay coincidencia
+
+
+Private Sub Form_Load()
+    
+    Dim i As Integer
+    
+    On Error GoTo err
+    
+    TipoErr = 0
+    
+    With Cn
+        .CursorLocation = adUseClient
+        .Open StConnection
+    End With
+    
+    TipoErr = 1
+    
+    With Rs
+        
+        If .State = 1 Then .Close
+            
+            If StTipoVentasCompras = "Ventas" Then
+                .Open "Select * from FolioVenta", Cn, adOpenStatic, adLockOptimistic
+            End If
+            
+            If StTipoVentasCompras = "Compras" Then
+                .Open "Select * from FolioCompra", Cn, adOpenStatic, adLockOptimistic
+            End If
+            
+            .Requery
+            .MoveFirst
+            
+            If StTipoVentasCompras = "Ventas" Then
+                
+                If IsNull(Rs!IdVenta) = False Then
+                    IdTransaccion = Rs!IdVenta
+                Else
+                    IdTransaccion = 1
+                End If
+                
+                Text1(0).Text = "V-" & IdTransaccion
+            
+            End If
+            
+            If StTipoVentasCompras = "Compras" Then
+                
+                If IsNull(Rs!IdCompra) = False Then
+                    IdTransaccion = Rs!IdCompra
+                Else
+                    IdTransaccion = 1
+                End If
+                
+                Text1(0).Text = "C-" & IdTransaccion
+            
+            End If
+    
+    End With
+    
+    On Error Resume Next
+    
+    For i = 1 To 2
+        Text1(i).BackColor = &HC0C0FF
+    Next i
+    
+    For i = 0 To 3
+        
+        With Combo1(i)
+            .BackColor = &HC0C0FF
+        End With
+    
+    Next i
+    
+    If StTipoVentasCompras = "Ventas" Then
+        
+        Label1(6).Visible = True
+        Label1(8).Visible = True
+        Combo1(2).Visible = True
+        
+        With Combo1(3)
+            .Visible = True
+        End With
+        
+        Combo1(0).Text = "Cliente General"
+    
+    End If
+    
+    If StTipoVentasCompras = "Compras" Then
+        Label1(6).Visible = False
+        Label1(8).Visible = False
+        Combo1(2).Visible = False
+        Combo1(3).Visible = False
+        Combo1(0).Text = "Proveedor General"
+    End If
+    
+    On Error GoTo err
+    
+    TipoErr = 2
+    
+    With Rs1
+        
+        If .State = 1 Then .Close
+            
+            If StTipoVentasCompras = "Ventas" Then
+                .Open "Select * from ClientesProveedores where tipo = 'Cliente';", Cn, adOpenStatic, adLockOptimistic
+            End If
+            
+            If StTipoVentasCompras = "Compras" Then
+                .Open "Select * from ClientesProveedores where tipo = 'Proveedor';", Cn, adOpenStatic, adLockOptimistic
+            End If
+        
+        .Filter = ""
+        .Requery
+        
+    TipoErr = 3
+        
+        If .RecordCount <> 0 Then
+            
+            Combo1(0).Clear
+            
+            While Not .EOF
+                Combo1(0).AddItem .Fields(1)
+                .MoveNext
+            Wend
+        
+        End If
+    
+    End With
+    
+    TipoErr = 4
+    
+    With Rs2
+        
+        If .State = 1 Then .Close
+        
+        .Open "Select * from items;", Cn, adOpenStatic, adLockOptimistic
+        .Filter = ""
+        .Requery
+        
+    TipoErr = 5
+        
+        If .RecordCount <> 0 Then
+            
+            Combo1(1).Clear
+            
+            While Not .EOF
+                Combo1(1).AddItem .Fields(2) & " (" & .Fields(5) & ")"
+                .MoveNext
+            Wend
+        
+        End If
+    
+    End With
+    
+    TipoErr = 6
+    
+    If StTipoVentasCompras = "Ventas" Then
+        
+        Combo1(2).AddItem "Local"
+        Combo1(2).AddItem "Domicilio"
+        
+        On Error Resume Next
+        
+        For i = 1 To PcNumeroMesas
+            Combo1(3).AddItem "Mesa " & i
+        Next i
+    
+    End If
+    
+    Exit Sub
+
+err:
+    
+    On Error Resume Next
+    
+    MsgBox "Error tipo " & TipoErr & " - " & err.Description, vbCritical, "Error"
+
+End Sub
+
+Private Sub Combo1_Click(Index As Integer)
+    
+    On Error Resume Next
+    
+    Select Case Index
+        
+        Case 0
+            
+            With Combo1(0)
+                
+                If .Text = "" Then
+                    
+                    .BackColor = &HC0C0FF
+                    
+                    With Rs1
+                        
+                        .Filter = ""
+                        .Requery
+                        
+                        v1 = 0
+                        v2 = ""
+                    
+                    End With
+                
+                Else
+                    
+                    .BackColor = &HE0E0E0
+                    
+                    With Rs1
+                        
+                        .Filter = ""
+                        .Filter = "nombre like '" & Combo1(0) & "'"
+                        .Requery
+                        
+                        v1 = .Fields(0)
+                        v2 = .Fields(1)
+                    
+                    End With
+                
+                End If
+            
+            End With
+        
+        Case 1
+            
+            With Combo1(1)
+                
+                If .Text = "" Then
+                    
+                    .BackColor = &HC0C0FF
+                    
+                    With Rs2
+                        .Filter = ""
+                        .Requery
+                    End With
+                    
+                    With Text1(2)
+                        .Text = ""
+                    End With
+                
+                Else
+                
+                    .BackColor = &HE0E0E0
+                    
+                    InItemId = Get_ItemId(.Text)
+                    
+                    With Rs2
+                        .Filter = "Id = " & InItemId
+                        .Requery
+                    End With
+                    
+                    With Text1(2)
+                        .Text = Rs2.Fields(3).Value
+                    End With
+                
+                End If
+            
+            End With
+    
+    End Select
+
+End Sub
+
+Private Sub Combo1_KeyUp(Index As Integer, KeyCode As Integer, Shift As Integer)
+    
+    On Error Resume Next
+    
+    Static cadena As String
+    Dim i As Long
+    
+    Select Case Index
+        
+        Case 0
+            
+            With Combo1(0)
+                
+                ' si pesionamos las teclas de las flechas sale de la rutina
+                If KeyCode = vbKeyUp Then Exit Sub
+                If KeyCode = vbKeyDown Then Exit Sub
+                If KeyCode = vbKeyLeft Then Exit Sub
+                If KeyCode = vbKeyRight Then Exit Sub
+                
+                ' verifica qu no se presionó la tecla backspace
+                If KeyCode <> vbKeyBack Then
+                    cadena = Mid(.Text, 1, Len(.Text) - .SelLength)
+                Else
+                    
+                    '...tecla backspace
+                    If cadena <> "" Then
+                        cadena = Mid(cadena, 1, Len(cadena) - 1)
+                    End If
+                
+                End If
+                
+                For i = 0 To .ListCount - 1
+                    
+                    If UCase(cadena) = UCase(Mid(.List(i), 1, Len(cadena))) Then
+                        .ListIndex = i
+                        Exit For
+                    End If
+                
+                Next
+                
+                ' Seelecciona
+                .SelStart = Len(cadena)
+                .SelLength = Len(.Text)
+                
+                If .ListIndex = -1 Then
+                    
+                    ' color de fondo del combo en caso de que no hay coincidencias
+                    .BackColor = COLOR_NO_ENCONTRADO
+                    
+                    With Rs1
+                        
+                        .Filter = ""
+                        .Requery
+                        
+                        v1 = 0
+                        v2 = ""
+                    
+                    End With
+                
+                Else
+                    
+                    ' Backcolor normal cuando hay coincidencia
+                    .BackColor = COLOR_NORMAL
+                    
+                    With Rs1
+                        
+                        .Filter = ""
+                        .Filter = "nombre like '" & Combo1(0) & "'"
+                        .Requery
+                        
+                        v1 = .Fields(0)
+                        v2 = .Fields(1)
+                    
+                    End With
+                
+                End If
+            
+            End With
+        
+        Case 1
+            
+            With Combo1(1)
+                
+                ' si pesionamos las teclas de las flechas sale de la rutina
+                If KeyCode = vbKeyUp Then Exit Sub
+                If KeyCode = vbKeyDown Then Exit Sub
+                If KeyCode = vbKeyLeft Then Exit Sub
+                If KeyCode = vbKeyRight Then Exit Sub
+                
+                ' verifica qu no se presionó la tecla backspace
+                If KeyCode <> vbKeyBack Then
+                    cadena = Mid(.Text, 1, Len(.Text) - .SelLength)
+                Else
+                    
+                    '...tecla backspace
+                    If cadena <> "" Then
+                        cadena = Mid(cadena, 1, Len(cadena) - 1)
+                    End If
+                
+                End If
+                
+                For i = 0 To .ListCount - 1
+                    
+                    If UCase(cadena) = UCase(Mid(.List(i), 1, Len(cadena))) Then
+                        .ListIndex = i
+                        Exit For
+                    
+                    End If
+                
+                Next
+                
+                ' Seelecciona
+                .SelStart = Len(cadena)
+                .SelLength = Len(.Text)
+                
+                If .ListIndex = -1 Then
+                    
+                    ' color de fondo del combo en caso de que no hay coincidencias
+                    .BackColor = COLOR_NO_ENCONTRADO
+                    
+                    With Rs2
+                        .Filter = ""
+                        .Requery
+                    End With
+                    
+                    With Text1(2)
+                        .Text = ""
+                    End With
+                
+                Else
+                    
+                    ' Backcolor normal cuando hay coincidencia
+                    .BackColor = COLOR_NORMAL
+                    
+                    InItemId = Get_ItemId(.Text)
+                    
+                    With Rs2
+                        .Filter = "Id = " & InItemId
+                        .Requery
+                    End With
+                    
+                    With Text1(2)
+                        .Text = Rs2.Fields(3).Value
+                    End With
+                
+                End If
+            
+            End With
+    
+    End Select
+
+End Sub
+Private Sub Combo1_Validate(Index As Integer, Cancel As Boolean)
+    
+    On Error Resume Next
+    
+    Select Case Index
+        
+        Case 2
+            
+            With Combo1(2)
+                
+                If .Text = "" Then
+                    .BackColor = &HC0C0FF
+                    Combo1(3).Enabled = False
+                
+                Else
+                    
+                    .BackColor = &HE0E0E0
+                    
+                    If .Text = "Local" Then
+                        Combo1(3).Enabled = True
+                    Else
+                        Combo1(3).Enabled = False
+                    End If
+                
+                End If
+            
+            End With
+        
+        Case 3
+            
+            With Combo1(3)
+                
+                If .Text = "" Then
+                    .BackColor = &HC0C0FF
+                Else
+                    .BackColor = &HE0E0E0
+                End If
+            
+            End With
+    
+    End Select
+
+End Sub
+
+Private Sub Command1_Click(Index As Integer)
+    'On Error Resume Next
+    
+    Dim i As Integer
+    Dim X As Integer
+    Dim listSubtotal As Double
+    Dim listIva As Double
+    Dim listTotal As Double
+    Dim viva As Double
+    
+    Select Case Index
+    
+            Case 0
+                
+    TipoErr = 7 'ERROR
+                
+                If Combo1(1) <> "" And Text1(1) <> "" And Text1(2) <> "" Then
+                    
+                    Dim viid As String
+                    Dim videscripcion As String
+                    Dim vicantidad As String
+                    Dim viprecio As String
+                    
+                    Dim c1 As Integer
+                    Dim c2 As Integer
+                    Dim c3 As Integer
+                    Dim c4 As Integer
+                    
+    TipoErr = 8 'ERROR
+                    
+                    viid = Rs2.Fields(0).Value
+                    videscripcion = Mid(Combo1(1), 1, 47)
+                    vicantidad = Round(Val(Text1(1)), 2)
+                    viprecio = Round(Val(Text1(2)), 2)
+                    
+    TipoErr = 9 'ERROR
+                    
+                    ' 1 - 10
+                    c1 = 10 - Len(viid)
+                    
+                    For i = 1 To c1
+                        viid = " " & viid
+                    Next i
+                    
+                    ' 12 - 58
+                    c2 = 47 - Len(videscripcion)
+                    
+                    For i = 1 To c2
+                        videscripcion = videscripcion & " "
+                    Next i
+                    
+                    ' 60 - 74
+                    c3 = 15 - Len(vicantidad)
+                    
+                    For i = 1 To c3
+                        vicantidad = " " & vicantidad
+                    Next i
+                    
+                    ' 76 - 90
+                    c4 = 15 - Len(viprecio)
+                    
+                    For i = 1 To c4
+                        viprecio = " " & viprecio
+                    Next i
+                    
+    TipoErr = 10 'ERROR
+                    
+                    List1.AddItem viid & " " & videscripcion & " " & vicantidad & " " & viprecio
+                    
+    TipoErr = 11 'ERROR
+                    
+                    Text1(1) = ""
+                    Text1(2) = ""
+                    
+                    With Combo1(1)
+                        .Text = ""
+                        .BackColor = &HC0C0FF
+                        .SetFocus
+                    End With
+                    
+                    listSubtotal = 0
+                    listIva = 0
+                    
+                    For i = 0 To List1.ListCount - 1
+                        
+                        List1.ListIndex = i
+                        List1.SetFocus
+                        
+                        listSubtotal = Round((Trim(Mid(List1.Text, 60, 15)) * Trim(Mid(List1.Text, 76, 15))), 2) + listSubtotal
+                        
+                        viva = Get_ItemIva(Trim(Mid(List1.Text, 1, 10)))
+                        listIva = Round((Trim(Mid(List1.Text, 60, 15)) * Trim(Mid(List1.Text, 76, 15))) * viva, 2) + listIva
+                    
+                    Next i
+                    
+                    listTotal = listSubtotal + listIva
+                    
+                    Text1(6) = listSubtotal
+                    Text1(5) = listIva
+                    Text1(4) = listTotal
+                    
+                Else
+                    
+                    MsgBox "Llenar todos los campos", vbCritical, "Error"
+                    Combo1(0).SetFocus
+                    
+                End If
+                
+            Case 1
+            
+                On Error Resume Next
+                
+                Dim intX As Integer
+                
+                With List1
+                    intX = .ListIndex
+                    .RemoveItem (intX)
+                End With
+                
+                listSubtotal = 0
+                listIva = 0
+                    
+                For i = 0 To List1.ListCount - 1
+                    
+                    List1.ListIndex = i
+                    List1.SetFocus
+                        
+                    listSubtotal = Round((Trim(Mid(List1.Text, 60, 15)) * Trim(Mid(List1.Text, 76, 15))), 2) + listSubtotal
+                                            
+                    viva = Get_ItemIva(Trim(Mid(List1.Text, 1, 10)))
+                    listIva = Round((Trim(Mid(List1.Text, 60, 15)) * Trim(Mid(List1.Text, 76, 15))) * viva, 2) + listIva
+                
+                Next i
+                    
+                listTotal = listSubtotal + listIva
+                    
+                Text1(6) = listSubtotal
+                Text1(5) = listIva
+                Text1(4) = listTotal
+        
+        Case 2
+            
+            On Error Resume Next
+            
+            InTipoAltaClienteProveedor = 1
+            
+            If StTipoVentasCompras = "Ventas" Then
+                
+                StTipoClienteProveedor = "Cliente"
+                Me.Enabled = False
+                
+                With frmClientesProveedoresNuevo
+                    .Caption = "Añadir nuevo Cliente"
+                    .Show 1
+                End With
+            
+            End If
+            
+            If StTipoVentasCompras = "Compras" Then
+                
+                StTipoClienteProveedor = "Proveedor"
+                Me.Enabled = False
+                
+                With frmClientesProveedoresNuevo
+                    .Caption = "Añadir nuevo Proveedor"
+                    .Show 1
+                End With
+            
+            End If
+            
+            Unload frmVentasCompras
+            Set frmVentasCompras = Nothing
+            frmVentasCompras.Show
+    
+    End Select
+    
+    Exit Sub
+
+err:
+    
+    On Error Resume Next
+    
+    MsgBox "Error tipo " & TipoErr & " - " & err.Description, vbCritical, "Error"
+
+End Sub
+
+Private Sub Text1_Change(Index As Integer)
+    
+    On Error Resume Next
+    
+    Select Case Index
+        
+        Case 1
+            
+            With Text1(1)
+                
+                If .Text = "" Then
+                    .BackColor = &HC0C0FF
+                Else
+                    .BackColor = &HE0E0E0
+                End If
+            
+            End With
+        
+        Case 2
+            
+            With Text1(2)
+                
+                If .Text = "" Then
+                    .BackColor = &HC0C0FF
+                Else
+                    .BackColor = &HE0E0E0
+                End If
+            
+            End With
+        
+        Case 4
+            
+            With Text1(4)
+                .Text = Round(Val(.Text), 2)
+            End With
+        
+        Case 5
+            
+            With Text1(5)
+                .Text = Round(Val(.Text), 2)
+            End With
+        
+        Case 6
+            
+            With Text1(6)
+                .Text = Round(Val(.Text), 2)
+            End With
+    
+    End Select
+
+End Sub
+
+Private Sub Text2_Change(Index As Integer)
+
+    On Error Resume Next
+    
+    Select Case Index
+        
+        Case 0
+        
+            With Text2(2)
+                .Text = Round(Val(Text2(1)) - Val(Text2(0)), 2)
+            End With
+            
+        Case 1
+            
+            With Text2(2)
+                .Text = Round(Val(Text2(1)) - Val(Text2(0)), 2)
+            End With
+    
+    End Select
+    
+End Sub
+
+Private Sub Command2_Click()
+    
+    On Error Resume Next
+    
+    If Val(Text2(1)) = 0 Or Val(Text2(1)) >= Val(Text2(0)) Then
+        Frame2(0).Visible = False
+        Frame1(0).Enabled = True
+    End If
+
+End Sub
+
+Private Sub Guardar_Click()
+
+    Dim i As Integer
+    
+    'Mostrar pago
+    If List1.ListCount <> 0 And Not IsNull(v1) And v1 <> 0 Then
+    
+        If StTipoVentasCompras = "Ventas" Then
+                
+            If Combo1(2) = "" Then
+                MsgBox "Llenar el lugar de la venta", vbOKOnly, "Advertencia"
+                Exit Sub
+            Else
+                
+                If Combo1(2) = "Local" Then
+                
+                    If Combo1(3) = "" Then
+                        MsgBox "Elegir un mesa", vbOKOnly, "Advertencia"
+                        Exit Sub
+                    End If
+                
+                End If
+            End If
+            
+        End If
+        
+        Frame1(0).Enabled = False
+        Frame2(0).Visible = True
+        
+        Text2(0) = Text1(4)
+    
+    Else
+        
+        MsgBox "Llenar todos los campos", vbCritical, "Advertencia"
+        
+        Exit Sub
+        
+    End If
+        
+    'asignar valores a campos cabecera
+    v3 Text1(0) 'folio
+    v6 = Date 'fecha
+    v18 = "No" 'cancelado
+    v19 Text1(3) 'comentarios
+    v20 = StTipoVentasCompras 'tipo
+    
+    If StTipoVentasCompras = "Ventas" Then
+        v4 = Combo1(2) 'LugarVenta
+        
+        If Combo1(2) = "Local" Then
+            v5 = Combo1(3) 'mesa
+        End If
+    End If
+    
+    For i = 0 To List1.ListCount - 1
+            
+        List1.ListIndex = i
+        List1.SetFocus
+    
+        'asignar valores a campos lineas
+        v8 = Trim(Mid(List1.Text, 1, 10)) 'idarticulo
+        v7 = Get_ItemTipo(v8) 'Tipoarticulo
+        v9 = Get_ItemCod(v8) 'codigo articulo
+        v10 = Get_ItemDesc(v8) 'descripcion articulo
+        v11 = Trim(Mid(List1.Text, 1, 10)) 'cantidad
+        v12 = Get_ItemUDM(v8) 'UDM
+        v13 = Trim(Mid(List1.Text, 1, 10)) 'precio
+        v14 = Round(Val(v11) * Val(v13), 2) 'subtotal
+        
+        Dim viva As Double
+        
+        viva = Get_ItemIva(v8)
+        
+        v15 = Round(Val(v11) * Val(v13), 2) * viva 'iva
+        v16 = Round(Val(v14) + Val(v15), 2) 'total
+        
+        If Val(Text2(1)) = 0 Then
+            v17 = "0"
+        Else
+            v17 = v16
+        End If 'totalpagado
+    
+        With Rs5
+            If .State = 1 Then .Close
+            .Open "Select * from TransaccionesDeInventario;", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+        End With
+        
+        If StTipoVentasCompras = "Ventas" Then
+        
+            'lista de materiales
+            Dim InLmExists As Integer
+            
+            InLmExists = Get_LIExists(v8)
+            
+            If v8 <> 1 Then
+            
+                With Rs4
+                    
+                    If .State = 1 Then .Close
+                    .Open "Select * from ListasDeIngredientes where ItemPTId = " & v8 & ";", Cn, adOpenStatic, adLockOptimistic
+                    .Requery
+                    
+                    If .RecordCount <> 0 Then
+                        
+                        While Not .EOF
+                            Rs5.AddNew
+                                Rs5.Fields(1) = .Fields(3).Value 'id
+                                Rs5.Fields(2) = .Fields(4).Value 'codigo
+                                Rs5.Fields(3) = .Fields(5).Value 'descripcion
+                                Rs5.Fields(4) = Date 'fecha
+                                Rs5.Fields(5) = "Consumo de Ingredientes" 'tipo de treansaccion
+                                Rs5.Fields(6) = Round(Val(.Fields(5).Value) * Val(v11) * -1, 2) 'cantidad
+                                Rs5.Fields(7) = Get_ItemUDM(.Fields(3).Value) 'udm
+                            Rs5.Update
+                            Rs5.Requery
+                                
+                            .MoveNext
+                        Wend
+                        
+                    End If
+                    
+                    .Close
+                
+                End With
+            
+            Else
+                
+                'salida por venta
+                With Rs5
+                    .AddNew
+                        .Fields(1) = v8 'id
+                        .Fields(2) = v9 'codigo
+                        .Fields(3) = v10 'descripcion
+                        .Fields(4) = Date 'fecha
+                        .Fields(5) = "Salida por venta" 'tipo de treansaccion
+                        .Fields(6) = Round(Val(v11) * -1, 2) 'cantidad
+                        .Fields(7) = v12 'udm
+                    .Update
+                    .Requery
+                End With
+            
+            End If
+            
+        End If
+        
+        If StTipoVentasCompras = "Compras" Then
+            With Rs5
+                    .AddNew
+                    .Fields(1) = v8 'id
+                    .Fields(2) = v9 'codigo
+                    .Fields(3) = v10 'descripcion
+                    .Fields(4) = Date 'fecha
+                    .Fields(5) = "Recepción de compra" 'tipo de treansaccion
+                    .Fields(6) = Round(Val(v11), 2) 'cantidad
+                    .Fields(7) = v12 'udm
+                .Update
+                .Requery
+            End With
+        End If
+        
+        'guardar compra o venta
+        With Rs3
+        
+            If .State = 1 Then .Close
+            .Open "Select * from HistorialVentasCompras;", Cn, adOpenStatic, adLockOptimistic
+            .Requery
+            
+            .AddNew
+                .Fields(1) = v1
+                .Fields(2) = v2
+                .Fields(3) = v3
+    
+                If StTipoVentasCompras = "Ventas" Then
+                    .Fields(4) = v4
+                    
+                    If v4 = "Local" Then
+                        .Fields(5) = v5
+                    End If
+                End If
+                
+                .Fields(6) = v6
+                .Fields(7) = v7
+                .Fields(8) = v8
+                .Fields(9) = v9
+                .Fields(10) = v10
+                .Fields(11) = v11
+                .Fields(12) = v12
+                .Fields(13) = v13
+                .Fields(14) = v14
+                .Fields(15) = v15
+                .Fields(16) = v16
+                .Fields(17) = v17
+                .Fields(18) = v18
+                .Fields(19) = v19
+                .Fields(20) = v20
+            .Update
+            .Requery
+    
+        End With
+    
+    Next i
+    
+    'imprimir ticket
+    
+    
+    
+    
+    'On Error Resume Next
+    
+    'Unload frmListaIngredientesNuevo
+    'Set frmListaIngredientesNuevo = Nothing
+    'frmListaIngredientesNuevo.Show
+    
+    'Exit Sub
+
+'err:
+    
+'    On Error Resume Next
+    
+'    MsgBox "Error tipo " & TipoErr & " - " & err.Description, vbCritical, "Error"
+    
+End Sub
+
+Private Sub Salir_Click()
+    
+    On Error Resume Next
+    
+    frmMenuInicial.Enabled = True
+    Unload Me
+
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    
+    On Error Resume Next
+    
+    Rs.Close
+    Rs1.Close
+    Rs2.Close
+    Rs3.Close
+    
+    Cn.Close
+
+End Sub
+
+

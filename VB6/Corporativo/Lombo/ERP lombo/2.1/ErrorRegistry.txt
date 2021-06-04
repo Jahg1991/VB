@@ -1,0 +1,165 @@
+2020-07-09	15:19:28	Error en: Main	-2147221504	[Microsoft][ODBC SQL Server Driver][DBMSLPCN]No existe el servidor SQL Server o se ha denegado el acceso al mismo.
+[Microsoft][ODBC SQL Server Driver][DBMSLPCN]ConnectionOpen (Connect()).
+2020-07-09	15:20:53	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15100).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	15:23:58	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	15:25:55	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	15:31:08	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	15:31:29	Error en: frmInicioSesion:Command1_Click	94	Uso no válido de Null
+2020-07-09	15:35:36	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	15:35:54	Error en: frmInicioSesion:Command1_Click	94	Uso no válido de Null
+2020-07-09	15:43:28	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	15:47:22	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	15:49:10	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	15:49:37	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	15:52:13	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	15:54:04	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	16:19:07	Error en: frmMenuInicial:ListasDeIngredientesExistente_Click	364	Se ha descargado el objeto
+2020-07-09	16:23:14	Error en: CrearFuncionLong	3709	No se puede utilizar la conexión para realizar esta operación. Está cerrada o no es válida en este contexto.
+2020-07-09	16:23:16	Error en: frmListaIngredientesExistente:Combo1_Click	3704	La operación no está permitida si el objeto está cerrado.
+2020-07-09	16:23:28	Error en: CrearFuncionLong	3709	No se puede utilizar la conexión para realizar esta operación. Está cerrada o no es válida en este contexto.
+2020-07-09	16:24:46	Error en: frmListaIngredientesExistente:Combo1_KeyUp	3704	La operación no está permitida si el objeto está cerrado.
+2020-07-09	16:25:25	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	16:28:17	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	16:33:05	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	16:43:03	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	16:46:52	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-09	16:53:47	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	09:54:54	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	09:57:06	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	09:59:44	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	10:02:19	Error en: CrearFuncionString	94	Uso no válido de Null
+2020-07-10	10:03:20	Error en: CrearFuncionString	94	Uso no válido de Null
+2020-07-10	10:04:59	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	10:05:32	Error en: CrearFuncionString	94	Uso no válido de Null
+2020-07-10	10:19:13	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	10:48:16	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:24:39	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:26:07	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:27:19	Error en: frmClientesNuevo:Guardar_Click	-2147217900	Invalid column name 'proveeedor'.
+2020-07-10	11:27:35	Error en: frmProveedoresNuevo:Guardar_Click	3265	No se encontró el elemento en la colección que corresponde al nombre o el ordinal solicitado.
+2020-07-10	11:27:39	Error en: frmProveedoresNuevo:Form_Unload	3219	La operación no está permitida en este contexto.
+2020-07-10	11:41:37	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:41:59	Error en: frmClientesNuevo:Guardar_Click	-2147217900	Invalid column name 'proveeedor'.
+2020-07-10	11:42:05	Error en: frmClientesNuevo:Guardar_Click	-2147217900	Invalid column name 'proveeedor'.
+2020-07-10	11:42:41	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:43:57	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:47:42	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:48:38	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:48:57	Error en: frmMenuInicial:ClientesExistente_Click	364	Se ha descargado el objeto
+2020-07-10	11:52:06	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:54:46	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:56:57	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	11:58:29	Error en: frmVentas:Combo1_Click	94	Uso no válido de Null
+2020-07-10	11:58:31	Error en: frmVentas:Combo1_KeyUp	94	Uso no válido de Null
+2020-07-10	11:58:54	Error en: frmVentas:Combo1_Click	94	Uso no válido de Null
+2020-07-10	11:58:55	Error en: frmVentas:Combo1_KeyUp	94	Uso no válido de Null
+2020-07-10	12:01:35	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	12:10:58	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	12:18:46	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	12:19:13	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	12:37:47	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	12:39:43	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	12:56:53	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	14:33:11	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15100).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	14:36:38	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	14:36:53	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	14:39:10	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	14:41:09	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	14:41:20	Error en: frmMenuInicial:NuevaVenta_Click	364	Se ha descargado el objeto
+2020-07-10	14:52:28	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:01:17	Error en: frmVentas:Command2_Click	-2147217873	Violation of UNIQUE KEY constraint 'UQ__PO_HEADE__BAB84EF70B91BA14'. Cannot insert duplicate key in object 'dbo.PO_HEADERS_ALL'. The duplicate key value is (V-1).
+2020-07-10	15:06:14	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:08:31	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:14:49	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:20:31	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:23:23	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:31:06	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:32:44	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:34:04	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:40:03	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:41:12	Error en: frmVentas:Command2_Click	3704	La operación no está permitida si el objeto está cerrado.
+2020-07-10	15:42:37	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:43:28	Error en: frmVentas:Command2_Click	3704	La operación no está permitida si el objeto está cerrado.
+2020-07-10	15:44:07	Error en: frmVentas:Command2_Click	3704	La operación no está permitida si el objeto está cerrado.
+2020-07-10	15:45:30	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:51:58	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:54:09	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:56:03	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	15:59:17	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	16:01:22	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	16:01:43	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	16:09:20	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	16:14:55	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-10	16:20:46	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-11	09:07:03	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'C:\Users\alfredo.hernandez\OneDrive\Documentos\EBS\Desarrollos\Proyectos'. Operating system error 5(failed to retrieve text for this error. Reason: 15105).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2020-07-11	09:07:19	Error en: frmMenuInicial:ListasDeIngredientesExistente_Click	364	Se ha descargado el objeto
+2021-04-09	09:53:06	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]No se puede abrir el dispositivo de copia de seguridad 'd:\Microsoft SQL Server\MSSQL10_50.SSDB\MSSQL\Backup\VB\ANS\Lombo\ERP'. Error de sistema operativo 3(El sistema no puede encontrar la ruta especificada.).
+[Microsoft][ODBC SQL Server Driver][SQL Server]Fin anómalo de BACKUP DATABASE.
+2021-04-09	09:53:14	Error en: frmMenuInicial:Form_Load	383	La propiedad 'Text' es de sólo lectura

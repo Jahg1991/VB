@@ -1,0 +1,5 @@
+Línea 55: la propiedad Picture de Command1 tenía una referencia a archivo no válida.
+Línea 65: la propiedad Picture de Command3 tenía una referencia a archivo no válida.
+Línea 119: la propiedad Picture de Command2 tenía una referencia a archivo no válida.
+Línea 366: la propiedad Caption de Label1 debe ser una cadena encerrada entre comillas
+Línea 386: la propiedad Caption de Label1 debe ser una cadena encerrada entre comillas

@@ -1,0 +1,472 @@
+'/******************************************************************************
+'name:         CrearTXT
+'purpose:      Crear txt con los eventos de los cerdos para cargarlos al ERP.
+
+'revisions:
+'   ver         date        author          description
+'   ---------   ----------  --------------- ------------------------------------
+'   4.0         28-08-2018  alfredo hdez.   Simplificacion del codigo para
+'                                           aumentar velocidad.
+'*******************************************************************************/
+
+
+Option Explicit
+
+Sub CreaTXT()
+
+        'On Error GoTo Errores
+
+        '*************************************************************************
+        'Variables
+        '*************************************************************************
+        
+        'Variables para crear el archivo
+        Dim NombreArchivo, RutaArchivo As String
+        Dim Obj As FileSystemObject
+        
+        'Variables para editar el archivo
+        Dim tx As Scripting.TextStream
+        
+        'Hojas de trabajo (Excel)
+        Dim Ht(1 To 5) As Worksheet
+        
+        Dim i, j, k, l, nFilas, nColumnas As Integer
+        
+        'Cantidades
+        Dim Piezas, Kg As Integer
+        
+        'Granjas, Grupos, Tejabanes y Lotes
+        Dim Granja(1 To 2) As String
+        Dim Grupo1(1 To 6) As String
+        Dim Grupo2(1 To 6) As String
+        Dim Tejaban1(1 To 6) As String
+        Dim Tejaban2(1 To 6) As String
+        
+        Dim Lote(1 To 6) As String
+        
+        Dim Granja_t, Grupo_t, Tejaban_t As String
+        
+        'Tipos de transacciones
+        Dim Transaccion(1 To 6) As String
+        
+        'Edicion de archivo
+        Dim Separador, Nulo As String
+        
+        'Motivo
+        Dim Motivo As String
+        
+        'Consumo de Alimento
+        Dim Codigo, KgConsumidos, LoteAUGI As String
+        
+        'Dia de filtro
+        Dim Fecha1 As Date
+        
+        'Filtros
+        Dim pCambio, pTraslado, pDeceso, pAlimento As Boolean
+        
+        'Dia de cambios de lote
+        Dim Fecha_cambio(1 To 6) As Date
+        
+        Dim pLote(1 To 6) As Boolean
+        
+        'Definimos las hojas
+        Set Ht(1) = Worksheets("RESUMEN")
+        Set Ht(2) = Worksheets("TRASLADOS")
+        Set Ht(3) = Worksheets("MORTALIDAD")
+        Set Ht(4) = Worksheets("GENERAR_TXT")
+        Set Ht(5) = Worksheets("ALIMENTO_NUEVO")
+        
+        
+        '*************************************************************************
+        'Asignacion de valores
+        '*************************************************************************
+        
+        'Fecha de Filtro
+        Fecha1 = Ht(4).Cells(3, 4)
+        
+        'Granjas
+        For i = 1 To 2
+            j = 2
+            k = 6
+            Granja(i) = Ht(1).Cells(j, k)
+            j = j + 1
+            k = k + 3
+        Next i
+        
+        'Grupos Sitios 2
+        For i = 1 To 6
+            j = 6
+            Grupo1(i) = Ht(1).Cells(3, j)
+            j = j + 12
+        Next i
+        
+        'Grupos Sitios 3
+        For i = 1 To 6
+            j = 9
+            Grupo2(i) = Ht(1).Cells(3, j)
+            j = j + 12
+        Next i
+        
+        'Tejabanes Sitios 2
+        For i = 1 To 6
+            j = 6
+            Tejaban1(i) = Ht(1).Cells(4, j)
+            j = j + 12
+        Next i
+        
+        'Tejabanes Sitios 3
+        For i = 1 To 6
+            j = 9
+            Tejaban2(i) = Ht(1).Cells(4, j)
+            j = j + 12
+        Next i
+        
+        'Lotes
+        For i = 1 To 6
+            j = 6
+            Lote(i) = Ht(1).Cells(5, j)
+            j = j + 12
+        Next i
+        
+        'Cambio Sitios 2 a Sitios 3
+        For i = 1 To 6
+            j = 9
+            Fecha_cambio(i) = Ht(1).Cells(2, j)
+            j = j + 12
+        Next i
+        
+        'Edicion de Archivo
+        Separador = "|"
+        Nulo = ""
+        
+        'Tipos de transacciones
+        Transaccion(1) = "Salida_Sitios2"
+        Transaccion(2) = "Entrada_Sitios3"
+        Transaccion(3) = "Salida_Cuarentena"
+        Transaccion(4) = "Entada_Cuarentena"
+        Transaccion(5) = "Deceso"
+        Transaccion(6) = "Consumo_Alimento"
+        
+        'Filtros
+        pCambio = ThisWorkbook.Worksheets("GENERAR_TXT").cambio.Value
+        pTraslado = ThisWorkbook.Worksheets("GENERAR_TXT").Traslado.Value
+        pDeceso = ThisWorkbook.Worksheets("GENERAR_TXT").Deceso.Value
+        pAlimento = ThisWorkbook.Worksheets("GENERAR_TXT").Alimento.Value
+        
+        'For i = 1 To 6
+        '    pLote(i) = ThisWorkbook.Worksheets("GENERAR_TXT").Lote(i).Value
+        'Next i
+        
+        pLote(1) = ThisWorkbook.Worksheets("GENERAR_TXT").Lote1.Value
+        pLote(2) = ThisWorkbook.Worksheets("GENERAR_TXT").Lote2.Value
+        pLote(3) = ThisWorkbook.Worksheets("GENERAR_TXT").Lote3.Value
+        pLote(4) = ThisWorkbook.Worksheets("GENERAR_TXT").Lote4.Value
+        pLote(5) = ThisWorkbook.Worksheets("GENERAR_TXT").Lote5.Value
+        pLote(6) = ThisWorkbook.Worksheets("GENERAR_TXT").Lote6.Value
+        
+        
+        
+        '*************************************************************************
+        'Validación de filtros
+        '*************************************************************************
+        
+        'Fecha
+        If Fecha1 = "12:00:00 a. m." Then GoTo FechaVacia
+        
+        'Eventos
+        If pCambio = False And pTraslado = False And pDeceso = False And pAlimento = False Then GoTo NingunEvento
+        
+        'Eventos
+        If pLote(1) = False And pLote(2) = False And pLote(3) = False And pLote(4) = False And pLote(5) = False And pLote(6) = False Then GoTo NingunLote
+        
+        
+        '*************************************************************************
+        'Creacion de archivo
+        '*************************************************************************
+        
+        'Creamos el archivo
+        'On Error GoTo Error1
+        
+        NombreArchivo = Ht(1).Cells(5, 6) & "-" & Ht(1).Cells(5, 66)
+        RutaArchivo = Ht(4).Cells(18, 4) & NombreArchivo & ".txt"
+        'RutaArchivo = ActiveWorkbook.Path & "\" & NombreArchivo & ".txt"
+        
+        Set Obj = New FileSystemObject
+        Set tx = Obj.CreateTextFile(RutaArchivo)
+
+
+        'On Error GoTo Errores
+        
+        '*************************************************************************
+        'Cambio Sitios 2 a Sitios 3
+        '*************************************************************************
+        
+        If pCambio = True Then
+                For l = 1 To 6
+                        j = 9
+                        If pLote(1) = True Then
+                                If Fecha_cambio(l) = Fecha1 Then
+                                        Piezas = Ht(1).Cells(6, j)
+                                        'Sitios 2
+                                        tx.Write Fecha1 'Fecha
+                                        tx.Write Separador
+                                        tx.Write Granja(1) 'Granja
+                                        tx.Write Separador
+                                        tx.Write Grupo1(l) 'Grupo
+                                        tx.Write Separador
+                                        tx.Write Tejaban1(l) 'Tejaban
+                                        tx.Write Separador
+                                        tx.Write Lote(l) 'Lote
+                                        tx.Write Separador
+                                        tx.Write Transaccion(1) 'Tipo de transaccion
+                                        tx.Write Separador
+                                        tx.Write Piezas 'Piezas
+                                        tx.Write Separador
+                                        tx.Write Nulo 'kg
+                                        tx.Write Separador
+                                        tx.Write Nulo 'Motivo
+                                        tx.Write Separador
+                                        tx.WriteLine
+                                        'Sitios 3
+                                        tx.Write Fecha1 'Fecha
+                                        tx.Write Separador
+                                        tx.Write Granja(2) 'Granja
+                                        tx.Write Separador
+                                        tx.Write Grupo2(l) 'Grupo
+                                        tx.Write Separador
+                                        tx.Write Tejaban2(l) 'Tejaban
+                                        tx.Write Separador
+                                        tx.Write Lote(l) 'Lote
+                                        tx.Write Separador
+                                        tx.Write Transaccion(2) 'Tipo de transaccion
+                                        tx.Write Separador
+                                        tx.Write Piezas 'Piezas
+                                        tx.Write Separador
+                                        tx.Write Nulo 'kg
+                                        tx.Write Separador
+                                        tx.Write Nulo 'Motivo
+                                        tx.Write Separador
+                                        tx.WriteLine
+                                End If
+                        End If
+                        j = j + 12
+                Next l
+        End If
+        
+        
+        '*************************************************************************
+        'Traspaso a cuarentena
+        '*************************************************************************
+        
+        If pTraslado = True Then
+                For l = 1 To 6
+                        j = 2
+                        k = 6
+                        If pLote(1) = True Then
+                                nFilas = Ht(2).Range(Ht(2).Cells(k, j), Ht(2).Range(Ht(2).Cells(k, j)).End(xlDown)).Cells.Count
+                                For i = 1 To nFilas
+                                        If Ht(2).Cells(i + 5, j) = Fecha1 Then
+                                                Piezas = Ht(2).Cells(i + 5, j + 4) * -1
+                                                Granja_t = Ht(2).Cells(i + 5, j + 5)
+                                                Grupo_t = Ht(2).Cells(i + 5, j + 6)
+                                                Tejaban_t = Ht(2).Cells(i + 5, j + 7)
+                                                'Sailda
+                                                tx.Write Fecha1 'Fecha
+                                                tx.Write Separador
+                                                'Si es Sitio 2
+                                                If Fecha_cambio(l) >= Fecha1 Or Fecha_cambio(l) = "" Then
+                                                        tx.Write Granja(1) 'Granja
+                                                        tx.Write Separador
+                                                        tx.Write Grupo1(l) 'Grupo
+                                                        tx.Write Separador
+                                                        tx.Write Tejaban1(l) 'Tejaban
+                                                        tx.Write Separador
+                                                'Si es sitio 3
+                                                Else
+                                                        tx.Write Granja(2) 'Granja
+                                                        tx.Write Separador
+                                                        tx.Write Grupo2(l) 'Grupo
+                                                        tx.Write Separador
+                                                        tx.Write Tejaban2(l) 'Tejaban
+                                                        tx.Write Separador
+                                                End If
+                                                tx.Write Lote(l) 'Lote
+                                                tx.Write Separador
+                                                tx.Write Transaccion(3) 'Tipo de transaccion
+                                                tx.Write Separador
+                                                tx.Write Piezas 'Piezas
+                                                tx.Write Separador
+                                                tx.Write Nulo 'kg
+                                                tx.Write Separador
+                                                tx.Write Nulo 'Motivo
+                                                tx.Write Separador
+                                                tx.WriteLine
+                                                'Entrada
+                                                tx.Write Fecha1 'Fecha
+                                                tx.Write Separador
+                                                tx.Write Granja_t 'Granja
+                                                tx.Write Separador
+                                                tx.Write Grupo_t 'Grupo
+                                                tx.Write Separador
+                                                tx.Write Tejaban_t 'Tejaban
+                                                tx.Write Separador
+                                                tx.Write Lote(l) 'Lote
+                                                tx.Write Separador
+                                                tx.Write Transaccion(4) 'Tipo de transaccion
+                                                tx.Write Separador
+                                                tx.Write Piezas 'Piezas
+                                                tx.Write Separador
+                                                tx.Write Nulo 'kg
+                                                tx.Write Separador
+                                                tx.Write Nulo 'Motivo
+                                                tx.Write Separador
+                                                tx.WriteLine
+                                        End If
+                                Next i
+                        End If
+                        j = j + 9
+                Next l
+        End If
+                        
+        
+        '*************************************************************************
+        'Decesos
+        '*************************************************************************
+        
+        If pDeceso = True Then
+                For l = 1 To 6
+                        j = 2
+                        k = 6
+                        If pLote(l) = True Then
+                                nFilas = Ht(3).Range(Ht(3).Cells(k, j), Ht(3).Range(Ht(3).Cells(k, j)).End(xlDown)).Cells.Count
+                                For i = 1 To nFilas
+                                        Motivo = Ht(3).Cells(i + 5, j + 3)
+                                        Piezas = Ht(3).Cells(i + 5, j + 4) * -1
+                                        Kg = Ht(3).Cells(i + 5, j + 5)
+                                        If Ht(3).Cells(i + 5, j) = Fecha1 Then
+                                                tx.Write Fecha1 'Fecha
+                                                tx.Write Separador
+                                                'Si es Sitio 2
+                                                If Fecha_cambio(l) >= Fecha1 Or Fecha_cambio(l) = "" Then
+                                                        tx.Write Granja(1) 'Granja
+                                                        tx.Write Separador
+                                                        tx.Write Grupo1(l) 'Grupo
+                                                        tx.Write Separador
+                                                        tx.Write Tejaban1(l) 'Tejaban
+                                                        tx.Write Separador
+                                                'Si es sitio 3
+                                                Else
+                                                        tx.Write Granja(2) 'Granja
+                                                        tx.Write Separador
+                                                        tx.Write Grupo2(l) 'Grupo
+                                                        tx.Write Separador
+                                                        tx.Write Tejaban2(l) 'Tejaban
+                                                        tx.Write Separador
+                                                End If
+                                                tx.Write Lote(l) 'Lote
+                                                tx.Write Separador
+                                                tx.Write Transaccion(5) 'Tipo de transaccion
+                                                tx.Write Separador
+                                                tx.Write Piezas 'Piezas
+                                                tx.Write Separador
+                                                tx.Write Kg 'kg
+                                                tx.Write Separador
+                                                tx.Write Motivo 'Motivo
+                                                tx.Write Separador
+                                                tx.WriteLine
+                                        End If
+                                Next i
+                        End If
+                        j = j + 8
+                Next l
+        End If
+        
+        
+        '*************************************************************************
+        'Consumo de Alimento
+        '*************************************************************************
+        
+        If pAlimento = True Then
+                For l = 1 To 6
+                        If pLote(l) = True Then
+                                nFilas = Ht(5).Range("A3", Ht(5).Range("A3").End(xlDown)).Cells.Count
+                                For i = 1 To nFilas
+                                        Codigo = Ht(5).Cells(i + 2, 5)
+                                        KgConsumidos = Ht(5).Cells(i + 2, 8)
+                                        LoteAUGI = Ht(5).Cells(i + 2, 12)
+                                        If Ht(5).Cells(i + 2, 1) = Fecha1 And KgConsumidos <> "" And Lote(l) = Ht(5).Cells(i + 2, 3) Then
+                                                tx.Write Fecha1 'Fecha
+                                                tx.Write Separador
+                                                'Si es Sitio 2
+                                                If Fecha_cambio(l) >= Fecha1 Or Fecha_cambio(l) = "" Then
+                                                        tx.Write Granja(1) 'Granja
+                                                        tx.Write Separador
+                                                        tx.Write Grupo1(l) 'Grupo
+                                                        tx.Write Separador
+                                                        tx.Write Tejaban1(l) 'Tejaban
+                                                        tx.Write Separador
+                                                'Si es sitio 3
+                                                Else
+                                                        tx.Write Granja(2) 'Granja
+                                                        tx.Write Separador
+                                                        tx.Write Grupo2(l) 'Grupo
+                                                        tx.Write Separador
+                                                        tx.Write Tejaban2(l) 'Tejaban
+                                                        tx.Write Separador
+                                                End If
+                                                tx.Write Lote(l) 'Lote
+                                                tx.Write Separador
+                                                tx.Write Transaccion(6) 'Tipo de transaccion
+                                                tx.Write Separador
+                                                tx.Write KgConsumidos 'Piezas
+                                                tx.Write Separador
+                                                tx.Write LoteAUGI 'Referencia
+                                                tx.Write Separador
+                                                tx.Write Codigo 'Motivo
+                                                tx.Write Separador
+                                                tx.WriteLine
+                                        End If
+                                Next i
+                        End If
+                Next l
+        End If
+        
+        
+        '*************************************************************************
+        'Cerramos el archivo
+        '*************************************************************************
+        
+        tx.Close
+        Set Obj = Nothing
+        MsgBox "Archivo " & NombreArchivo & ".txt creado", , "Departamento Sistemas Oracle - Finalizado"
+        Exit Sub
+        
+        
+        '*************************************************************************
+        'Manejo de errores
+        '*************************************************************************
+
+FechaVacia:
+        MsgBox "La fecha esta vacía", , "Error"
+        Exit Sub
+        
+NingunEvento:
+        MsgBox "Selecciona al menos un tipo de evento para procesar", , "Error"
+        Exit Sub
+        
+NingunLote:
+        MsgBox "Selecciona al menos un lote para procesar", , "Error"
+        Exit Sub
+        
+Errores:
+        Set Obj = Nothing
+        MsgBox "Comuníquese con el Departamento Sistemas Oracle", , "Error"
+        Exit Sub
+        
+Error1:
+        Set Obj = Nothing
+        MsgBox "No se tiene acceso a la ruta " & Ht(4).Cells(18, 4), , "Error"
+        Exit Sub
+
+
+End Sub

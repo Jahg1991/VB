@@ -1,0 +1,3 @@
+Línea 30: la clase MSComDlg.CommonDialog del control CommonDialog1 no era una clase de control cargada.
+Línea 118: la clase MSComCtl2.DTPicker del control DTPicker1 no era una clase de control cargada.
+Línea 144: la clase MSComCtl2.DTPicker del control DTPicker2 no era una clase de control cargada.

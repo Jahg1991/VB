@@ -1,0 +1,17 @@
+Línea 17: la clase MSDataGridLib.DataGrid del control DataGrid1 no era una clase de control cargada.
+Línea 23: el nombre de la propiedad _ExtentX de DataGrid1 no es válido.
+Línea 24: el nombre de la propiedad _ExtentY de DataGrid1 no es válido.
+Línea 25: el nombre de la propiedad _Version de DataGrid1 no es válido.
+Línea 26: el nombre de la propiedad AllowUpdate de DataGrid1 no es válido.
+Línea 27: el nombre de la propiedad AllowArrows de DataGrid1 no es válido.
+Línea 28: el nombre de la propiedad HeadLines de DataGrid1 no es válido.
+Línea 29: el nombre de la propiedad RowHeight de DataGrid1 no es válido.
+Línea 30: el nombre de la propiedad TabAcrossSplits de DataGrid1 no es válido.
+Línea 31: el nombre de la propiedad TabAction de DataGrid1 no es válido.
+Línea 32: el nombre de la propiedad WrapCellPointer de DataGrid1 no es válido.
+Línea 41: el nombre de la propiedad HeadFont de DataGrid1 no es válido.
+Línea 51: el nombre de la propiedad ColumnCount de DataGrid1 no es válido.
+Línea 64: el nombre de la propiedad Column00 de DataGrid1 no es válido.
+Línea 77: el nombre de la propiedad Column01 de DataGrid1 no es válido.
+Línea 78: el nombre de la propiedad SplitCount de DataGrid1 no es válido.
+Línea 84: el nombre de la propiedad Split0 de DataGrid1 no es válido.

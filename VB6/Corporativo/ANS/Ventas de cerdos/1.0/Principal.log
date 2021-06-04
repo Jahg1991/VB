@@ -1,0 +1,44 @@
+Línea 823: la clase MSComCtl2.DTPicker del control DTPicker1 no era una clase de control cargada.
+Línea 844: la clase MSComCtl2.DTPicker del control DTPicker2 no era una clase de control cargada.
+Línea 1948: la clase MSComCtl2.DTPicker del control DTPicker3 no era una clase de control cargada.
+Línea 671: la propiedad ColumnWidth de Column00 tenía un valor no válido.
+Línea 674: la propiedad ColumnWidth de Column01 tenía un valor no válido.
+Línea 677: la propiedad ColumnWidth de Column02 tenía un valor no válido.
+Línea 681: la propiedad ColumnWidth de Column03 tenía un valor no válido.
+Línea 685: la propiedad ColumnWidth de Column04 tenía un valor no válido.
+Línea 689: la propiedad ColumnWidth de Column05 tenía un valor no válido.
+Línea 693: la propiedad ColumnWidth de Column06 tenía un valor no válido.
+Línea 697: la propiedad ColumnWidth de Column07 tenía un valor no válido.
+Línea 705: la propiedad ColumnWidth de Column09 tenía un valor no válido.
+Línea 709: la propiedad ColumnWidth de Column10 tenía un valor no válido.
+Línea 713: la propiedad ColumnWidth de Column11 tenía un valor no válido.
+Línea 717: la propiedad ColumnWidth de Column12 tenía un valor no válido.
+Línea 721: la propiedad ColumnWidth de Column13 tenía un valor no válido.
+Línea 829: el nombre de la propiedad _ExtentX de DTPicker1 no es válido.
+Línea 830: el nombre de la propiedad _ExtentY de DTPicker1 no es válido.
+Línea 831: el nombre de la propiedad _Version de DTPicker1 no es válido.
+Línea 841: el nombre de la propiedad Format de DTPicker1 no es válido.
+Línea 842: el nombre de la propiedad CurrentDate de DTPicker1 no es válido.
+Línea 850: el nombre de la propiedad _ExtentX de DTPicker2 no es válido.
+Línea 851: el nombre de la propiedad _ExtentY de DTPicker2 no es válido.
+Línea 852: el nombre de la propiedad _Version de DTPicker2 no es válido.
+Línea 862: el nombre de la propiedad Format de DTPicker2 no es válido.
+Línea 863: el nombre de la propiedad CurrentDate de DTPicker2 no es válido.
+Línea 1683: la propiedad ColumnWidth de Column00 tenía un valor no válido.
+Línea 1686: la propiedad ColumnWidth de Column01 tenía un valor no válido.
+Línea 1689: la propiedad ColumnWidth de Column02 tenía un valor no válido.
+Línea 1692: la propiedad ColumnWidth de Column03 tenía un valor no válido.
+Línea 1695: la propiedad ColumnWidth de Column04 tenía un valor no válido.
+Línea 1698: la propiedad ColumnWidth de Column05 tenía un valor no válido.
+Línea 1701: la propiedad ColumnWidth de Column06 tenía un valor no válido.
+Línea 1704: la propiedad ColumnWidth de Column07 tenía un valor no válido.
+Línea 1707: la propiedad ColumnWidth de Column08 tenía un valor no válido.
+Línea 1710: la propiedad ColumnWidth de Column09 tenía un valor no válido.
+Línea 1713: la propiedad ColumnWidth de Column10 tenía un valor no válido.
+Línea 1718: la propiedad ColumnWidth de Column12 tenía un valor no válido.
+Línea 1721: la propiedad ColumnWidth de Column13 tenía un valor no válido.
+Línea 1954: el nombre de la propiedad _ExtentX de DTPicker3 no es válido.
+Línea 1955: el nombre de la propiedad _ExtentY de DTPicker3 no es válido.
+Línea 1956: el nombre de la propiedad _Version de DTPicker3 no es válido.
+Línea 1957: el nombre de la propiedad Format de DTPicker3 no es válido.
+Línea 1958: el nombre de la propiedad CurrentDate de DTPicker3 no es válido.

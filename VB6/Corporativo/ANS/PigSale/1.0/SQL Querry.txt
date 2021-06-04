@@ -1,0 +1,93 @@
+===================================================
+TABLA USUARIOS
+===================================================
+
+CREATE TABLE USERS(
+	ID INT IDENTITY PRIMARY KEY,
+	NOMBRE varchar(20),
+	PASS varchar(20),
+	USUARIOS int,
+	VENTAS int,
+	REPORTES int);
+
+===================================================
+CREAR ADMINISTRADOR
+===================================================
+
+INSERT INTO USERS(
+	NOMBRE,
+	PASS,
+	USUARIOS,
+	VENTAS,
+	REPORTES)
+VALUES
+  	('Admin',
+  	'Jahg91',
+  	1,
+  	1,
+  	1);
+
+===================================================
+TABLA VENTAS
+===================================================
+
+CREATE TABLE VENTAS(
+	ID int IDENTITY PRIMARY KEY,
+	FECHA varchar(10),
+	GRANJA varchar(10),
+	NUMERO int,
+	KILOS int,
+	PROMEDIO float,
+	CLIENTE varchar(50),
+	TEJABAN varchar(50),
+	MORTANDAD int,
+	OBSERVACIONES varchar(100),
+  	ANO int,
+  	SEMANA int);
+
+===================================================
+CONSULTA ENTRE FECHAS
+===================================================
+
+SELECT 
+    convert(datetime, FECHA, 101),
+    GRANJA,
+    NUMERO,
+    KILOS,
+    PROMEDIO,
+    CLIENTE,
+    TEJABAN,
+    MORTANDAD,
+    OBSERVACIONES
+FROM
+    VENTAS
+WHERE convert(datetime, FECHA, 101) >='27/05/2013' AND convert(datetime, FECHA, 101) <='30/05/2013';
+
+===================================================
+CONSULTA TOTALES
+===================================================
+
+SELECT 
+    SUM(NUMERO) TOTNUM,
+    SUM(KILOS) TOTKIL,
+    (TOTKIL/TOTNUM) PROMEDIO
+    
+FROM
+    VENTAS
+WHERE 
+    convert(datetime, FECHA, 101) >='27/05/2013' AND convert(datetime, FECHA, 101) <='30/05/2013';
+
+===================================================
+CONSULTA SEMANA AÑO
+===================================================
+
+SELECT DATEPART( yyyy, GETDATE() ) ANO,
+       DATEPART( wk, GETDATE() ) SEMANA;
+
+
+
+
+
+"SEMANA = "Text1(0).Text" And  SEMANA = "Text1(1).Text""
+
+"SEMANA = 'Text1(0)' AND ANO = 'Text1(1)'"

@@ -1,0 +1,41 @@
+Línea 16: la clase MSDataGridLib.DataGrid del control DataGrid1 no era una clase de control cargada.
+Línea 110: la clase MSDataGridLib.DataGrid del control DataGrid3 no era una clase de control cargada.
+Línea 495: la clase MSDataGridLib.DataGrid del control DataGrid2 no era una clase de control cargada.
+Línea 23: el nombre de la propiedad _ExtentX de DataGrid1 no es válido.
+Línea 24: el nombre de la propiedad _ExtentY de DataGrid1 no es válido.
+Línea 25: el nombre de la propiedad _Version de DataGrid1 no es válido.
+Línea 26: el nombre de la propiedad HeadLines de DataGrid1 no es válido.
+Línea 27: el nombre de la propiedad RowHeight de DataGrid1 no es válido.
+Línea 36: el nombre de la propiedad HeadFont de DataGrid1 no es válido.
+Línea 46: el nombre de la propiedad ColumnCount de DataGrid1 no es válido.
+Línea 59: el nombre de la propiedad Column00 de DataGrid1 no es válido.
+Línea 72: el nombre de la propiedad Column01 de DataGrid1 no es válido.
+Línea 73: el nombre de la propiedad SplitCount de DataGrid1 no es válido.
+Línea 79: el nombre de la propiedad Split0 de DataGrid1 no es válido.
+Línea 116: el nombre de la propiedad _ExtentX de DataGrid3 no es válido.
+Línea 117: el nombre de la propiedad _ExtentY de DataGrid3 no es válido.
+Línea 118: el nombre de la propiedad _Version de DataGrid3 no es válido.
+Línea 119: el nombre de la propiedad AllowUpdate de DataGrid3 no es válido.
+Línea 120: el nombre de la propiedad AllowArrows de DataGrid3 no es válido.
+Línea 121: el nombre de la propiedad HeadLines de DataGrid3 no es válido.
+Línea 122: el nombre de la propiedad RowHeight de DataGrid3 no es válido.
+Línea 123: el nombre de la propiedad TabAcrossSplits de DataGrid3 no es válido.
+Línea 124: el nombre de la propiedad TabAction de DataGrid3 no es válido.
+Línea 125: el nombre de la propiedad WrapCellPointer de DataGrid3 no es válido.
+Línea 134: el nombre de la propiedad HeadFont de DataGrid3 no es válido.
+Línea 144: el nombre de la propiedad ColumnCount de DataGrid3 no es válido.
+Línea 157: el nombre de la propiedad Column00 de DataGrid3 no es válido.
+Línea 170: el nombre de la propiedad Column01 de DataGrid3 no es válido.
+Línea 171: el nombre de la propiedad SplitCount de DataGrid3 no es válido.
+Línea 177: el nombre de la propiedad Split0 de DataGrid3 no es válido.
+Línea 502: el nombre de la propiedad _ExtentX de DataGrid2 no es válido.
+Línea 503: el nombre de la propiedad _ExtentY de DataGrid2 no es válido.
+Línea 504: el nombre de la propiedad _Version de DataGrid2 no es válido.
+Línea 505: el nombre de la propiedad HeadLines de DataGrid2 no es válido.
+Línea 506: el nombre de la propiedad RowHeight de DataGrid2 no es válido.
+Línea 515: el nombre de la propiedad HeadFont de DataGrid2 no es válido.
+Línea 525: el nombre de la propiedad ColumnCount de DataGrid2 no es válido.
+Línea 538: el nombre de la propiedad Column00 de DataGrid2 no es válido.
+Línea 551: el nombre de la propiedad Column01 de DataGrid2 no es válido.
+Línea 552: el nombre de la propiedad SplitCount de DataGrid2 no es válido.
+Línea 558: el nombre de la propiedad Split0 de DataGrid2 no es válido.

@@ -1,0 +1,270 @@
+[Root]
+Most Recent Package=Venta de cerdos (Estaciones)
+
+
+[Package|Venta de cerdos (Servidor)|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=C:\Bascula\Paquete
+
+[Package|Venta de cerdos (Servidor)|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Venta de cerdos (Servidor)|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Venta de cerdos (Servidor)|Files Found]
+
+[Package|Venta de cerdos (Servidor)|Files Released]
+
+[Package|Venta de cerdos (Servidor)|Missing Dependency Information]
+C:\Program Files\Common Files\System\ado\msado20.tlb=
+
+[Package|Venta de cerdos (Servidor)|Out-of-Date Dependency Information]
+C:\Windows\System32\MSSTDFMT.dll=
+
+[Package|Venta de cerdos (Servidor)|Files Added]
+C:\Bascula\4dntvuhh2yeo4npyb3igdet73odaolf$p7jkpx0qizwo5t7huiciox4vc6upvmr.jpg=
+C:\Bascula\539353_283892798390687_542886859_n.jpg=
+C:\Bascula\cerdos-tiernos-300x209.jpg=
+C:\Bascula\DB.mdb=
+C:\Bascula\Puerco 1.jpg=
+
+[Package|Venta de cerdos (Servidor)|Files Removed]
+
+[Package|Venta de cerdos (Servidor)|Files In Project]
+C:\Bascula\Venta de cerdos.exe=Yes
+C:\Windows\System32\msvbvm60.dll=Yes
+C:\Windows\System32\oleaut32.dll=Yes
+C:\Windows\System32\olepro32.dll=Yes
+C:\Windows\System32\asycfilt.dll=Yes
+C:\Windows\System32\stdole2.tlb=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Windows\System32\VB6ES.DLL=Yes
+C:\Windows\System32\MSADODC.OCX=Yes
+C:\Windows\System32\MSSTDFMT.dll=Yes
+C:\Windows\System32\STDFTES.DLL=Yes
+C:\Windows\System32\ADODCES.DLL=Yes
+C:\Program Files\Common Files\System\ado\msado20.tlb=Yes
+C:\Windows\System32\MSBIND.DLL=Yes
+C:\Windows\System32\MSDATGRD.OCX=Yes
+C:\Windows\System32\DATGDES.DLL=Yes
+C:\Windows\System32\MSHFLXGD.OCX=Yes
+C:\Windows\System32\MSHFGES.DLL=Yes
+C:\Windows\System32\MSCOMCT2.OCX=Yes
+C:\Windows\System32\MSCC2ES.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\Windows\System32\VB6STKIT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+C:\Bascula\4dntvuhh2yeo4npyb3igdet73odaolf$p7jkpx0qizwo5t7huiciox4vc6upvmr.jpg=Yes
+C:\Bascula\539353_283892798390687_542886859_n.jpg=Yes
+C:\Bascula\cerdos-tiernos-300x209.jpg=Yes
+C:\Bascula\DB.mdb=Yes
+C:\Bascula\Puerco 1.jpg=Yes
+
+[Package|Venta de cerdos (Servidor)|Configure Registry Files]
+Applicable=No
+
+[Package|Venta de cerdos (Servidor)|Configure Remote Servers]
+Applicable=No
+
+[Package|Venta de cerdos (Servidor)|Install Locations]
+C:\Bascula\Venta de cerdos.exe=$(AppPath)
+C:\Windows\System32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Windows\System32\oleaut32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\olepro32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\asycfilt.dll=$(WinSysPathSysFile)
+C:\Windows\System32\stdole2.tlb=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Windows\System32\VB6ES.DLL=$(WinSysPath)
+C:\Windows\System32\MSADODC.OCX=$(WinSysPath)
+C:\Windows\System32\MSSTDFMT.dll=$(WinSysPath)
+C:\Windows\System32\STDFTES.DLL=$(WinSysPath)
+C:\Windows\System32\ADODCES.DLL=$(WinSysPath)
+C:\Program Files\Common Files\System\ado\msado20.tlb=$(WinSysPath)
+C:\Windows\System32\MSBIND.DLL=$(WinSysPath)
+C:\Windows\System32\MSDATGRD.OCX=$(WinSysPath)
+C:\Windows\System32\DATGDES.DLL=$(WinSysPath)
+C:\Windows\System32\MSHFLXGD.OCX=$(WinSysPath)
+C:\Windows\System32\MSHFGES.DLL=$(WinSysPath)
+C:\Windows\System32\MSCOMCT2.OCX=$(WinSysPath)
+C:\Windows\System32\MSCC2ES.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\Windows\System32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+C:\Bascula\4dntvuhh2yeo4npyb3igdet73odaolf$p7jkpx0qizwo5t7huiciox4vc6upvmr.jpg=$(AppPath)
+C:\Bascula\539353_283892798390687_542886859_n.jpg=$(AppPath)
+C:\Bascula\cerdos-tiernos-300x209.jpg=$(AppPath)
+C:\Bascula\DB.mdb=$(AppPath)
+C:\Bascula\Puerco 1.jpg=$(AppPath)
+
+[Package|Venta de cerdos (Servidor)|Configure Shared Files]
+Applicable=Yes
+C:\Bascula\Venta de cerdos.exe=Yes
+C:\Bascula\4dntvuhh2yeo4npyb3igdet73odaolf$p7jkpx0qizwo5t7huiciox4vc6upvmr.jpg=Yes
+C:\Bascula\539353_283892798390687_542886859_n.jpg=Yes
+C:\Bascula\cerdos-tiernos-300x209.jpg=Yes
+C:\Bascula\DB.mdb=Yes
+C:\Bascula\Puerco 1.jpg=Yes
+
+[Package|Venta de cerdos (Servidor)|Distribution]
+Type=single
+Size=
+Title=Venta de cerdos (Servidor)
+
+[Package|Venta de cerdos (Servidor)|IconGroups]
+Group0=Venta de cerdos (Servidor)
+PrivateGroup0=Verdadero
+Parent0=$(Programs)
+
+[Package|Venta de cerdos (Servidor)|Venta de cerdos (Servidor)]
+Icon1="Venta de cerdos.exe"
+Title1=Venta de cerdos (Servidor)
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|Venta de cerdos (Servidor)|Package]
+PackageFolder=C:\Bascula\Paquete
+ProjectFolder=C:\Bascula
+ServerSideCab=
+File1=C:\Bascula\Paquete\setup.exe
+File2=C:\Bascula\Paquete\Setup.Lst
+File3=C:\Bascula\Paquete\Venta de cerdos.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+
+[Package|Venta de cerdos (Estaciones)|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=C:\Bascula\Paquete
+
+[Package|Venta de cerdos (Estaciones)|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Venta de cerdos (Estaciones)|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Venta de cerdos (Estaciones)|Files Found]
+
+[Package|Venta de cerdos (Estaciones)|Files Released]
+
+[Package|Venta de cerdos (Estaciones)|Missing Dependency Information]
+C:\Program Files\Common Files\System\ado\msado20.tlb=
+
+[Package|Venta de cerdos (Estaciones)|Out-of-Date Dependency Information]
+C:\Windows\System32\MSSTDFMT.dll=
+
+[Package|Venta de cerdos (Estaciones)|Files Added]
+C:\Bascula\4dntvuhh2yeo4npyb3igdet73odaolf$p7jkpx0qizwo5t7huiciox4vc6upvmr.jpg=
+C:\Bascula\539353_283892798390687_542886859_n.jpg=
+C:\Bascula\cerdos-tiernos-300x209.jpg=
+C:\Bascula\DB.mdb=
+C:\Bascula\Puerco 1.jpg=
+
+[Package|Venta de cerdos (Estaciones)|Files Removed]
+
+[Package|Venta de cerdos (Estaciones)|Files In Project]
+C:\Bascula\Venta de cerdos.exe=Yes
+C:\Windows\System32\msvbvm60.dll=Yes
+C:\Windows\System32\oleaut32.dll=Yes
+C:\Windows\System32\olepro32.dll=Yes
+C:\Windows\System32\asycfilt.dll=Yes
+C:\Windows\System32\stdole2.tlb=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Windows\System32\VB6ES.DLL=Yes
+C:\Windows\System32\MSADODC.OCX=Yes
+C:\Windows\System32\MSSTDFMT.dll=Yes
+C:\Windows\System32\STDFTES.DLL=Yes
+C:\Windows\System32\ADODCES.DLL=Yes
+C:\Program Files\Common Files\System\ado\msado20.tlb=Yes
+C:\Windows\System32\MSBIND.DLL=Yes
+C:\Windows\System32\MSDATGRD.OCX=Yes
+C:\Windows\System32\DATGDES.DLL=Yes
+C:\Windows\System32\MSHFLXGD.OCX=Yes
+C:\Windows\System32\MSHFGES.DLL=Yes
+C:\Windows\System32\MSCOMCT2.OCX=Yes
+C:\Windows\System32\MSCC2ES.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\Windows\System32\VB6STKIT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+C:\Bascula\4dntvuhh2yeo4npyb3igdet73odaolf$p7jkpx0qizwo5t7huiciox4vc6upvmr.jpg=Yes
+C:\Bascula\539353_283892798390687_542886859_n.jpg=Yes
+C:\Bascula\cerdos-tiernos-300x209.jpg=Yes
+C:\Bascula\DB.mdb=Yes
+C:\Bascula\Puerco 1.jpg=Yes
+
+[Package|Venta de cerdos (Estaciones)|Configure Registry Files]
+Applicable=No
+
+[Package|Venta de cerdos (Estaciones)|Configure Remote Servers]
+Applicable=No
+
+[Package|Venta de cerdos (Estaciones)|Install Locations]
+C:\Bascula\Venta de cerdos.exe=$(AppPath)
+C:\Windows\System32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Windows\System32\oleaut32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\olepro32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\asycfilt.dll=$(WinSysPathSysFile)
+C:\Windows\System32\stdole2.tlb=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Windows\System32\VB6ES.DLL=$(WinSysPath)
+C:\Windows\System32\MSADODC.OCX=$(WinSysPath)
+C:\Windows\System32\MSSTDFMT.dll=$(WinSysPath)
+C:\Windows\System32\STDFTES.DLL=$(WinSysPath)
+C:\Windows\System32\ADODCES.DLL=$(WinSysPath)
+C:\Program Files\Common Files\System\ado\msado20.tlb=$(WinSysPath)
+C:\Windows\System32\MSBIND.DLL=$(WinSysPath)
+C:\Windows\System32\MSDATGRD.OCX=$(WinSysPath)
+C:\Windows\System32\DATGDES.DLL=$(WinSysPath)
+C:\Windows\System32\MSHFLXGD.OCX=$(WinSysPath)
+C:\Windows\System32\MSHFGES.DLL=$(WinSysPath)
+C:\Windows\System32\MSCOMCT2.OCX=$(WinSysPath)
+C:\Windows\System32\MSCC2ES.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\Windows\System32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+C:\Bascula\4dntvuhh2yeo4npyb3igdet73odaolf$p7jkpx0qizwo5t7huiciox4vc6upvmr.jpg=$(AppPath)
+C:\Bascula\539353_283892798390687_542886859_n.jpg=$(AppPath)
+C:\Bascula\cerdos-tiernos-300x209.jpg=$(AppPath)
+C:\Bascula\DB.mdb=$(AppPath)
+C:\Bascula\Puerco 1.jpg=$(AppPath)
+
+[Package|Venta de cerdos (Estaciones)|Configure Shared Files]
+Applicable=Yes
+C:\Bascula\Venta de cerdos.exe=Yes
+C:\Bascula\4dntvuhh2yeo4npyb3igdet73odaolf$p7jkpx0qizwo5t7huiciox4vc6upvmr.jpg=Yes
+C:\Bascula\539353_283892798390687_542886859_n.jpg=Yes
+C:\Bascula\cerdos-tiernos-300x209.jpg=Yes
+C:\Bascula\DB.mdb=Yes
+C:\Bascula\Puerco 1.jpg=Yes
+
+[Package|Venta de cerdos (Estaciones)|Distribution]
+Type=single
+Size=
+Title=Venta de cerdos (Estaciones)
+
+[Package|Venta de cerdos (Estaciones)|IconGroups]
+Group0=Venta de cerdos (Estaciones)
+PrivateGroup0=Verdadero
+Parent0=$(Programs)
+
+[Package|Venta de cerdos (Estaciones)|Venta de cerdos (Estaciones)]
+Icon1="Venta de cerdos.exe"
+Title1=Venta de cerdos (Estaciones)
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|Venta de cerdos (Estaciones)|Package]
+PackageFolder=C:\Bascula\Paquete
+ProjectFolder=C:\Bascula
+ServerSideCab=
+File1=C:\Bascula\Paquete\setup.exe
+File2=C:\Bascula\Paquete\Setup.Lst
+File3=C:\Bascula\Paquete\Venta de cerdos.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
