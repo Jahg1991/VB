@@ -145,159 +145,159 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    Dim Rs As New adodb.Recordset
-    
-    Sub Form_Load()
-        On Error GoTo errHandler
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select DISTINCT t2.descripcion + ' (' + t2.udm + ')' + ' (' + t2.codigo + ')' as nombre from BILL_OF_MATERIAL t1, MTL_SYSTEM_ITEMS t2 where  t1.ItemPTId = t2.id order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+Dim Rs As New adodb.Recordset
+
+Sub Form_Load()
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select DISTINCT t2.descripcion + ' (' + t2.udm + ')' + ' (' + t2.codigo + ')' as nombre from BILL_OF_MATERIAL t1, MTL_SYSTEM_ITEMS t2 where  t1.ItemPTId = t2.id order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then
+            .MoveFirst
+            With List1
+                .Clear
+            End With
+
+            While Not .EOF
+                List1.AddItem .Fields(0).Value
+                .MoveNext
+            Wend
+        Else
+            Unload Me
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorListaIngredientes:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text1_Change()
+    On Error GoTo errHandler
+    With List1
+        .Clear
+    End With
+
+    With Rs
+        If Text1 = "" Then
+            .Filter = ""
             .Requery
             If .RecordCount <> 0 Then
                 .MoveFirst
-                With List1
-                    .Clear
-                End With
-                
                 While Not .EOF
                     List1.AddItem .Fields(0).Value
                     .MoveNext
                 Wend
-            Else
-                Unload Me
             End If
-        End With
+        Else
+            .Filter = "nombre like '*" & Text1 & "*'"
+            .Requery
+            If .RecordCount <> 0 Then
+                .MoveFirst
+                While Not .EOF
+                    List1.AddItem .Fields(0).Value
+                    .MoveNext
+                Wend
+            End If
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorListaIngredientes:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorListaIngredientes:Text1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
 
-    Private Sub Text1_Change()
-        On Error GoTo errHandler
-        With List1
-            .Clear
-        End With
-        
-        With Rs
-            If Text1 = "" Then
-                .Filter = ""
-                .Requery
-                If .RecordCount <> 0 Then
-                    .MoveFirst
-                    While Not .EOF
-                        List1.AddItem .Fields(0).Value
-                        .MoveNext
-                    Wend
-                End If
-            Else
-                .Filter = "nombre like '*" & Text1 & "*'"
-                .Requery
-                If .RecordCount <> 0 Then
-                    .MoveFirst
-                    While Not .EOF
-                        List1.AddItem .Fields(0).Value
-                        .MoveNext
-                    Wend
-                End If
-            End If
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorListaIngredientes:Text1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Command2_Click()
-        On Error GoTo errHandler
-        With List1
-            If .Text = "" Then
-                MsgBox "Seleccione algun articulo", vbOKOnly, "Información"
-            Else
-                With frmListaIngredientesExistente
-                    With .Text1(1)
-                        .Text = List1.Text
-                    End With
+Private Sub Command2_Click()
+    On Error GoTo errHandler
+    With List1
+        If .Text = "" Then
+            MsgBox "Seleccione algun articulo", vbOKOnly, "Información"
+        Else
+            With frmListaIngredientesExistente
+                With .Text1(1)
+                    .Text = List1.Text
                 End With
-                Unload Me
-            End If
-        End With
+            End With
+            Unload Me
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorListaIngredientes:Command2_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub List1_DblClick()
-        On Error GoTo errHandler
-        With List1
-            If .Text = "" Then
-                MsgBox "Seleccione algun articulo", vbOKOnly, "Información"
-            Else
-                With frmListaIngredientesExistente
-                    With .Text1(1)
-                        .Text = List1.Text
-                    End With
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorListaIngredientes:Command2_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub List1_DblClick()
+    On Error GoTo errHandler
+    With List1
+        If .Text = "" Then
+            MsgBox "Seleccione algun articulo", vbOKOnly, "Información"
+        Else
+            With frmListaIngredientesExistente
+                With .Text1(1)
+                    .Text = List1.Text
                 End With
-                Unload Me
-            End If
-        End With
+            End With
+            Unload Me
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorListaIngredientes:List1_DblClick" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorListaIngredientes:List1_DblClick" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmAjusteInventario:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        With Rs
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs = Nothing
-        Set frmBuscadorListaIngredientes = Nothing
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmAjusteInventario:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set frmBuscadorListaIngredientes = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorListaIngredientes:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorListaIngredientes:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

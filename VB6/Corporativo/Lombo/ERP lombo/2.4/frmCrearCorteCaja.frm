@@ -668,403 +668,403 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//RECORDSET
-    Dim Rs As New adodb.Recordset   'Corte de Caja
-    Dim RS1 As New adodb.Recordset  'Ticket
-    '//SUBTOTALES
-    Dim T1 As Integer               '1000
-    Dim T2 As Integer               '500
-    Dim T3 As Integer               '200
-    Dim T4 As Integer               '100
-    Dim T5 As Integer               '50
-    Dim T6 As Integer               '20
-    Dim T7 As Integer               '10
-    Dim T8 As Integer               '5
-    Dim T9 As Integer               '2
-    Dim T10 As Integer              '1
-    Dim T11 As Integer              '.5
-    Dim T12 As Integer              '.2
-    Dim T13 As Integer              '.1
+Option Explicit
 
-    Private Sub Form_Load()
-        On Error GoTo errHandler
-        With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
-        End With
-        T1 = 0
-        T2 = 0
-        T3 = 0
-        T4 = 0
-        T5 = 0
-        T6 = 0
-        T7 = 0
-        T8 = 0
-        T9 = 0
-        T10 = 0
-        T11 = 0
-        T12 = 0
-        T13 = 0
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+'//RECORDSET
+Dim Rs As New adodb.Recordset   'Corte de Caja
+Dim RS1 As New adodb.Recordset  'Ticket
+'//SUBTOTALES
+Dim T1 As Integer               '1000
+Dim T2 As Integer               '500
+Dim T3 As Integer               '200
+Dim T4 As Integer               '100
+Dim T5 As Integer               '50
+Dim T6 As Integer               '20
+Dim T7 As Integer               '10
+Dim T8 As Integer               '5
+Dim T9 As Integer               '2
+Dim T10 As Integer              '1
+Dim T11 As Integer              '.5
+Dim T12 As Integer              '.2
+Dim T13 As Integer              '.1
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+    T1 = 0
+    T2 = 0
+    T3 = 0
+    T4 = 0
+    T5 = 0
+    T6 = 0
+    T7 = 0
+    T8 = 0
+    T9 = 0
+    T10 = 0
+    T11 = 0
+    T12 = 0
+    T13 = 0
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCrearCorteCaja:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCrearCorteCaja:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
 
-    Private Sub Text2_Change(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 1
-                With Text2(1)
-                    If .Text = "" Then
-                        T1 = 0
-                    Else
-                        T1 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 2
-                With Text2(2)
-                    If .Text = "" Then
-                        T2 = 0
-                    Else
-                        T2 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 3
-                With Text2(3)
-                    If .Text = "" Then
-                        T3 = 0
-                    Else
-                        T3 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 4
-                With Text2(4)
-                    If .Text = "" Then
-                        T4 = 0
-                    Else
-                        T4 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 5
-                With Text2(5)
-                    If .Text = "" Then
-                        T5 = 0
-                    Else
-                        T5 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 6
-                With Text2(6)
-                    If .Text = "" Then
-                        T6 = 0
-                    Else
-                        T6 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 7
-                With Text2(7)
-                    If .Text = "" Then
-                        T7 = 0
-                    Else
-                        T7 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 8
-                With Text2(8)
-                    If .Text = "" Then
-                        T8 = 0
-                    Else
-                        T8 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 9
-                With Text2(9)
-                    If .Text = "" Then
-                        T9 = 0
-                    Else
-                        T9 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 10
-                With Text2(10)
-                    If .Text = "" Then
-                        T10 = 0
-                    Else
-                        T10 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(10)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 11
-                With Text2(11)
-                    If .Text = "" Then
-                        T11 = 0
-                    Else
-                        T11 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 12
-                With Text2(12)
-                    If .Text = "" Then
-                        T12 = 0
-                    Else
-                        T12 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-            Case 13
-                With Text2(13)
-                    If .Text = "" Then
-                        T13 = 0
-                    Else
-                        T13 = Val(.Text)
-                    End If
-                End With
-                
-                With Text2(0)
-                    .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
-                End With
-        End Select
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCrearCorteCaja:Text2_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-        Private Sub Guardar_Click()
-        On Error GoTo errHandler
-        vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
-        If vbq = vbYes Then
-            If Val(Text2(0)) = 0 Or Text2(0) = "" Then
-                MsgBox "No hay información que guardar", vbOKOnly, "Advertencia"
-                Exit Sub
+Private Sub Text2_Change(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 1
+        With Text2(1)
+            If .Text = "" Then
+                T1 = 0
+            Else
+                T1 = Val(.Text)
             End If
-            With Rs
-                If .State = 1 Then .Close
-                .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                .Open "Select * from CE_BOX_CUT;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                .Requery
-                .AddNew
-                    .Fields(1) = Date
-                    If Text2(0) <> "" Then .Fields(2) = Replace(Text2(0), ",", ".")
-                    
-                    If Text2(1) <> "" Then .Fields(3) = Round(Val(Text2(1)))
-                    
-                    If Text2(2) <> "" Then .Fields(4) = Round(Val(Text2(2)))
-                    
-                    If Text2(3) <> "" Then .Fields(5) = Round(Val(Text2(3)))
-                    
-                    If Text2(4) <> "" Then .Fields(6) = Round(Val(Text2(4)))
-                    
-                    If Text2(5) <> "" Then .Fields(7) = Round(Val(Text2(5)))
-                    
-                    If Text2(6) <> "" Then .Fields(8) = Round(Val(Text2(6)))
-                    
-                    If Text2(7) <> "" Then .Fields(9) = Round(Val(Text2(7)))
-                    
-                    If Text2(8) <> "" Then .Fields(10) = Round(Val(Text2(8)))
-                    
-                    If Text2(9) <> "" Then .Fields(11) = Round(Val(Text2(9)))
-                    
-                    If Text2(10) <> "" Then .Fields(12) = Round(Val(Text2(10)))
-                    
-                    If Text2(11) <> "" Then .Fields(13) = Round(Val(Text2(11)))
-                    
-                    If Text2(12) <> "" Then .Fields(14) = Round(Val(Text2(12)))
-                    
-                    If Text2(13) <> "" Then .Fields(15) = Round(Val(Text2(13)))
-                    .Fields(16) = frmMenuInicial.Combo1.Text
-                    .Fields(17) = StUsuario
-                .Update
-                .Requery
-                .Close
-            End With
-            MsgBox "Corte de caja terminado", vbOKOnly, "Finalizado"
-            With RS1
-                If .State = 1 Then .Close
-                .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                .Open "Select top 1 * from CE_BOX_CUT where caja = '" & frmMenuInicial.Combo1.Text & "' order by id desc;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                .Requery
-            End With
-            Unload dsrCrearCorteCaja
-            With dsrCrearCorteCaja
-                Set .DataSource = RS1
-                
-                With .Sections("Sección4")
-                    With .Controls("Etiqueta2")
-                        .Caption = frmMenuInicial.Combo1.Text
-                    End With
-                    
-                    With .Controls("Etiqueta10")
-                        If IsNull(RS1.Fields(3).Value) = False Then .Caption = RS1.Fields(3).Value
-                    End With
-                    
-                    With .Controls("Etiqueta11")
-                        If IsNull(RS1.Fields(4).Value) = False Then .Caption = RS1.Fields(4).Value
-                    End With
-                    
-                    With .Controls("Etiqueta12")
-                        If IsNull(RS1.Fields(5).Value) = False Then .Caption = RS1.Fields(5).Value
-                    End With
-                    
-                    With .Controls("Etiqueta13")
-                        If IsNull(RS1.Fields(6).Value) = False Then .Caption = RS1.Fields(6).Value
-                    End With
-                    
-                    With .Controls("Etiqueta14")
-                        If IsNull(RS1.Fields(7).Value) = False Then .Caption = RS1.Fields(7).Value
-                    End With
-                    
-                    With .Controls("Etiqueta15")
-                        If IsNull(RS1.Fields(8).Value) = False Then .Caption = RS1.Fields(8).Value
-                    End With
-                    
-                    With .Controls("Etiqueta26")
-                        If IsNull(RS1.Fields(9).Value) = False Then .Caption = RS1.Fields(9).Value
-                    End With
-                    
-                    With .Controls("Etiqueta27")
-                        If IsNull(RS1.Fields(10).Value) = False Then .Caption = RS1.Fields(10).Value
-                    End With
-                    
-                    With .Controls("Etiqueta28")
-                        If IsNull(RS1.Fields(11).Value) = False Then .Caption = RS1.Fields(11).Value
-                    End With
-                    
-                    With .Controls("Etiqueta29")
-                        If IsNull(RS1.Fields(12).Value) = False Then .Caption = RS1.Fields(12).Value
-                    End With
-                    
-                    With .Controls("Etiqueta30")
-                        If IsNull(RS1.Fields(13).Value) = False Then .Caption = RS1.Fields(13).Value
-                    End With
-                    
-                    With .Controls("Etiqueta31")
-                        If IsNull(RS1.Fields(14).Value) = False Then .Caption = RS1.Fields(14).Value
-                    End With
-                    
-                    With .Controls("Etiqueta32")
-                        If IsNull(RS1.Fields(15).Value) = False Then .Caption = RS1.Fields(15).Value
-                    End With
-                    
-                    With .Controls("Etiqueta33")
-                        .Caption = RS1.Fields(2).Value
-                    End With
-                End With
-                .Show 1
-            End With
-            RS1.Close
-            Unload Me
-        Else
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 2
+        With Text2(2)
+            If .Text = "" Then
+                T2 = 0
+            Else
+                T2 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 3
+        With Text2(3)
+            If .Text = "" Then
+                T3 = 0
+            Else
+                T3 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 4
+        With Text2(4)
+            If .Text = "" Then
+                T4 = 0
+            Else
+                T4 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 5
+        With Text2(5)
+            If .Text = "" Then
+                T5 = 0
+            Else
+                T5 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 6
+        With Text2(6)
+            If .Text = "" Then
+                T6 = 0
+            Else
+                T6 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 7
+        With Text2(7)
+            If .Text = "" Then
+                T7 = 0
+            Else
+                T7 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 8
+        With Text2(8)
+            If .Text = "" Then
+                T8 = 0
+            Else
+                T8 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 9
+        With Text2(9)
+            If .Text = "" Then
+                T9 = 0
+            Else
+                T9 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 10
+        With Text2(10)
+            If .Text = "" Then
+                T10 = 0
+            Else
+                T10 = Val(.Text)
+            End If
+        End With
+
+        With Text2(10)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 11
+        With Text2(11)
+            If .Text = "" Then
+                T11 = 0
+            Else
+                T11 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 12
+        With Text2(12)
+            If .Text = "" Then
+                T12 = 0
+            Else
+                T12 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    Case 13
+        With Text2(13)
+            If .Text = "" Then
+                T13 = 0
+            Else
+                T13 = Val(.Text)
+            End If
+        End With
+
+        With Text2(0)
+            .Text = Format(((Val(T1) * 1000) + (Val(T2) * 500) + (Val(T3) * 200) + (Val(T4) * 100) + (Val(T5) * 50) + (Val(T6) * 20) + (Val(T7) * 10) + (Val(T8) * 5) + (Val(T9) * 2) + (Val(T10) * 1) + (Val(T11) * 0.5) + (Val(T12) * 0.2) + (Val(T13) * 0.1)), "0.00")
+        End With
+    End Select
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCrearCorteCaja:Text2_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Guardar_Click()
+    On Error GoTo errHandler
+    vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
+    If vbq = vbYes Then
+        If Val(Text2(0)) = 0 Or Text2(0) = "" Then
+            MsgBox "No hay información que guardar", vbOKOnly, "Advertencia"
             Exit Sub
         End If
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCrearCorteCaja:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCrearCorteCaja:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        Unload dsrCrearCorteCaja
         With Rs
             If .State = 1 Then .Close
+            .CursorLocation = adodb.CursorLocationEnum.adUseClient
+            .Open "Select * from CE_BOX_CUT;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+            .Requery
+            .AddNew
+            .Fields(1) = Date
+            If Text2(0) <> "" Then .Fields(2) = Replace(Text2(0), ",", ".")
+
+            If Text2(1) <> "" Then .Fields(3) = Round(Val(Text2(1)))
+
+            If Text2(2) <> "" Then .Fields(4) = Round(Val(Text2(2)))
+
+            If Text2(3) <> "" Then .Fields(5) = Round(Val(Text2(3)))
+
+            If Text2(4) <> "" Then .Fields(6) = Round(Val(Text2(4)))
+
+            If Text2(5) <> "" Then .Fields(7) = Round(Val(Text2(5)))
+
+            If Text2(6) <> "" Then .Fields(8) = Round(Val(Text2(6)))
+
+            If Text2(7) <> "" Then .Fields(9) = Round(Val(Text2(7)))
+
+            If Text2(8) <> "" Then .Fields(10) = Round(Val(Text2(8)))
+
+            If Text2(9) <> "" Then .Fields(11) = Round(Val(Text2(9)))
+
+            If Text2(10) <> "" Then .Fields(12) = Round(Val(Text2(10)))
+
+            If Text2(11) <> "" Then .Fields(13) = Round(Val(Text2(11)))
+
+            If Text2(12) <> "" Then .Fields(14) = Round(Val(Text2(12)))
+
+            If Text2(13) <> "" Then .Fields(15) = Round(Val(Text2(13)))
+            .Fields(16) = frmMenuInicial.Combo1.Text
+            .Fields(17) = StUsuario
+            .Update
+            .Requery
+            .Close
         End With
-        
+        MsgBox "Corte de caja terminado", vbOKOnly, "Finalizado"
         With RS1
             If .State = 1 Then .Close
+            .CursorLocation = adodb.CursorLocationEnum.adUseClient
+            .Open "Select top 1 * from CE_BOX_CUT where caja = '" & frmMenuInicial.Combo1.Text & "' order by id desc;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+            .Requery
         End With
-        
-        With Cn
-            If .State = 1 Then .Close
+        Unload dsrCrearCorteCaja
+        With dsrCrearCorteCaja
+            Set .DataSource = RS1
+
+            With .Sections("Sección4")
+                With .Controls("Etiqueta2")
+                    .Caption = frmMenuInicial.Combo1.Text
+                End With
+
+                With .Controls("Etiqueta10")
+                    If IsNull(RS1.Fields(3).Value) = False Then .Caption = RS1.Fields(3).Value
+                End With
+
+                With .Controls("Etiqueta11")
+                    If IsNull(RS1.Fields(4).Value) = False Then .Caption = RS1.Fields(4).Value
+                End With
+
+                With .Controls("Etiqueta12")
+                    If IsNull(RS1.Fields(5).Value) = False Then .Caption = RS1.Fields(5).Value
+                End With
+
+                With .Controls("Etiqueta13")
+                    If IsNull(RS1.Fields(6).Value) = False Then .Caption = RS1.Fields(6).Value
+                End With
+
+                With .Controls("Etiqueta14")
+                    If IsNull(RS1.Fields(7).Value) = False Then .Caption = RS1.Fields(7).Value
+                End With
+
+                With .Controls("Etiqueta15")
+                    If IsNull(RS1.Fields(8).Value) = False Then .Caption = RS1.Fields(8).Value
+                End With
+
+                With .Controls("Etiqueta26")
+                    If IsNull(RS1.Fields(9).Value) = False Then .Caption = RS1.Fields(9).Value
+                End With
+
+                With .Controls("Etiqueta27")
+                    If IsNull(RS1.Fields(10).Value) = False Then .Caption = RS1.Fields(10).Value
+                End With
+
+                With .Controls("Etiqueta28")
+                    If IsNull(RS1.Fields(11).Value) = False Then .Caption = RS1.Fields(11).Value
+                End With
+
+                With .Controls("Etiqueta29")
+                    If IsNull(RS1.Fields(12).Value) = False Then .Caption = RS1.Fields(12).Value
+                End With
+
+                With .Controls("Etiqueta30")
+                    If IsNull(RS1.Fields(13).Value) = False Then .Caption = RS1.Fields(13).Value
+                End With
+
+                With .Controls("Etiqueta31")
+                    If IsNull(RS1.Fields(14).Value) = False Then .Caption = RS1.Fields(14).Value
+                End With
+
+                With .Controls("Etiqueta32")
+                    If IsNull(RS1.Fields(15).Value) = False Then .Caption = RS1.Fields(15).Value
+                End With
+
+                With .Controls("Etiqueta33")
+                    .Caption = RS1.Fields(2).Value
+                End With
+            End With
+            .Show 1
         End With
-        
-        Set Rs = Nothing
-        Set RS1 = Nothing
-        Set Cn = Nothing
+        RS1.Close
+        Unload Me
+    Else
+        Exit Sub
+    End If
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCrearCorteCaja:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCrearCorteCaja:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCrearCorteCaja:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    Unload dsrCrearCorteCaja
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With RS1
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set RS1 = Nothing
+    Set Cn = Nothing
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCrearCorteCaja:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

@@ -145,172 +145,172 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    Dim Rs As New adodb.Recordset
-    
-    Sub Form_Load()
-        On Error GoTo errHandler
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select * from HZ_PARTY where Cliente = 'Si' order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+Dim Rs As New adodb.Recordset
+
+Sub Form_Load()
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select * from HZ_PARTY where Cliente = 'Si' order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then
+            .MoveFirst
+            List1.Clear
+            While Not .EOF
+                List1.AddItem .Fields(1).Value
+                .MoveNext
+            Wend
+        Else
+            Unload Me
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorClientes:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text1_Change()
+    On Error GoTo errHandler
+    With List1
+        .Clear
+    End With
+
+    With Rs
+        If Text1 = "" Then
+            .Filter = ""
             .Requery
             If .RecordCount <> 0 Then
                 .MoveFirst
-                List1.Clear
                 While Not .EOF
                     List1.AddItem .Fields(1).Value
                     .MoveNext
                 Wend
-            Else
-                Unload Me
             End If
-        End With
+        Else
+            .Filter = "nombre like '*" & Text1 & "*' or [Monedero] = '" & Text1 & "'"
+            .Requery
+            If .RecordCount <> 0 Then
+                .MoveFirst
+                While Not .EOF
+                    List1.AddItem .Fields(1).Value
+                    .MoveNext
+                Wend
+            End If
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorClientes:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorClientes:Text1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
 
-    Private Sub Text1_Change()
-        On Error GoTo errHandler
-        With List1
-            .Clear
-        End With
-        
-        With Rs
-            If Text1 = "" Then
-                .Filter = ""
-                .Requery
-                If .RecordCount <> 0 Then
-                    .MoveFirst
-                    While Not .EOF
-                        List1.AddItem .Fields(1).Value
-                        .MoveNext
-                    Wend
-                End If
+Private Sub Command2_Click()
+    On Error GoTo errHandler
+    With List1
+        If .Text = "" Then
+            MsgBox "Seleccione algún cliente", vbOKOnly, "Información"
+        Else
+            If TipoBusquedaCliente = "Venta" Then
+                With frmVentas
+                    With .Combo1(0)
+                        .Text = List1.Text
+                    End With
+                End With
             Else
-                .Filter = "nombre like '*" & Text1 & "*' or [Monedero] = '" & Text1 & "'"
-                .Requery
-                If .RecordCount <> 0 Then
-                    .MoveFirst
-                    While Not .EOF
-                        List1.AddItem .Fields(1).Value
-                        .MoveNext
-                    Wend
-                End If
+                With frmPedidos
+                    With .Combo1(0)
+                        .Text = List1.Text
+                    End With
+                End With
             End If
-        End With
+            Unload Me
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorClientes:Text1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Command2_Click()
-        On Error GoTo errHandler
-        With List1
-            If .Text = "" Then
-                MsgBox "Seleccione algún cliente", vbOKOnly, "Información"
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorClientes:Command2_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub List1_DblClick()
+    On Error GoTo errHandler
+    With List1
+        If .Text = "" Then
+            MsgBox "Seleccione algún cliente", vbOKOnly, "Información"
+        Else
+            If TipoBusquedaCliente = "Venta" Then
+                With frmVentas
+                    With .Combo1(0)
+                        .Text = List1.Text
+                    End With
+                End With
             Else
-                If TipoBusquedaCliente = "Venta" Then
-                    With frmVentas
-                        With .Combo1(0)
-                            .Text = List1.Text
-                        End With
+                With frmPedidos
+                    With .Combo1(0)
+                        .Text = List1.Text
                     End With
-                Else
-                    With frmPedidos
-                        With .Combo1(0)
-                            .Text = List1.Text
-                        End With
-                    End With
-                End If
-                Unload Me
+                End With
             End If
-        End With
+            Unload Me
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorClientes:Command2_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub List1_DblClick()
-        On Error GoTo errHandler
-        With List1
-            If .Text = "" Then
-                MsgBox "Seleccione algún cliente", vbOKOnly, "Información"
-            Else
-                If TipoBusquedaCliente = "Venta" Then
-                    With frmVentas
-                        With .Combo1(0)
-                            .Text = List1.Text
-                        End With
-                    End With
-                Else
-                    With frmPedidos
-                        With .Combo1(0)
-                            .Text = List1.Text
-                        End With
-                    End With
-                End If
-                Unload Me
-            End If
-        End With
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorClientes:List1_DblClick" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorClientes:List1_DblClick" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmAjusteInventario:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set frmBuscadorClientes = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmAjusteInventario:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        With Rs
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs = Nothing
-        Set frmBuscadorClientes = Nothing
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorClientes:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmBuscadorClientes:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

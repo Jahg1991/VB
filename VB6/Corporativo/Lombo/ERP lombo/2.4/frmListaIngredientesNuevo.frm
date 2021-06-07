@@ -302,563 +302,563 @@ Attribute VB_Exposed = False
 '                                               guardar datos
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//RECORDSET
-    Dim Rs              As New adodb.Recordset
-    Dim RS1             As New adodb.Recordset
-    Dim Rs2             As New adodb.Recordset
-    '//ARTICULO
-    Dim vItemPTId       As Long
-    Dim vItemMPId       As Long
-    Dim viid            As String
-    Dim videscripcion   As String
-    Dim vicantidad      As String
-    Dim vCategoria      As String
-    '//OTROS
-    Dim St              As String
-    Dim i               As Long
-    Dim X               As Long
-    Dim c1              As Long
-    Dim c2              As Long
-    Dim c3              As Long
-    '//VALORES PARA INSERTAR
-    Dim v1              As Long
-    Dim v2              As String
-    Dim v3              As String
-    Dim v4              As Long
-    Dim v5              As String
-    Dim v6              As String
-    Dim v7              As String
-    
-    Private Sub Form_Load()
-        On Error GoTo errHandler
-        With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
-        End With
-        
-        With RS1
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select * from MTL_SYSTEM_ITEMS t1 where UDM <> 'Servicio' and Categoria = 'Inventario' and not exists (select 1 from BILL_OF_MATERIAL where t1.id =ItemPTId) order by 3;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Filter = ""
-            .Requery
-            If .RecordCount > 0 Then
-                With Combo1(0)
-                    .Clear
-                End With
-                
-                While Not .EOF
-                    Combo1(0).AddItem .Fields(2) & " (" & .Fields(9) & ")" & " (" & .Fields(1) & ")"
-                    .MoveNext
-                Wend
-            End If
-            If .RecordCount > 0 Then
-                With Rs2
-                    If .State = 1 Then .Close
-                    .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "Select t1.* from MTL_SYSTEM_ITEMS t1 where UDM <> 'Servicio' and Categoria = 'Inventario' order by 3;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                    .Filter = ""
-                    .Requery
-                    If .RecordCount <> 0 Then
-                        With Combo1(1)
-                            .Clear
-                        End With
-                        
-                        While Not .EOF
-                            Combo1(1).AddItem .Fields(2) & " (" & .Fields(9) & ")" & " (" & .Fields(1) & ")"
-                            .MoveNext
-                        Wend
-                    End If
-                End With
-                
-                With Text1(0)
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+'//RECORDSET
+Dim Rs As New adodb.Recordset
+Dim RS1 As New adodb.Recordset
+Dim Rs2 As New adodb.Recordset
+'//ARTICULO
+Dim vItemPTId As Long
+Dim vItemMPId As Long
+Dim viid As String
+Dim videscripcion As String
+Dim vicantidad As String
+Dim vCategoria As String
+'//OTROS
+Dim St As String
+Dim i As Long
+Dim X As Long
+Dim c1 As Long
+Dim c2 As Long
+Dim c3 As Long
+'//VALORES PARA INSERTAR
+Dim v1 As Long
+Dim v2 As String
+Dim v3 As String
+Dim v4 As Long
+Dim v5 As String
+Dim v6 As String
+Dim v7 As String
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+
+    With RS1
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select * from MTL_SYSTEM_ITEMS t1 where UDM <> 'Servicio' and Categoria = 'Inventario' and not exists (select 1 from BILL_OF_MATERIAL where t1.id =ItemPTId) order by 3;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Filter = ""
+        .Requery
+        If .RecordCount > 0 Then
+            With Combo1(0)
+                .Clear
+            End With
+
+            While Not .EOF
+                Combo1(0).AddItem .Fields(2) & " (" & .Fields(9) & ")" & " (" & .Fields(1) & ")"
+                .MoveNext
+            Wend
+        End If
+        If .RecordCount > 0 Then
+            With Rs2
+                If .State = 1 Then .Close
+                .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                .Open "Select t1.* from MTL_SYSTEM_ITEMS t1 where UDM <> 'Servicio' and Categoria = 'Inventario' order by 3;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                .Filter = ""
+                .Requery
+                If .RecordCount <> 0 Then
+                    With Combo1(1)
+                        .Clear
+                    End With
+
+                    While Not .EOF
+                        Combo1(1).AddItem .Fields(2) & " (" & .Fields(9) & ")" & " (" & .Fields(1) & ")"
+                        .MoveNext
+                    Wend
+                End If
+            End With
+
+            With Text1(0)
+                .BackColor = COLOR_NO_ENCONTRADO
+                .Text = ""
+            End With
+
+            For i = 0 To 1
+                With Combo1(i)
                     .BackColor = COLOR_NO_ENCONTRADO
                     .Text = ""
                 End With
-                
-                For i = 0 To 1
-                    With Combo1(i)
-                        .BackColor = COLOR_NO_ENCONTRADO
-                        .Text = ""
-                    End With
-                Next i
-                
-                With List1
-                    .Clear
+            Next i
+
+            With List1
+                .Clear
+            End With
+        Else
+            MsgBox "No hay registros existentes", vbOKOnly, "Información"
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Combo1_Click(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 0
+        With Combo1(0)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+                With RS1
+                    .Filter = ""
+                    .Requery
                 End With
             Else
-                MsgBox "No hay registros existentes", vbOKOnly, "Información"
+                .BackColor = COLOR_NORMAL
+                With Combo1(0)
+                    vItemPTId = Get_ItemId(.Text)
+                End With
+
+                With RS1
+                    .Filter = "Id = " & vItemPTId
+                    .Requery
+                    v1 = .Fields(0).Value
+                    v2 = .Fields(1).Value
+                    v3 = .Fields(2).Value
+                End With
             End If
         End With
+    Case 1
+        With Combo1(1)
+            If .Text <> "" Then
+                .BackColor = COLOR_NORMAL
+                vItemMPId = Get_ItemId(Combo1(1).Text)
+                With Rs2
+                    .Filter = ""
+                    .Filter = "Id = " & vItemMPId
+                    .Requery
+                End With
+            Else
+                .BackColor = COLOR_NO_ENCONTRADO
+            End If
+        End With
+    End Select
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Combo1_Click(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 0
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Combo1_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Combo1_KeyUp(Index As Integer, KeyCode As Integer, Shift As Integer)
+    On Error GoTo errHandler
+    Static cadena As String
+
+    Select Case Index
+    Case 0
+        With Combo1(0)
+            ' si pesionamos las teclas de las flechas sale de la rutina
+            If KeyCode = vbKeyUp Then Exit Sub
+
+            If KeyCode = vbKeyDown Then Exit Sub
+
+            If KeyCode = vbKeyLeft Then Exit Sub
+
+            If KeyCode = vbKeyRight Then Exit Sub
+
+            ' verifica qu no se presionó la tecla backspace
+            If KeyCode <> vbKeyBack Then
+                cadena = Mid(.Text, 1, Len(.Text) - .SelLength)
+            Else
+                '...tecla backspace
+                If cadena <> "" Then
+                    cadena = Mid(cadena, 1, Len(cadena) - 1)
+                End If
+            End If
+
+            For i = 0 To .ListCount - 1
+                If UCase(cadena) = UCase(Mid(.List(i), 1, Len(cadena))) Then
+                    .ListIndex = i
+                    Exit For
+                End If
+            Next
+            ' Seelecciona
+            .SelStart = Len(cadena)
+            .SelLength = Len(.Text)
+            If .ListIndex = -1 Then
+                ' color de fondo del combo en caso de que no hay coincidencias
+                .BackColor = COLOR_NO_ENCONTRADO
+                With RS1
+                    .Filter = ""
+                    .Requery
+                End With
+            Else
+                ' Backcolor normal cuando hay coincidencia
+                .BackColor = COLOR_NORMAL
                 With Combo1(0)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                        With RS1
-                            .Filter = ""
-                            .Requery
-                        End With
-                    Else
-                        .BackColor = COLOR_NORMAL
-                        With Combo1(0)
-                            vItemPTId = Get_ItemId(.Text)
-                        End With
-                        
-                        With RS1
-                            .Filter = "Id = " & vItemPTId
-                            .Requery
-                            v1 = .Fields(0).Value
-                            v2 = .Fields(1).Value
-                            v3 = .Fields(2).Value
-                        End With
-                    End If
+                    vItemPTId = Get_ItemId(.Text)
                 End With
-            Case 1
-                With Combo1(1)
-                    If .Text <> "" Then
-                        .BackColor = COLOR_NORMAL
-                        vItemMPId = Get_ItemId(Combo1(1).Text)
-                        With Rs2
-                            .Filter = ""
-                            .Filter = "Id = " & vItemMPId
-                            .Requery
-                        End With
-                    Else
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    End If
+
+                With RS1
+                    .Filter = "Id = " & vItemPTId
+                    .Requery
+                    v1 = .Fields(0).Value
+                    v2 = .Fields(1).Value
+                    v3 = .Fields(2).Value
                 End With
-        End Select
+            End If
+        End With
+    Case 1
+        With Combo1(1)
+            ' si pesionamos las teclas de las flechas sale de la rutina
+            If KeyCode = vbKeyUp Then Exit Sub
+
+            If KeyCode = vbKeyDown Then Exit Sub
+
+            If KeyCode = vbKeyLeft Then Exit Sub
+
+            If KeyCode = vbKeyRight Then Exit Sub
+
+            ' verifica qu no se presionó la tecla backspace
+            If KeyCode <> vbKeyBack Then
+                cadena = Mid(.Text, 1, Len(.Text) - .SelLength)
+            Else
+                '...tecla backspace
+                If cadena <> "" Then
+                    cadena = Mid(cadena, 1, Len(cadena) - 1)
+                End If
+            End If
+
+            For i = 0 To .ListCount - 1
+                If UCase(cadena) = UCase(Mid(.List(i), 1, Len(cadena))) Then
+                    .ListIndex = i
+                    Exit For
+                End If
+            Next
+            ' Seelecciona
+            .SelStart = Len(cadena)
+            .SelLength = Len(.Text)
+
+            If .ListIndex = -1 Then
+                ' color de fondo del combo en caso de que no hay coincidencias
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                ' Backcolor normal cuando hay coincidencia
+                .BackColor = COLOR_NORMAL
+                vItemMPId = Get_ItemId(Combo1(1).Text)
+                With Rs2
+                    .Filter = ""
+                    .Filter = "Id = " & vItemMPId
+                    .Requery
+                End With
+            End If
+        End With
+    End Select
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Combo1_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Combo1_KeyUp(Index As Integer, KeyCode As Integer, Shift As Integer)
-        On Error GoTo errHandler
-        Static cadena As String
-        
-        Select Case Index
-            Case 0
-                With Combo1(0)
-                    ' si pesionamos las teclas de las flechas sale de la rutina
-                    If KeyCode = vbKeyUp Then Exit Sub
-                    
-                    If KeyCode = vbKeyDown Then Exit Sub
-                    
-                    If KeyCode = vbKeyLeft Then Exit Sub
-                    
-                    If KeyCode = vbKeyRight Then Exit Sub
-                    
-                    ' verifica qu no se presionó la tecla backspace
-                    If KeyCode <> vbKeyBack Then
-                        cadena = Mid(.Text, 1, Len(.Text) - .SelLength)
-                    Else
-                        '...tecla backspace
-                        If cadena <> "" Then
-                            cadena = Mid(cadena, 1, Len(cadena) - 1)
-                        End If
-                    End If
-                    
-                    For i = 0 To .ListCount - 1
-                        If UCase(cadena) = UCase(Mid(.List(i), 1, Len(cadena))) Then
-                            .ListIndex = i
-                            Exit For
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Combo1_KeyUp" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text1_Change(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 0
+        With Text1(0)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    End Select
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Text1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Command1_Click(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 0
+        With Text1(0)
+            If .Text = "" Or Val(.Text) <= 0 Then
+                MsgBox "Cantidad no válida", vbCritical, "Error"
+                Exit Sub
+            End If
+            If Combo1(0) <> "" And Combo1(1) <> "" And .Text <> "" Then
+                With Rs2
+                    viid = .Fields(0).Value
+                    videscripcion = Mid(.Fields(2).Value, 1, 43)
+                End With
+                vicantidad = Replace(Format(Val(.Text), "0.00"), ",", ".")
+                ' 1 - 11
+                c1 = 10 - Len(viid)
+                For i = 1 To c1
+                    viid = " " & viid
+                Next i
+                ' 12 - 55
+                c2 = 43 - Len(videscripcion)
+                For i = 1 To c2
+                    videscripcion = videscripcion & " "
+                Next i
+                ' 56 - 64
+                c3 = 11 - Len(vicantidad)
+                For i = 1 To c3
+                    vicantidad = " " & vicantidad
+                Next i
+
+                With List1
+                    For X = 0 To .ListCount - 1
+                        If UCase(Trim(Mid(.List(X), 1, 54))) = UCase(Trim(viid & " " & videscripcion)) Then
+                            MsgBox "El articulo ya esta en la lista", vbOKOnly, "Atención"
+                            Exit Sub
                         End If
                     Next
-                    ' Seelecciona
-                    .SelStart = Len(cadena)
-                    .SelLength = Len(.Text)
-                    If .ListIndex = -1 Then
-                        ' color de fondo del combo en caso de que no hay coincidencias
-                        .BackColor = COLOR_NO_ENCONTRADO
-                        With RS1
-                            .Filter = ""
-                            .Requery
-                        End With
-                    Else
-                        ' Backcolor normal cuando hay coincidencia
-                        .BackColor = COLOR_NORMAL
-                        With Combo1(0)
-                            vItemPTId = Get_ItemId(.Text)
-                        End With
-                        
-                        With RS1
-                            .Filter = "Id = " & vItemPTId
-                            .Requery
-                            v1 = .Fields(0).Value
-                            v2 = .Fields(1).Value
-                            v3 = .Fields(2).Value
-                        End With
-                    End If
+                    .AddItem viid & " " & videscripcion & " " & vicantidad
                 End With
-            Case 1
+                .Text = ""
+                .BackColor = COLOR_NO_ENCONTRADO
                 With Combo1(1)
-                    ' si pesionamos las teclas de las flechas sale de la rutina
-                    If KeyCode = vbKeyUp Then Exit Sub
-                    
-                    If KeyCode = vbKeyDown Then Exit Sub
-                    
-                    If KeyCode = vbKeyLeft Then Exit Sub
-                    
-                    If KeyCode = vbKeyRight Then Exit Sub
-                    
-                    ' verifica qu no se presionó la tecla backspace
-                    If KeyCode <> vbKeyBack Then
-                        cadena = Mid(.Text, 1, Len(.Text) - .SelLength)
-                    Else
-                        '...tecla backspace
-                        If cadena <> "" Then
-                            cadena = Mid(cadena, 1, Len(cadena) - 1)
-                        End If
-                    End If
-                    
-                    For i = 0 To .ListCount - 1
-                        If UCase(cadena) = UCase(Mid(.List(i), 1, Len(cadena))) Then
-                            .ListIndex = i
-                            Exit For
-                        End If
-                    Next
-                    ' Seelecciona
-                    .SelStart = Len(cadena)
-                    .SelLength = Len(.Text)
-                    
-                    If .ListIndex = -1 Then
-                        ' color de fondo del combo en caso de que no hay coincidencias
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        ' Backcolor normal cuando hay coincidencia
-                        .BackColor = COLOR_NORMAL
-                        vItemMPId = Get_ItemId(Combo1(1).Text)
-                        With Rs2
-                            .Filter = ""
-                            .Filter = "Id = " & vItemMPId
-                            .Requery
-                        End With
-                    End If
+                    .Text = ""
+                    .BackColor = COLOR_NO_ENCONTRADO
+                    .SetFocus
                 End With
-        End Select
+            Else
+                MsgBox "Llenar todos los campos", vbCritical, "Error"
+                .SetFocus
+            End If
+        End With
+    Case 1
+        'Variables
+        Dim intX As Long
+
+        With List1
+            intX = .ListIndex
+            .RemoveItem intX
+        End With
+    End Select
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Combo1_KeyUp" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Text1_Change(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 0
-                With Text1(0)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-        End Select
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Text1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Command1_Click(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 0
-                With Text1(0)
-                    If .Text = "" Or Val(.Text) <= 0 Then
-                        MsgBox "Cantidad no válida", vbCritical, "Error"
-                        Exit Sub
-                    End If
-                    If Combo1(0) <> "" And Combo1(1) <> "" And .Text <> "" Then
-                        With Rs2
-                            viid = .Fields(0).Value
-                            videscripcion = Mid(.Fields(2).Value, 1, 43)
-                        End With
-                        vicantidad = Replace(Format(Val(.Text), "0.00"), ",", ".")
-                        ' 1 - 11
-                        c1 = 10 - Len(viid)
-                        For i = 1 To c1
-                            viid = " " & viid
-                        Next i
-                        ' 12 - 55
-                        c2 = 43 - Len(videscripcion)
-                        For i = 1 To c2
-                            videscripcion = videscripcion & " "
-                        Next i
-                        ' 56 - 64
-                        c3 = 11 - Len(vicantidad)
-                        For i = 1 To c3
-                            vicantidad = " " & vicantidad
-                        Next i
-                        
-                        With List1
-                            For X = 0 To .ListCount - 1
-                                If UCase(Trim(Mid(.List(X), 1, 54))) = UCase(Trim(viid & " " & videscripcion)) Then
-                                    MsgBox "El articulo ya esta en la lista", vbOKOnly, "Atención"
-                                    Exit Sub
-                                End If
-                            Next
-                            .AddItem viid & " " & videscripcion & " " & vicantidad
-                        End With
-                        .Text = ""
-                        .BackColor = COLOR_NO_ENCONTRADO
-                        With Combo1(1)
-                            .Text = ""
-                            .BackColor = COLOR_NO_ENCONTRADO
-                            .SetFocus
-                        End With
-                    Else
-                        MsgBox "Llenar todos los campos", vbCritical, "Error"
-                        .SetFocus
-                    End If
-                End With
-            Case 1
-                'Variables
-                Dim intX As Long
-                
-                With List1
-                    intX = .ListIndex
-                    .RemoveItem intX
-                End With
-        End Select
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Command1_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Guardar_Click()
-        On Error GoTo errHandler
-        vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
-        If vbq = vbYes Then
-            With Rs
-                If .State = 1 Then .Close
-                .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                .Open "Select * from BILL_OF_MATERIAL;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                .Filter = ""
-                .Requery
-                With List1
-                    For i = 0 To .ListCount - 1
-                        .ListIndex = i
-                        .SetFocus
-                        v4 = Trim(Mid(.Text, 1, 10))
-                        v5 = Get_ItemCod(v4)
-                        v6 = Get_ItemDesc(v4)
-                        v7 = Replace(Trim(Mid(.Text, 56, 11)), ",", ".")
-                        With Rs
-                            .AddNew
-                                With .Fields(1)
-                                    .Value = v1                                                             'id pt
-                                End With
-                                
-                                With .Fields(2)
-                                    .Value = v2                                                             'cod pt
-                                End With
-                                
-                                With .Fields(3)
-                                    .Value = v3                                                             'desc pt
-                                End With
-                                
-                                With .Fields(4)
-                                    .Value = v4                                                             'id mp
-                                End With
-                                
-                                With .Fields(5)
-                                    .Value = v5                                                             'cod mp
-                                End With
-                                
-                                With .Fields(6)
-                                    .Value = v6                                                             'desc mp
-                                End With
-                                
-                                With .Fields(7)
-                                    .Value = v7                                                             'cantidad
-                                End With
-                                
-                                With .Fields(8)
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
-                                End With
-                                
-                                With .Fields(9)
-                                    .Value = StUsuario                                                      'usuario
-                                End With
-                                
-                                With .Fields(10)
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
-                                End With
-                                
-                                With .Fields(11)
-                                    .Value = StUsuario                                                      'usuario
-                                End With
-                            .Update
-                            .Requery
-                        End With
-                    Next i
-                End With
-            End With
-            Unload frmListaIngredientesNuevo
-            Set frmListaIngredientesNuevo = Nothing
-            
-            With frmListaIngredientesNuevo
-                .Show
-            End With
-        End If
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
-        If vbq = vbYes Then
-            With Rs
-                If .State = 1 Then .Close
-                .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                .Open "Select * from BILL_OF_MATERIAL;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                .Filter = ""
-                .Requery
-                With List1
-                    For i = 0 To .ListCount - 1
-                        .ListIndex = i
-                        .SetFocus
-                        v4 = Trim(Mid(.Text, 1, 10))
-                        v5 = Get_ItemCod(v4)
-                        v6 = Get_ItemDesc(v4)
-                        v7 = Replace(Trim(Mid(.Text, 56, 11)), ",", ".")
-                        With Rs
-                            .AddNew
-                                With .Fields(1)
-                                    .Value = v1                                                             'id pt
-                                End With
-                                
-                                With .Fields(2)
-                                    .Value = v2                                                             'cod pt
-                                End With
-                                
-                                With .Fields(3)
-                                    .Value = v3                                                             'desc pt
-                                End With
-                                
-                                With .Fields(4)
-                                    .Value = v4                                                             'id mp
-                                End With
-                                
-                                With .Fields(5)
-                                    .Value = v5                                                             'cod mp
-                                End With
-                                
-                                With .Fields(6)
-                                    .Value = v6                                                             'desc mp
-                                End With
-                                
-                                With .Fields(7)
-                                    .Value = v7                                                             'cantidad
-                                End With
-                                
-                                With .Fields(8)
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
-                                End With
-                                
-                                With .Fields(9)
-                                    .Value = StUsuario                                                      'usuario
-                                End With
-                                
-                                With .Fields(10)
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
-                                End With
-                                
-                                With .Fields(11)
-                                    .Value = StUsuario                                                      'usuario
-                                End With
-                            .Update
-                            .Requery
-                        End With
-                    Next i
-                End With
-            End With
-        End If
-        Unload Me
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Command1_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Guardar_Click()
+    On Error GoTo errHandler
+    vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
+    If vbq = vbYes Then
         With Rs
             If .State = 1 Then .Close
+            .CursorLocation = adodb.CursorLocationEnum.adUseClient
+            .Open "Select * from BILL_OF_MATERIAL;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+            .Filter = ""
+            .Requery
+            With List1
+                For i = 0 To .ListCount - 1
+                    .ListIndex = i
+                    .SetFocus
+                    v4 = Trim(Mid(.Text, 1, 10))
+                    v5 = Get_ItemCod(v4)
+                    v6 = Get_ItemDesc(v4)
+                    v7 = Replace(Trim(Mid(.Text, 56, 11)), ",", ".")
+                    With Rs
+                        .AddNew
+                        With .Fields(1)
+                            .Value = v1                                                             'id pt
+                        End With
+
+                        With .Fields(2)
+                            .Value = v2                                                             'cod pt
+                        End With
+
+                        With .Fields(3)
+                            .Value = v3                                                             'desc pt
+                        End With
+
+                        With .Fields(4)
+                            .Value = v4                                                             'id mp
+                        End With
+
+                        With .Fields(5)
+                            .Value = v5                                                             'cod mp
+                        End With
+
+                        With .Fields(6)
+                            .Value = v6                                                             'desc mp
+                        End With
+
+                        With .Fields(7)
+                            .Value = v7                                                             'cantidad
+                        End With
+
+                        With .Fields(8)
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                        End With
+
+                        With .Fields(9)
+                            .Value = StUsuario                                                      'usuario
+                        End With
+
+                        With .Fields(10)
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                        End With
+
+                        With .Fields(11)
+                            .Value = StUsuario                                                      'usuario
+                        End With
+                        .Update
+                        .Requery
+                    End With
+                Next i
+            End With
         End With
-        
-        With RS1
-            If .State = 1 Then .Close
+        Unload frmListaIngredientesNuevo
+        Set frmListaIngredientesNuevo = Nothing
+
+        With frmListaIngredientesNuevo
+            .Show
         End With
-        
-        With Rs2
-            If .State = 1 Then .Close
-        End With
-        
-        With Cn
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs = Nothing
-        Set RS1 = Nothing
-        Set Rs2 = Nothing
-        Set Cn = Nothing
+    End If
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
+    If vbq = vbYes Then
+        With Rs
+            If .State = 1 Then .Close
+            .CursorLocation = adodb.CursorLocationEnum.adUseClient
+            .Open "Select * from BILL_OF_MATERIAL;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+            .Filter = ""
+            .Requery
+            With List1
+                For i = 0 To .ListCount - 1
+                    .ListIndex = i
+                    .SetFocus
+                    v4 = Trim(Mid(.Text, 1, 10))
+                    v5 = Get_ItemCod(v4)
+                    v6 = Get_ItemDesc(v4)
+                    v7 = Replace(Trim(Mid(.Text, 56, 11)), ",", ".")
+                    With Rs
+                        .AddNew
+                        With .Fields(1)
+                            .Value = v1                                                             'id pt
+                        End With
+
+                        With .Fields(2)
+                            .Value = v2                                                             'cod pt
+                        End With
+
+                        With .Fields(3)
+                            .Value = v3                                                             'desc pt
+                        End With
+
+                        With .Fields(4)
+                            .Value = v4                                                             'id mp
+                        End With
+
+                        With .Fields(5)
+                            .Value = v5                                                             'cod mp
+                        End With
+
+                        With .Fields(6)
+                            .Value = v6                                                             'desc mp
+                        End With
+
+                        With .Fields(7)
+                            .Value = v7                                                             'cantidad
+                        End With
+
+                        With .Fields(8)
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                        End With
+
+                        With .Fields(9)
+                            .Value = StUsuario                                                      'usuario
+                        End With
+
+                        With .Fields(10)
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                        End With
+
+                        With .Fields(11)
+                            .Value = StUsuario                                                      'usuario
+                        End With
+                        .Update
+                        .Requery
+                    End With
+                Next i
+            End With
+        End With
+    End If
+    Unload Me
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With RS1
+        If .State = 1 Then .Close
+    End With
+
+    With Rs2
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set RS1 = Nothing
+    Set Rs2 = Nothing
+    Set Cn = Nothing
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmListaIngredientesNuevo:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

@@ -160,169 +160,169 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//RECORDSET
-    Dim Rs As New adodb.Recordset
-    
-    Private Sub Form_Load()
-        On Error GoTo errHandler
-        
-        With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
-        End With
-        
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select * from RA_CASH_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-        End With
-        
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+'//RECORDSET
+Dim Rs As New adodb.Recordset
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select * from RA_CASH_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+    End With
+
+    With Text2(0)
+        .BackColor = COLOR_NO_ENCONTRADO
+    End With
+
+    With Text2(1)
+        .BackColor = COLOR_NO_ENCONTRADO
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmEntradaSalidaDinero:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text2_Change(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 0
         With Text2(0)
-            .BackColor = COLOR_NO_ENCONTRADO
-        End With
-        
-        With Text2(1)
-            .BackColor = COLOR_NO_ENCONTRADO
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmEntradaSalidaDinero:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Text2_Change(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 0
-                With Text2(0)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 1
-                With Text2(1)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-        End Select
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmEntradaSalidaDinero:Text2_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Guardar_Click()
-        On Error GoTo errHandler
-        vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
-        If vbq = vbYes Then
-            If Val(Text2(0)) <> 0 Then
-                With Rs
-                    .AddNew
-                        With .Fields(1)
-                            .Value = Date                                                       'fecha
-                        End With
-                        If StTipoEntradaSalida = "Entrada" Then
-                            With .Fields(2)
-                                .Value = "Entrada Manual de Efectivo"                           'tipo
-                            End With
-                            
-                            With .Fields(3)
-                                .Value = Replace(Format(Val(Text2(0)), "0.00"), ",", ".")       'cantidad
-                            End With
-                        End If
-                        
-                        If StTipoEntradaSalida = "Salida" Then
-                            With .Fields(2)
-                                .Value = "Retiro Manual de Efectivo"                            'tipo
-                            End With
-                            
-                            With .Fields(3)
-                                .Value = Replace(Format(Val(Text2(0)) * -1, "0.00"), ",", ".")  'cantidad
-                            End With
-                        End If
-                        
-                        With .Fields(4)
-                            .Value = Text2(1)                                                   'referencia
-                        End With
-                        
-                        With .Fields(5)
-                            .Value = "No"                                                       'cancelado
-                        End With
-                        
-                        With .Fields(6)
-                            .Value = frmMenuInicial.Combo1.Text                                 'caja
-                        End With
-                    .Update
-                    .Requery
-                End With
-                Unload Me
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
             Else
-                MsgBox "Monto no válido", vbCritical, "Advertencia"
+                .BackColor = COLOR_NORMAL
             End If
+        End With
+    Case 1
+        With Text2(1)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    End Select
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmEntradaSalidaDinero:Text2_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Guardar_Click()
+    On Error GoTo errHandler
+    vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
+    If vbq = vbYes Then
+        If Val(Text2(0)) <> 0 Then
+            With Rs
+                .AddNew
+                With .Fields(1)
+                    .Value = Date                                                       'fecha
+                End With
+                If StTipoEntradaSalida = "Entrada" Then
+                    With .Fields(2)
+                        .Value = "Entrada Manual de Efectivo"                           'tipo
+                    End With
+
+                    With .Fields(3)
+                        .Value = Replace(Format(Val(Text2(0)), "0.00"), ",", ".")       'cantidad
+                    End With
+                End If
+
+                If StTipoEntradaSalida = "Salida" Then
+                    With .Fields(2)
+                        .Value = "Retiro Manual de Efectivo"                            'tipo
+                    End With
+
+                    With .Fields(3)
+                        .Value = Replace(Format(Val(Text2(0)) * -1, "0.00"), ",", ".")  'cantidad
+                    End With
+                End If
+
+                With .Fields(4)
+                    .Value = Text2(1)                                                   'referencia
+                End With
+
+                With .Fields(5)
+                    .Value = "No"                                                       'cancelado
+                End With
+
+                With .Fields(6)
+                    .Value = frmMenuInicial.Combo1.Text                                 'caja
+                End With
+                .Update
+                .Requery
+            End With
+            Unload Me
         Else
-            Exit Sub
+            MsgBox "Monto no válido", vbCritical, "Advertencia"
         End If
+    Else
+        Exit Sub
+    End If
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmEntradaSalidaDinero:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmEntradaSalidaDinero:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmEntradaSalidaDinero:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        With Rs
-            If .State = 1 Then .Close
-        End With
-        
-        With Cn
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs = Nothing
-        Set Cn = Nothing
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmEntradaSalidaDinero:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set Cn = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmEntradaSalidaDinero:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmEntradaSalidaDinero:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

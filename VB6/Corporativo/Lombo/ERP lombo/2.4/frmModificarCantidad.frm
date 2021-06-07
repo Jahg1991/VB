@@ -181,79 +181,79 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-  
-    Dim vicantidad          As String
-    Dim viprecio            As String
-    Dim i                   As Long
-    Dim c3                  As Long
-    Dim c4                  As Long
-    
-    Private Sub Command2_Click()
-        On Error GoTo errHandler
-        With Text1(0)
-            If .Text = "" Or Text1(1).Text = "" Then
-                MsgBox "Llene los campos que estan en blanco", vbOKOnly, "Información"
-            Else
-                vicantidad = Replace(Format(Val(Trim(.Text)), "0.00"), ",", ".")
-                With Text1(1)
-                    viprecio = Replace(Format(Val(Trim(.Text)), "0.00"), ",", ".")
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+Dim vicantidad As String
+Dim viprecio As String
+Dim i As Long
+Dim c3 As Long
+Dim c4 As Long
+
+Private Sub Command2_Click()
+    On Error GoTo errHandler
+    With Text1(0)
+        If .Text = "" Or Text1(1).Text = "" Then
+            MsgBox "Llene los campos que estan en blanco", vbOKOnly, "Información"
+        Else
+            vicantidad = Replace(Format(Val(Trim(.Text)), "0.00"), ",", ".")
+            With Text1(1)
+                viprecio = Replace(Format(Val(Trim(.Text)), "0.00"), ",", ".")
+            End With
+            ' 60 - 74
+            c3 = 15 - Len(vicantidad)
+            For i = 1 To c3
+                vicantidad = " " & vicantidad
+            Next i
+            ' 76 - 90
+            c4 = 15 - Len(viprecio)
+            For i = 1 To c4
+                viprecio = " " & viprecio
+            Next i
+
+            With frmVentas
+                With .List1
+                    .Text = Mid(.Text, 1, 59) & vicantidad & " " & viprecio
                 End With
-                ' 60 - 74
-                c3 = 15 - Len(vicantidad)
-                For i = 1 To c3
-                    vicantidad = " " & vicantidad
-                Next i
-                ' 76 - 90
-                c4 = 15 - Len(viprecio)
-                For i = 1 To c4
-                    viprecio = " " & viprecio
-                Next i
-                
-                With frmVentas
-                    With .List1
-                        .Text = Mid(.Text, 1, 59) & vicantidad & " " & viprecio
-                    End With
-                End With
-                Unload Me
-            End If
-        End With
+            End With
+            Unload Me
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmModificarCantidad:Command2_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmModificarCantidad:Command2_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmModificarCantidad:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        Set frmModificarCantidad = Nothing
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmModificarCantidad:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    Set frmModificarCantidad = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmModificarCantidad:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmModificarCantidad:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

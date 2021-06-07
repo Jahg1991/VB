@@ -709,439 +709,439 @@ Attribute VB_Exposed = False
 '                                               guardar datos
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//RECORDSET
-    Dim Rs  As New adodb.Recordset
-    Dim RS1  As New adodb.Recordset
-    '//OTROS
-    Dim i   As Long
-    
-    Private Sub Form_Load()
-        On Error GoTo errHandler
-        With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
-        End With
-        
-        With Text1(0)
-            .BackColor = COLOR_NO_ENCONTRADO
-        End With
-        
-        With Text1(1)
-            .BackColor = COLOR_NO_ENCONTRADO
-        End With
-        
-        With Text1(2)
-            .BackColor = COLOR_NO_ENCONTRADO
-        End With
-        
-        With Text1(3)
-            .BackColor = COLOR_NO_ENCONTRADO
-        End With
-        
-        With Text1(4)
-            .BackColor = COLOR_NO_ENCONTRADO
-        End With
-        
-        With Text1(5)
-            .BackColor = COLOR_NO_ENCONTRADO
-        End With
-        
-        With Text1(6)
-            .BackColor = COLOR_NO_ENCONTRADO
-        End With
-        
-        With Combo1
-            .BackColor = COLOR_NORMAL
-            .AddItem "Kilogramo"
-            .AddItem "Litro"
-            .AddItem "Pieza"
-            .AddItem "Servicio"
-        End With
-        
-        With Combo2
-            .BackColor = COLOR_NORMAL
-            .AddItem "0"
-            .AddItem "0.16"
-        End With
-        
-        With Combo3
-            .BackColor = COLOR_NORMAL
-            With RS1
-                If .State = 1 Then .Close
-                .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                .Open "Select Categoria From MTL_ITEM_CATEGORIES order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                .Requery
-                .MoveFirst
-                While Not .EOF
-                    Combo3.AddItem .Fields(0).Value
-                    .MoveNext
-                Wend
-                .MoveFirst
-                .Close
-            End With
-        End With
-        
-        With Combo4
-            .BackColor = COLOR_NORMAL
-            .AddItem "Inventario"
-            .AddItem "Gasto"
-        End With
-        
-        With Rs
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+'//RECORDSET
+Dim Rs As New adodb.Recordset
+Dim RS1 As New adodb.Recordset
+'//OTROS
+Dim i As Long
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+
+    With Text1(0)
+        .BackColor = COLOR_NO_ENCONTRADO
+    End With
+
+    With Text1(1)
+        .BackColor = COLOR_NO_ENCONTRADO
+    End With
+
+    With Text1(2)
+        .BackColor = COLOR_NO_ENCONTRADO
+    End With
+
+    With Text1(3)
+        .BackColor = COLOR_NO_ENCONTRADO
+    End With
+
+    With Text1(4)
+        .BackColor = COLOR_NO_ENCONTRADO
+    End With
+
+    With Text1(5)
+        .BackColor = COLOR_NO_ENCONTRADO
+    End With
+
+    With Text1(6)
+        .BackColor = COLOR_NO_ENCONTRADO
+    End With
+
+    With Combo1
+        .BackColor = COLOR_NORMAL
+        .AddItem "Kilogramo"
+        .AddItem "Litro"
+        .AddItem "Pieza"
+        .AddItem "Servicio"
+    End With
+
+    With Combo2
+        .BackColor = COLOR_NORMAL
+        .AddItem "0"
+        .AddItem "0.16"
+    End With
+
+    With Combo3
+        .BackColor = COLOR_NORMAL
+        With RS1
             If .State = 1 Then .Close
             .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select * from MTL_SYSTEM_ITEMS order by 3;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+            .Open "Select Categoria From MTL_ITEM_CATEGORIES order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
             .Requery
-            If .RecordCount > 0 Then
-                .MoveFirst
-                While Not .EOF
-                    List1.AddItem .Fields(2).Value
-                    .MoveNext
-                Wend
-                .MoveFirst
-                With Text1(0)
-                    Set .DataSource = Rs
-                    .DataField = "Codigo"
-                End With
-                
-                With Text1(1)
-                    Set .DataSource = Rs
-                    .DataField = "Descripcion"
-                End With
-                
-                With Text1(2)
-                    Set .DataSource = Rs
-                    .DataField = "Precio1"
-                End With
-                
-                With Text1(3)
-                    Set .DataSource = Rs
-                    .DataField = "Precio2"
-                End With
-                
-                With Text1(4)
-                    Set .DataSource = Rs
-                    .DataField = "Precio3"
-                End With
-                
-                With Text1(5)
-                    Set .DataSource = Rs
-                    .DataField = "Precio4"
-                End With
-                
-                With Text1(6)
-                    Set .DataSource = Rs
-                    .DataField = "Precio5"
-                End With
-                
-                With Combo2
-                    Set .DataSource = Rs
-                    .DataField = "Iva"
-                End With
-                
-                With Combo1
-                    Set .DataSource = Rs
-                    .DataField = "UDM"
-                End With
-                
-                With Combo4
-                    Set .DataSource = Rs
-                    .DataField = "Categoria"
-                End With
-                
-                With Combo3
-                    Set .DataSource = Rs
-                    .DataField = "Tipo"
-                End With
-                
-                With Check1
-                    Set .DataSource = Rs
-                    .DataField = "Lote"
-                End With
-            Else
-                MsgBox "No hay registros existentes", vbOKOnly, "Información"
-            End If
+            .MoveFirst
+            While Not .EOF
+                Combo3.AddItem .Fields(0).Value
+                .MoveNext
+            Wend
+            .MoveFirst
+            .Close
         End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    End With
 
-    Private Sub Text2_KeyPress(KeyAscii As Integer)
-        On Error GoTo errHandler
-        If KeyAscii = 13 Then
-            List1.Clear
-            With Rs
-                If Text2 = "" Then
-                    .Filter = ""
-                    .Requery
-                    If .RecordCount <> 0 Then
-                        .MoveFirst
-                        While Not .EOF
-                            List1.AddItem .Fields(2).Value
-                            .MoveNext
-                        Wend
-                    End If
-                Else
-                    .Filter = "Codigo like '*" & Text2 & "*' or Descripcion like '*" & Text2 & "*' or Tipo like '*" & Text2 & "*'"
-                    .Requery
-                    If .RecordCount <> 0 Then
-                        .MoveFirst
-                        While Not .EOF
-                            List1.AddItem .Fields(2).Value
-                            .MoveNext
-                        Wend
-                    End If
+    With Combo4
+        .BackColor = COLOR_NORMAL
+        .AddItem "Inventario"
+        .AddItem "Gasto"
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select * from MTL_SYSTEM_ITEMS order by 3;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount > 0 Then
+            .MoveFirst
+            While Not .EOF
+                List1.AddItem .Fields(2).Value
+                .MoveNext
+            Wend
+            .MoveFirst
+            With Text1(0)
+                Set .DataSource = Rs
+                .DataField = "Codigo"
+            End With
+
+            With Text1(1)
+                Set .DataSource = Rs
+                .DataField = "Descripcion"
+            End With
+
+            With Text1(2)
+                Set .DataSource = Rs
+                .DataField = "Precio1"
+            End With
+
+            With Text1(3)
+                Set .DataSource = Rs
+                .DataField = "Precio2"
+            End With
+
+            With Text1(4)
+                Set .DataSource = Rs
+                .DataField = "Precio3"
+            End With
+
+            With Text1(5)
+                Set .DataSource = Rs
+                .DataField = "Precio4"
+            End With
+
+            With Text1(6)
+                Set .DataSource = Rs
+                .DataField = "Precio5"
+            End With
+
+            With Combo2
+                Set .DataSource = Rs
+                .DataField = "Iva"
+            End With
+
+            With Combo1
+                Set .DataSource = Rs
+                .DataField = "UDM"
+            End With
+
+            With Combo4
+                Set .DataSource = Rs
+                .DataField = "Categoria"
+            End With
+
+            With Combo3
+                Set .DataSource = Rs
+                .DataField = "Tipo"
+            End With
+
+            With Check1
+                Set .DataSource = Rs
+                .DataField = "Lote"
+            End With
+        Else
+            MsgBox "No hay registros existentes", vbOKOnly, "Información"
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text2_KeyPress(KeyAscii As Integer)
+    On Error GoTo errHandler
+    If KeyAscii = 13 Then
+        List1.Clear
+        With Rs
+            If Text2 = "" Then
+                .Filter = ""
+                .Requery
+                If .RecordCount <> 0 Then
+                    .MoveFirst
+                    While Not .EOF
+                        List1.AddItem .Fields(2).Value
+                        .MoveNext
+                    Wend
                 End If
+            Else
+                .Filter = "Codigo like '*" & Text2 & "*' or Descripcion like '*" & Text2 & "*' or Tipo like '*" & Text2 & "*'"
+                .Requery
+                If .RecordCount <> 0 Then
+                    .MoveFirst
+                    While Not .EOF
+                        List1.AddItem .Fields(2).Value
+                        .MoveNext
+                    Wend
+                End If
+            End If
+            .MoveFirst
+        End With
+    End If
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Text2_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub List1_Click()
+    On Error GoTo errHandler
+    With List1
+        If .Text = "" Then
+            MsgBox "Seleccione algún artìculo", vbOKOnly, "Información"
+        Else
+            With Rs
+                .Filter = "descripcion = '" & List1.Text & "'"
+                .Requery
                 .MoveFirst
             End With
         End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Text2_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub List1_Click()
-        On Error GoTo errHandler
-        With List1
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:List1_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub List1_DblClick()
+    On Error GoTo errHandler
+    With List1
+        If .Text = "" Then
+            MsgBox "Seleccione algún artìculo", vbOKOnly, "Información"
+        Else
+            Text2.Text = .Text
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:List1_DblClick" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text1_Change(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 0
+        With Text1(0)
             If .Text = "" Then
-                MsgBox "Seleccione algún artìculo", vbOKOnly, "Información"
+                .BackColor = COLOR_NO_ENCONTRADO
             Else
-                With Rs
-                    .Filter = "descripcion = '" & List1.Text & "'"
-                    .Requery
-                    .MoveFirst
-                End With
+                .BackColor = COLOR_NORMAL
             End If
         End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:List1_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub List1_DblClick()
-        On Error GoTo errHandler
-        With List1
+    Case 1
+        With Text1(1)
             If .Text = "" Then
-                MsgBox "Seleccione algún artìculo", vbOKOnly, "Información"
+                .BackColor = COLOR_NO_ENCONTRADO
             Else
-                Text2.Text = .Text
+                .BackColor = COLOR_NORMAL
             End If
         End With
+    Case 2
+        With Text1(2)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 3
+        With Text1(3)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 4
+        With Text1(4)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 5
+        With Text1(5)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 6
+        With Text1(6)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    End Select
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:List1_DblClick" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Text1_Change(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 0
-                With Text1(0)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 1
-                With Text1(1)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 2
-                With Text1(2)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 3
-                With Text1(3)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 4
-                With Text1(4)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 5
-                With Text1(5)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 6
-                With Text1(6)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-        End Select
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Text1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Command1_Click(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 0
+        With List1
+            .ListIndex = 0
+        End With
+    Case 1
+        With List1
+            .ListIndex = .ListIndex - 1
+        End With
+    Case 2
+        With List1
+            .ListIndex = .ListIndex + 1
+        End With
+    Case 3
+        With List1
+            .ListIndex = .ListCount - 1
+        End With
+    End Select
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Text1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
+    If err.Number = 380 Then
         err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Command1_Click(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 0
-                With List1
-                    .ListIndex = 0
-                End With
-            Case 1
-                With List1
-                    .ListIndex = .ListIndex - 1
-                End With
-            Case 2
-                With List1
-                    .ListIndex = .ListIndex + 1
-                End With
-            Case 3
-                With List1
-                    .ListIndex = .ListCount - 1
-                End With
-        End Select
+        Exit Sub
+    End If
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Command1_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Guardar_Click()
+    On Error GoTo errHandler
+    vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
+    If vbq = vbYes Then
+        With Rs
+            .Update
+            .Requery
+        End With
+    End If
     Exit Sub
 errHandler:
-        If err.Number = 380 Then
-            err.Clear
-            Exit Sub
-        End If
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Command1_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
+    If err.Number = 3219 Then
+        With Rs
+            .Update
+            .Requery
+        End With
         err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Guardar_Click()
-        On Error GoTo errHandler
-        vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
-        If vbq = vbYes Then
-            With Rs
-                .Update
-                .Requery
-            End With
-        End If
-    Exit Sub
-errHandler:
-        If err.Number = 3219 Then
-            With Rs
-                .Update
-                .Requery
-            End With
-            err.Clear
-            Exit Sub
-        End If
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
-        If vbq = vbYes Then
-            With Rs
-                .Update
-                .Requery
-            End With
-        End If
+        Exit Sub
+    End If
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
+    If vbq = vbYes Then
+        With Rs
+            .Update
+            .Requery
+        End With
+    End If
     Unload Me
     Exit Sub
 errHandler:
-        If err.Number = 3219 Then
-            With Rs
-                .Update
-                .Requery
-            End With
-            err.Clear
-            Unload Me
-            Exit Sub
-        End If
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
+    If err.Number = 3219 Then
         With Rs
-            If .State = 1 Then .Close
+            .Update
+            .Requery
         End With
-        
-        With RS1
-            If .State = 1 Then .Close
-        End With
-        
-        With Cn
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs = Nothing
-        Set RS1 = Nothing
-        Set Cn = Nothing
+        err.Clear
+        Unload Me
+        Exit Sub
+    End If
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With RS1
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set RS1 = Nothing
+    Set Cn = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmItemExistente:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

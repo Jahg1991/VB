@@ -371,265 +371,265 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//RECORDSET
-    Dim Rs  As New adodb.Recordset
-    '//OTROS
-    Dim i   As Long
+Option Explicit
 
-    Private Sub Form_Load()
-        On Error GoTo errHandler
-        With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
-        End With
-        
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select * from MTL_ON_HAND_QUANTITIES order by 1,3;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount > 0 Then
-                With DataGrid1
-                    Set .DataSource = Rs
-                    
-                    With .Columns(0)
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(1)
-                        .Width = 2500
-                        .Locked = True
-                        .Visible = False
-                    End With
-                    
-                    With .Columns(2)
-                        .Width = 2000
-                        .Locked = True
-                    End With
-                   
-                   With .Columns(3)
-                        .Width = 5000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(4)
-                        .Width = 3000
-                        .Locked = True
-                        .Alignment = dbgRight
-                    End With
-                    
-                    With .Columns(5)
-                        .Width = 2000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(6)
-                        .Width = 1500
-                        .Locked = True
-                    End With
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+'//RECORDSET
+Dim Rs As New adodb.Recordset
+'//OTROS
+Dim i As Long
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select * from MTL_ON_HAND_QUANTITIES order by 1,3;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount > 0 Then
+            With DataGrid1
+                Set .DataSource = Rs
+
+                With .Columns(0)
+                    .Locked = True
                 End With
+
+                With .Columns(1)
+                    .Width = 2500
+                    .Locked = True
+                    .Visible = False
+                End With
+
+                With .Columns(2)
+                    .Width = 2000
+                    .Locked = True
+                End With
+
+                With .Columns(3)
+                    .Width = 5000
+                    .Locked = True
+                End With
+
+                With .Columns(4)
+                    .Width = 3000
+                    .Locked = True
+                    .Alignment = dbgRight
+                End With
+
+                With .Columns(5)
+                    .Width = 2000
+                    .Locked = True
+                End With
+
+                With .Columns(6)
+                    .Width = 1500
+                    .Locked = True
+                End With
+            End With
+        Else
+            MsgBox "No hay registros existentes", vbOKOnly, "Información"
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmStock:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text1_Change(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 0
+        With Rs
+            If Text1(0) = "" Then
+                .Filter = ""
+                .Requery
             Else
-                MsgBox "No hay registros existentes", vbOKOnly, "Información"
+                .Filter = "Codigo like '*" & Text1(0) & "*' or Descripcion like '*" & Text1(0) & "*' or Tipo like '*" & Text1(0) & "*'"
+                .Requery
             End If
         End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmStock:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Text1_Change(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 0
-                With Rs
-                    If Text1(0) = "" Then
-                        .Filter = ""
-                        .Requery
-                    Else
-                        .Filter = "Codigo like '*" & Text1(0) & "*' or Descripcion like '*" & Text1(0) & "*' or Tipo like '*" & Text1(0) & "*'"
-                        .Requery
-                    End If
-                End With
-                
-                With DataGrid1
-                    Set .DataSource = Rs
-                    With .Columns(0)
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(1)
-                        .Width = 2500
-                        .Locked = True
-                        .Visible = False
-                    End With
-                    
-                    With .Columns(2)
-                        .Width = 2000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(3)
-                        .Width = 5000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(4)
-                        .Width = 3000
-                        .Locked = True
-                        .Alignment = dbgRight
-                    End With
-                    
-                    With .Columns(5)
-                        .Width = 2000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(6)
-                        .Width = 1500
-                        .Locked = True
-                    End With
-                End With
-        End Select
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmStock:Text1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Command2_Click()
-        On Error GoTo errHandler
-        'PARA EXPORTAR A EXCEL
-        Dim N As Long, sTemp As String
-        Dim FileName As String
-        FileName = App.Path & "\Temp\TEMP_STOCK_" & CStr(Format(Date, "YYYYMMDD")) & "_" & CStr(Format(Time, "HHMMSS")) & ".xls"
-        Open FileName For Output As #1
-        'ENCABEZADO
-        sTemp = "INFORME DE CANTIDAD EN MANO"
-        Print #1, sTemp
-        sTemp = vbNullString
-        With Text1(0)
-            sTemp = "Filtro: " & .Text
+
+        With DataGrid1
+            Set .DataSource = Rs
+            With .Columns(0)
+                .Locked = True
+            End With
+
+            With .Columns(1)
+                .Width = 2500
+                .Locked = True
+                .Visible = False
+            End With
+
+            With .Columns(2)
+                .Width = 2000
+                .Locked = True
+            End With
+
+            With .Columns(3)
+                .Width = 5000
+                .Locked = True
+            End With
+
+            With .Columns(4)
+                .Width = 3000
+                .Locked = True
+                .Alignment = dbgRight
+            End With
+
+            With .Columns(5)
+                .Width = 2000
+                .Locked = True
+            End With
+
+            With .Columns(6)
+                .Width = 1500
+                .Locked = True
+            End With
         End With
-        
+    End Select
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmStock:Text1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Command2_Click()
+    On Error GoTo errHandler
+    'PARA EXPORTAR A EXCEL
+    Dim N As Long, sTemp As String
+    Dim FileName As String
+    FileName = App.Path & "\Temp\TEMP_STOCK_" & CStr(Format(Date, "YYYYMMDD")) & "_" & CStr(Format(Time, "HHMMSS")) & ".xls"
+    Open FileName For Output As #1
+    'ENCABEZADO
+    sTemp = "INFORME DE CANTIDAD EN MANO"
+    Print #1, sTemp
+    sTemp = vbNullString
+    With Text1(0)
+        sTemp = "Filtro: " & .Text
+    End With
+
+    Print #1, sTemp
+    sTemp = vbNullString
+    sTemp = "Fecha de Ejecucion del informe: " & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")
+    Print #1, sTemp
+    sTemp = vbNullString
+    Print #1, sTemp
+    sTemp = vbNullString
+    With Rs
+        'CABECERA
+        For N = 0 To .Fields.Count - 1
+            sTemp = sTemp & UCase(.Fields(N).Name) & IIf(N = .Fields.Count - 1, vbNullString, vbTab)
+        Next N
+
         Print #1, sTemp
         sTemp = vbNullString
-        sTemp = "Fecha de Ejecucion del informe: " & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")
-        Print #1, sTemp
-        sTemp = vbNullString
-        Print #1, sTemp
-        sTemp = vbNullString
-        With Rs
-            'CABECERA
+        'DETALLE
+        .MoveFirst
+        Do Until .EOF
             For N = 0 To .Fields.Count - 1
-                sTemp = sTemp & UCase(.Fields(N).Name) & IIf(N = .Fields.Count - 1, vbNullString, vbTab)
+                If N = 4 Then    'CONVERTIR A NUMERO
+                    sTemp = sTemp & Replace(CStr(.Fields(N).Value), ",", ".") & IIf(N = .Fields.Count - 1, vbNullString, vbTab)
+                Else
+                    sTemp = sTemp & .Fields(N).Value & IIf(N = .Fields.Count - 1, vbNullString, vbTab)
+                End If
             Next N
-            
+
             Print #1, sTemp
             sTemp = vbNullString
-            'DETALLE
-            .MoveFirst
-            Do Until .EOF
-                For N = 0 To .Fields.Count - 1
-                    If N = 4 Then 'CONVERTIR A NUMERO
-                        sTemp = sTemp & Replace(CStr(.Fields(N).Value), ",", ".") & IIf(N = .Fields.Count - 1, vbNullString, vbTab)
-                    Else
-                        sTemp = sTemp & .Fields(N).Value & IIf(N = .Fields.Count - 1, vbNullString, vbTab)
-                    End If
-                Next N
-                
-                Print #1, sTemp
-                sTemp = vbNullString
-                .MoveNext
-            Loop
+            .MoveNext
+        Loop
+    End With
+
+    Close #1
+    'PARA ABRIR EL ARCHIVO DE EXCEL AL TERMINAR DE EXPORTAR
+    Dim xltmp As Excel.Application
+
+    Set xltmp = New Excel.Application
+
+    With xltmp
+        With .Workbooks
+            .Open FileName
         End With
-        
-        Close #1
-        'PARA ABRIR EL ARCHIVO DE EXCEL AL TERMINAR DE EXPORTAR
-        Dim xltmp As Excel.Application
-        
-        Set xltmp = New Excel.Application
-        
-        With xltmp
-            With .Workbooks
-                .Open FileName
+
+        With .Range("A5", "G5")
+            With .Interior
+                .Color = RGB(80, 80, 80)
             End With
-            
-            With .Range("A5", "G5")
-                With .Interior
-                    .Color = RGB(80, 80, 80)
-                End With
-                
-                With .Font
-                    .Color = RGB(255, 255, 255)
-                End With
+
+            With .Font
+                .Color = RGB(255, 255, 255)
             End With
-            
-            With .ActiveWorkbook
-                .Save
-            End With
-            .Visible = True
         End With
-        Unload Me
+
+        With .ActiveWorkbook
+            .Save
+        End With
+        .Visible = True
+    End With
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmStock:Command2_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmStock:Command2_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmStock:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        With DataGrid1
-            Set .DataSource = Nothing
-        End With
-        
-        With Rs
-            If .State = 1 Then .Close
-        End With
-        
-        With Cn
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs = Nothing
-        Set Cn = Nothing
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmStock:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With DataGrid1
+        Set .DataSource = Nothing
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set Cn = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmStock:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmStock:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

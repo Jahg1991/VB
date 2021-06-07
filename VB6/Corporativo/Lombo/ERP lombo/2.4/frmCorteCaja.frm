@@ -425,228 +425,228 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//RECORDSET
-    Dim Rs  As New adodb.Recordset
-    Dim RS1 As New adodb.Recordset
-    Dim Rs2 As New adodb.Recordset
-    Dim Rs3 As New adodb.Recordset
-    Dim Rs4 As New adodb.Recordset
-    Dim Rs5 As New adodb.Recordset
-    Dim Rs6 As New adodb.Recordset
-    Dim Rs7 As New adodb.Recordset
-    
-    Private Sub Form_Load()
-        On Error GoTo errHandler
-        With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
-        End With
-        
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select sum(cantidad) from RA_CASH_TRANSACTIONS_V where fecha < CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then Text2(0) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
-        End With
-        
-        With RS1
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select cantidad from RA_CASH_TRANSACTIONS_V where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and TipoMovimiento = 'Pago de venta' and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then Text2(1) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
-        End With
-        
-        With Rs2
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select cantidad from RA_CASH_TRANSACTIONS_V where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and TipoMovimiento = 'Pago de compra' and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then Text2(2) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
-        End With
-        
-        With Rs3
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select cantidad from RA_CASH_TRANSACTIONS_V where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and TipoMovimiento = 'Entrada Manual de Efectivo' and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then Text2(3) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
-        End With
-        
-        With Rs4
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select cantidad from RA_CASH_TRANSACTIONS_V where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and TipoMovimiento = 'Retiro Manual de Efectivo' and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then Text2(4) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
-        End With
-        
-        With Rs5
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select sum(cantidad) from RA_CASH_TRANSACTIONS_V where fecha <= CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then Text2(5) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
-        End With
-        
-        With Rs6
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select sum(cantidad) from RA_BANK_TRANSACTIONS where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and caja = '" & frmMenuInicial.Combo1.Text & "' and cancelado = 'No' and TipoTarjeta = 'Banamex';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then Text2(6) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
-        End With
-        
-        With Rs7
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select sum(cantidad) from RA_BANK_TRANSACTIONS where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and caja = '" & frmMenuInicial.Combo1.Text & "' and cancelado = 'No' and TipoTarjeta = 'iZettle';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then Text2(7) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
-        End With
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+'//RECORDSET
+Dim Rs As New adodb.Recordset
+Dim RS1 As New adodb.Recordset
+Dim Rs2 As New adodb.Recordset
+Dim Rs3 As New adodb.Recordset
+Dim Rs4 As New adodb.Recordset
+Dim Rs5 As New adodb.Recordset
+Dim Rs6 As New adodb.Recordset
+Dim Rs7 As New adodb.Recordset
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select sum(cantidad) from RA_CASH_TRANSACTIONS_V where fecha < CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then Text2(0) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
+    End With
+
+    With RS1
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select cantidad from RA_CASH_TRANSACTIONS_V where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and TipoMovimiento = 'Pago de venta' and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then Text2(1) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
+    End With
+
+    With Rs2
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select cantidad from RA_CASH_TRANSACTIONS_V where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and TipoMovimiento = 'Pago de compra' and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then Text2(2) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
+    End With
+
+    With Rs3
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select cantidad from RA_CASH_TRANSACTIONS_V where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and TipoMovimiento = 'Entrada Manual de Efectivo' and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then Text2(3) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
+    End With
+
+    With Rs4
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select cantidad from RA_CASH_TRANSACTIONS_V where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and TipoMovimiento = 'Retiro Manual de Efectivo' and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then Text2(4) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
+    End With
+
+    With Rs5
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select sum(cantidad) from RA_CASH_TRANSACTIONS_V where fecha <= CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and caja = '" & frmMenuInicial.Combo1.Text & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then Text2(5) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
+    End With
+
+    With Rs6
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select sum(cantidad) from RA_BANK_TRANSACTIONS where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and caja = '" & frmMenuInicial.Combo1.Text & "' and cancelado = 'No' and TipoTarjeta = 'Banamex';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then Text2(6) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
+    End With
+
+    With Rs7
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select sum(cantidad) from RA_BANK_TRANSACTIONS where fecha = CONVERT(DATETIME, CONVERT(DATE, GETDATE())) and caja = '" & frmMenuInicial.Combo1.Text & "' and cancelado = 'No' and TipoTarjeta = 'iZettle';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then Text2(7) = Replace(Format(.Fields(0).Value, "0.00"), ",", ".")
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCorteCaja:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Imprimir_Click()
-        On Error GoTo errHandler
-        Unload dsrResumenCorteCaja
-        With dsrResumenCorteCaja
-            Set .DataSource = Rs
-            
-            With .Sections("Sección4")
-                With .Controls("Etiqueta2")
-                    .Caption = PcNombreEmpresa
-                End With
-                
-                With .Controls("Etiqueta10")
-                    .Caption = Text2(0)
-                End With
-                
-                With .Controls("Etiqueta11")
-                    .Caption = Text2(1)
-                End With
-                
-                With .Controls("Etiqueta12")
-                    .Caption = Text2(2)
-                End With
-                
-                With .Controls("Etiqueta13")
-                    .Caption = Text2(3)
-                End With
-                
-                With .Controls("Etiqueta14")
-                    .Caption = Text2(4)
-                End With
-                
-                With .Controls("Etiqueta15")
-                    .Caption = Text2(5)
-                End With
-                
-                With .Controls("Label3")
-                    .Caption = Text2(6)
-                End With
-                
-                With .Controls("Label5")
-                    .Caption = Text2(7)
-                End With
-                
-                With .Controls("Etiqueta17")
-                    .Caption = frmMenuInicial.Combo1.Text
-                End With
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCorteCaja:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Imprimir_Click()
+    On Error GoTo errHandler
+    Unload dsrResumenCorteCaja
+    With dsrResumenCorteCaja
+        Set .DataSource = Rs
+
+        With .Sections("Sección4")
+            With .Controls("Etiqueta2")
+                .Caption = PcNombreEmpresa
             End With
-            .Show 1
+
+            With .Controls("Etiqueta10")
+                .Caption = Text2(0)
+            End With
+
+            With .Controls("Etiqueta11")
+                .Caption = Text2(1)
+            End With
+
+            With .Controls("Etiqueta12")
+                .Caption = Text2(2)
+            End With
+
+            With .Controls("Etiqueta13")
+                .Caption = Text2(3)
+            End With
+
+            With .Controls("Etiqueta14")
+                .Caption = Text2(4)
+            End With
+
+            With .Controls("Etiqueta15")
+                .Caption = Text2(5)
+            End With
+
+            With .Controls("Label3")
+                .Caption = Text2(6)
+            End With
+
+            With .Controls("Label5")
+                .Caption = Text2(7)
+            End With
+
+            With .Controls("Etiqueta17")
+                .Caption = frmMenuInicial.Combo1.Text
+            End With
         End With
+        .Show 1
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCorteCaja:Imprimir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCorteCaja:Imprimir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCorteCaja:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        Unload dsrResumenCorteCaja
-        With Rs
-            If .State = 1 Then .Close
-        End With
-        
-        With RS1
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs2
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs3
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs4
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs5
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs6
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs7
-            If .State = 1 Then .Close
-        End With
-        
-        With Cn
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs = Nothing
-        Set RS1 = Nothing
-        Set Rs2 = Nothing
-        Set Rs3 = Nothing
-        Set Rs4 = Nothing
-        Set Rs5 = Nothing
-        Set Rs6 = Nothing
-        Set Rs7 = Nothing
-        Set Cn = Nothing
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCorteCaja:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    Unload dsrResumenCorteCaja
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With RS1
+        If .State = 1 Then .Close
+    End With
+
+    With Rs2
+        If .State = 1 Then .Close
+    End With
+
+    With Rs3
+        If .State = 1 Then .Close
+    End With
+
+    With Rs4
+        If .State = 1 Then .Close
+    End With
+
+    With Rs5
+        If .State = 1 Then .Close
+    End With
+
+    With Rs6
+        If .State = 1 Then .Close
+    End With
+
+    With Rs7
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set RS1 = Nothing
+    Set Rs2 = Nothing
+    Set Rs3 = Nothing
+    Set Rs4 = Nothing
+    Set Rs5 = Nothing
+    Set Rs6 = Nothing
+    Set Rs7 = Nothing
+    Set Cn = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCorteCaja:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCorteCaja:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

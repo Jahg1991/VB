@@ -787,655 +787,655 @@ Attribute VB_Exposed = False
 '                                               guardar datos
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//RECORDSET
-    Dim Rs      As New adodb.Recordset
-    '//OTROS
-    Dim i       As Long
-    Dim In1     As Long
-    Dim sql     As String
-    
-    Private Sub Form_Load()
-        On Error GoTo errHandler
-        With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
-        End With
-        
-        For i = 0 To (7)
-            With Text1(i)
-                .BackColor = COLOR_NO_ENCONTRADO
-            End With
-        Next i
-        
-        For i = 10 To (14)
-            With Text1(i)
-                .BackColor = COLOR_NO_ENCONTRADO
-            End With
-        Next i
-        
-        For i = 1 To (5)
-            With Combo1
-                .AddItem i
-            End With
-        Next i
-        
-        With Combo1
-            .Text = "1"
-        End With
-        
-        With Combo2
-            .AddItem "Si"
-            .AddItem "No"
-            .Text = "No"
-        End With
-        
-        With Text1(8)
-            .Text = "0"
-        End With
-        
-        With Text1(9)
-            .Text = "0"
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesNuevo:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+Option Explicit
 
-    Private Sub Text1_Change(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 0
-                With Text1(0)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 1
-                With Text1(1)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 2
-                With Text1(2)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 3
-                With Text1(3)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 4
-                With Text1(4)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 5
-                With Text1(5)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 6
-                With Text1(6)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 7
-                With Text1(7)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 8
-                With Text1(8)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 9
-                With Text1(9)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 10
-                With Text1(10)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 11
-                With Text1(11)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 12
-                With Text1(12)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 13
-                With Text1(13)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 14
-                With Text1(14)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-        End Select
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+'//RECORDSET
+Dim Rs As New adodb.Recordset
+'//OTROS
+Dim i As Long
+Dim In1 As Long
+Dim sql As String
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+
+    For i = 0 To (7)
+        With Text1(i)
+            .BackColor = COLOR_NO_ENCONTRADO
+        End With
+    Next i
+
+    For i = 10 To (14)
+        With Text1(i)
+            .BackColor = COLOR_NO_ENCONTRADO
+        End With
+    Next i
+
+    For i = 1 To (5)
+        With Combo1
+            .AddItem i
+        End With
+    Next i
+
+    With Combo1
+        .Text = "1"
+    End With
+
+    With Combo2
+        .AddItem "Si"
+        .AddItem "No"
+        .Text = "No"
+    End With
+
+    With Text1(8)
+        .Text = "0"
+    End With
+
+    With Text1(9)
+        .Text = "0"
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesNuevo:Text1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Guardar_Click()
-        On Error GoTo errHandler
-        vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
-        If vbq = vbYes Then
-            If Text1(0) <> "" Then
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesNuevo:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text1_Change(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 0
+        With Text1(0)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 1
+        With Text1(1)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 2
+        With Text1(2)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 3
+        With Text1(3)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 4
+        With Text1(4)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 5
+        With Text1(5)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 6
+        With Text1(6)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 7
+        With Text1(7)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 8
+        With Text1(8)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 9
+        With Text1(9)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 10
+        With Text1(10)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 11
+        With Text1(11)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 12
+        With Text1(12)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 13
+        With Text1(13)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 14
+        With Text1(14)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    End Select
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesNuevo:Text1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Guardar_Click()
+    On Error GoTo errHandler
+    vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
+    If vbq = vbYes Then
+        If Text1(0) <> "" Then
+            With Rs
+                If .State = 1 Then .Close
+                .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                .Open "Select count(*) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(cliente,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                .Requery
+                In1 = .Fields(0).Value
+                .Close
+            End With
+
+            If In1 = 0 Then
                 With Rs
                     If .State = 1 Then .Close
                     .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "Select count(*) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(cliente,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                    .Open "Select count(*) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(proveedor,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
                     .Requery
                     In1 = .Fields(0).Value
                     .Close
                 End With
-                
+
                 If In1 = 0 Then
                     With Rs
                         If .State = 1 Then .Close
                         .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                        .Open "Select count(*) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(proveedor,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                        .Open "Select * from HZ_PARTY;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
                         .Requery
-                        In1 = .Fields(0).Value
+                        .AddNew
+                        With .Fields(1)
+                            .Value = Text1(0)                                                       'nombre
+                        End With
+
+                        With .Fields(2)
+                            .Value = Text1(1)                                                       'calle
+                        End With
+
+                        With .Fields(3)
+                            .Value = Text1(2)                                                       'numero
+                        End With
+
+                        With .Fields(4)
+                            .Value = Text1(3)                                                       'colonia
+                        End With
+
+                        With .Fields(5)
+                            .Value = Text1(4)                                                       'cp
+                        End With
+
+                        With .Fields(6)
+                            .Value = Text1(5)                                                       'tel
+                        End With
+
+                        With .Fields(7)
+                            .Value = Text1(10)                                                      'tel2
+                        End With
+
+                        With .Fields(8)
+                            .Value = Text1(11)                                                      'tel3
+                        End With
+
+                        With .Fields(9)
+                            .Value = Text1(12)                                                      'tel4
+                        End With
+
+                        With .Fields(10)
+                            .Value = Text1(13)                                                      'tel5
+                        End With
+
+                        With .Fields(11)
+                            .Value = Text1(14)                                                      'tel6
+                        End With
+
+                        With .Fields(13)
+                            .Value = Text1(6)                                                       'monedero
+                        End With
+
+                        With .Fields(14)
+                            .Value = Text1(7)                                                       'referencias
+                        End With
+
+                        With .Fields(15)
+                            .Value = "Cliente"                                                      'tipo
+                        End With
+
+                        With .Fields(16)
+                            .Value = Combo1                                                         'lista
+                        End With
+
+                        With .Fields(17)
+                            .Value = Text1(8)                                                       'credito
+                        End With
+
+                        With .Fields(18)
+                            .Value = Text1(9)                                                       'dias
+                        End With
+
+                        With .Fields(19)
+                            .Value = Combo2                                                         'mayorista
+                        End With
+
+                        With .Fields(21)
+                            .Value = "Si"                                                           'cliente
+                        End With
+
+                        With .Fields(23)
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                        End With
+
+                        With .Fields(24)
+                            .Value = StUsuario                                                      'usuario
+                        End With
+
+                        With .Fields(25)
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                        End With
+
+                        With .Fields(26)
+                            .Value = StUsuario                                                      'usuario
+                        End With
+                        .Update
+                        .Requery
                         .Close
                     End With
-                    
-                    If In1 = 0 Then
+
+                    If InTipoAltaClienteProveedor = 1 Then
+                        With frmVentas
+                            .Enabled = True
+                        End With
+                        Unload Me
+                        Set frmClientesNuevo = Nothing
+
+                        Exit Sub
+                    Else
+                        Unload frmClientesNuevo
+                        Set frmClientesNuevo = Nothing
+
+                        With frmClientesNuevo
+                            .Show
+                        End With
+
+                        Exit Sub
+                    End If
+                Else
+                    vbq = MsgBox("El nombre ya está registrado como proveedor, ¿Desea convertirlo también en cliente?", vbQuestion + vbYesNo, "Información")
+                    If vbq = vbYes Then
                         With Rs
                             If .State = 1 Then .Close
                             .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                            .Open "Select * from HZ_PARTY;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                            .Open "Select min(id) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(proveedor,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
                             .Requery
-                            .AddNew
-                                With .Fields(1)
-                                    .Value = Text1(0)                                                       'nombre
-                                End With
-                                
-                                With .Fields(2)
-                                    .Value = Text1(1)                                                       'calle
-                                End With
-                                
-                                With .Fields(3)
-                                    .Value = Text1(2)                                                       'numero
-                                End With
-                                
-                                With .Fields(4)
-                                    .Value = Text1(3)                                                       'colonia
-                                End With
-                                
-                                With .Fields(5)
-                                    .Value = Text1(4)                                                       'cp
-                                End With
-                                
-                                With .Fields(6)
-                                    .Value = Text1(5)                                                       'tel
-                                End With
-                                
-                                With .Fields(7)
-                                    .Value = Text1(10)                                                      'tel2
-                                End With
-                                
-                                With .Fields(8)
-                                    .Value = Text1(11)                                                      'tel3
-                                End With
-                                
-                                With .Fields(9)
-                                    .Value = Text1(12)                                                      'tel4
-                                End With
-                                
-                                With .Fields(10)
-                                    .Value = Text1(13)                                                      'tel5
-                                End With
-                                
-                                With .Fields(11)
-                                    .Value = Text1(14)                                                      'tel6
-                                End With
-                                
-                                With .Fields(13)
-                                    .Value = Text1(6)                                                       'monedero
-                                End With
-                                
-                                With .Fields(14)
-                                    .Value = Text1(7)                                                       'referencias
-                                End With
-                                
-                                With .Fields(15)
-                                    .Value = "Cliente"                                                      'tipo
-                                End With
-                                
-                                With .Fields(16)
-                                    .Value = Combo1                                                         'lista
-                                End With
-                                
-                                With .Fields(17)
-                                    .Value = Text1(8)                                                       'credito
-                                End With
-                                
-                                With .Fields(18)
-                                    .Value = Text1(9)                                                       'dias
-                                End With
-                                
-                                With .Fields(19)
-                                    .Value = Combo2                                                         'mayorista
-                                End With
-                                
-                                With .Fields(21)
-                                    .Value = "Si"                                                           'cliente
-                                End With
-                                
-                                With .Fields(23)
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
-                                End With
-                                
-                                With .Fields(24)
-                                    .Value = StUsuario                                                      'usuario
-                                End With
-                                
-                                With .Fields(25)
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
-                                End With
-                                
-                                With .Fields(26)
-                                    .Value = StUsuario                                                      'usuario
-                                End With
-                            .Update
-                            .Requery
+                            In1 = .Fields(0).Value
                             .Close
                         End With
-                        
+                        sql = "update HZ_PARTY set cliente = 'Si', [Lista de Precios] = " & Combo1 & ",Mayorista ='" & Combo2 & "',last_updated_by ='" & StUsuario & "', last_update_date = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "' where id = " & In1
+                        With Cn
+                            .Execute sql
+                        End With
+
                         If InTipoAltaClienteProveedor = 1 Then
                             With frmVentas
                                 .Enabled = True
                             End With
                             Unload Me
                             Set frmClientesNuevo = Nothing
-                            
+
                             Exit Sub
                         Else
                             Unload frmClientesNuevo
                             Set frmClientesNuevo = Nothing
-                            
+
                             With frmClientesNuevo
                                 .Show
                             End With
-                            
+
                             Exit Sub
                         End If
                     Else
-                        vbq = MsgBox("El nombre ya está registrado como proveedor, ¿Desea convertirlo también en cliente?", vbQuestion + vbYesNo, "Información")
-                        If vbq = vbYes Then
-                            With Rs
-                                If .State = 1 Then .Close
-                                .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                                .Open "Select min(id) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(proveedor,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                                .Requery
-                                In1 = .Fields(0).Value
-                                .Close
-                            End With
-                            sql = "update HZ_PARTY set cliente = 'Si', [Lista de Precios] = " & Combo1 & ",Mayorista ='" & Combo2 & "',last_updated_by ='" & StUsuario & "', last_update_date = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "' where id = " & In1
-                            With Cn
-                                .Execute sql
-                            End With
-                            
-                            If InTipoAltaClienteProveedor = 1 Then
-                                With frmVentas
-                                    .Enabled = True
-                                End With
-                                Unload Me
-                                Set frmClientesNuevo = Nothing
-                                
-                                Exit Sub
-                            Else
-                                Unload frmClientesNuevo
-                                Set frmClientesNuevo = Nothing
-                                
-                                With frmClientesNuevo
-                                    .Show
-                                End With
-                                
-                                Exit Sub
-                            End If
-                        Else
-                            With Text1(0)
-                                .SetFocus
-                            End With
-                            
-                            Exit Sub
-                        End If
+                        With Text1(0)
+                            .SetFocus
+                        End With
+
+                        Exit Sub
                     End If
-                Else
-                    MsgBox "El cliente ya esta registrado", vbCritical, "Error"
-                    With Text1(0)
-                        .SetFocus
-                    End With
-                    
-                    Exit Sub
                 End If
-                
-                With Cn
-                    If .State = 1 Then .Close
-                End With
             Else
-                MsgBox "El nombre es obligatorio", vbCritical, "Error"
+                MsgBox "El cliente ya esta registrado", vbCritical, "Error"
                 With Text1(0)
                     .SetFocus
                 End With
-                
+
                 Exit Sub
             End If
+
+            With Cn
+                If .State = 1 Then .Close
+            End With
         Else
+            MsgBox "El nombre es obligatorio", vbCritical, "Error"
+            With Text1(0)
+                .SetFocus
+            End With
+
             Exit Sub
         End If
+    Else
+        Exit Sub
+    End If
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesNuevo:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
-        If vbq = vbYes Then
-            If Text1(0) <> "" Then
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesNuevo:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
+    If vbq = vbYes Then
+        If Text1(0) <> "" Then
+            With Rs
+                If .State = 1 Then .Close
+                .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                .Open "Select count(*) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(cliente,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                .Requery
+                In1 = .Fields(0).Value
+                .Close
+            End With
+
+            If In1 = 0 Then
                 With Rs
                     If .State = 1 Then .Close
                     .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "Select count(*) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(cliente,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                    .Open "Select count(*) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(proveedor,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
                     .Requery
                     In1 = .Fields(0).Value
                     .Close
                 End With
-                
+
                 If In1 = 0 Then
                     With Rs
                         If .State = 1 Then .Close
                         .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                        .Open "Select count(*) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(proveedor,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                        .Open "Select * from HZ_PARTY;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
                         .Requery
-                        In1 = .Fields(0).Value
+                        .AddNew
+                        With .Fields(1)
+                            .Value = Text1(0)                                                       'nombre
+                        End With
+
+                        With .Fields(2)
+                            .Value = Text1(1)                                                       'calle
+                        End With
+
+                        With .Fields(3)
+                            .Value = Text1(2)                                                       'numero
+                        End With
+
+                        With .Fields(4)
+                            .Value = Text1(3)                                                       'colonia
+                        End With
+
+                        With .Fields(5)
+                            .Value = Text1(4)                                                       'cp
+                        End With
+
+                        With .Fields(6)
+                            .Value = Text1(5)                                                       'tel
+                        End With
+
+                        With .Fields(7)
+                            .Value = Text1(10)                                                      'tel2
+                        End With
+
+                        With .Fields(8)
+                            .Value = Text1(11)                                                      'tel3
+                        End With
+
+                        With .Fields(9)
+                            .Value = Text1(12)                                                      'tel4
+                        End With
+
+                        With .Fields(10)
+                            .Value = Text1(13)                                                      'tel5
+                        End With
+
+                        With .Fields(11)
+                            .Value = Text1(14)                                                      'tel6
+                        End With
+
+                        With .Fields(13)
+                            .Value = Text1(6)                                                       'monedero
+                        End With
+
+                        With .Fields(14)
+                            .Value = Text1(7)                                                       'referencias
+                        End With
+
+                        With .Fields(15)
+                            .Value = "Cliente"                                                      'tipo
+                        End With
+
+                        With .Fields(16)
+                            .Value = Combo1                                                         'lista
+                        End With
+
+                        With .Fields(17)
+                            .Value = Text1(8)                                                       'credito
+                        End With
+
+                        With .Fields(18)
+                            .Value = Text1(9)                                                       'dias
+                        End With
+
+                        With .Fields(19)
+                            .Value = Combo2                                                         'mayorista
+                        End With
+
+                        With .Fields(21)
+                            .Value = "Si"                                                           'cliente
+                        End With
+
+                        With .Fields(23)
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                        End With
+
+                        With .Fields(24)
+                            .Value = StUsuario                                                      'usuario
+                        End With
+
+                        With .Fields(25)
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                        End With
+
+                        With .Fields(26)
+                            .Value = StUsuario                                                      'usuario
+                        End With
+                        .Update
+                        .Requery
                         .Close
                     End With
-                    
-                    If In1 = 0 Then
+
+                    If InTipoAltaClienteProveedor = 1 Then
+                        With frmVentas
+                            .Enabled = True
+                        End With
+                        Unload Me
+                        Set frmClientesNuevo = Nothing
+
+                        Exit Sub
+                    Else
+                        Unload frmClientesNuevo
+                        Set frmClientesNuevo = Nothing
+
+                        Exit Sub
+                    End If
+                Else
+                    vbq = MsgBox("El nombre ya está registrado como proveedor, ¿Desea convertirlo también en cliente?", vbQuestion + vbYesNo, "Información")
+                    If vbq = vbYes Then
                         With Rs
                             If .State = 1 Then .Close
                             .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                            .Open "Select * from HZ_PARTY;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                            .Open "Select min(id) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(proveedor,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
                             .Requery
-                            .AddNew
-                                With .Fields(1)
-                                    .Value = Text1(0)                                                       'nombre
-                                End With
-                                
-                                With .Fields(2)
-                                    .Value = Text1(1)                                                       'calle
-                                End With
-                                
-                                With .Fields(3)
-                                    .Value = Text1(2)                                                       'numero
-                                End With
-                                
-                                With .Fields(4)
-                                    .Value = Text1(3)                                                       'colonia
-                                End With
-                                
-                                With .Fields(5)
-                                    .Value = Text1(4)                                                       'cp
-                                End With
-                                
-                                With .Fields(6)
-                                    .Value = Text1(5)                                                       'tel
-                                End With
-                                
-                                With .Fields(7)
-                                    .Value = Text1(10)                                                      'tel2
-                                End With
-                                
-                                With .Fields(8)
-                                    .Value = Text1(11)                                                      'tel3
-                                End With
-                                
-                                With .Fields(9)
-                                    .Value = Text1(12)                                                      'tel4
-                                End With
-                                
-                                With .Fields(10)
-                                    .Value = Text1(13)                                                      'tel5
-                                End With
-                                
-                                With .Fields(11)
-                                    .Value = Text1(14)                                                      'tel6
-                                End With
-                                
-                                With .Fields(13)
-                                    .Value = Text1(6)                                                       'monedero
-                                End With
-                                
-                                With .Fields(14)
-                                    .Value = Text1(7)                                                       'referencias
-                                End With
-                                
-                                With .Fields(15)
-                                    .Value = "Cliente"                                                      'tipo
-                                End With
-                                
-                                With .Fields(16)
-                                    .Value = Combo1                                                         'lista
-                                End With
-                                
-                                With .Fields(17)
-                                    .Value = Text1(8)                                                       'credito
-                                End With
-                                
-                                With .Fields(18)
-                                    .Value = Text1(9)                                                       'dias
-                                End With
-                                
-                                With .Fields(19)
-                                    .Value = Combo2                                                         'mayorista
-                                End With
-                                
-                                With .Fields(21)
-                                    .Value = "Si"                                                           'cliente
-                                End With
-                                
-                                With .Fields(23)
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
-                                End With
-                                
-                                With .Fields(24)
-                                    .Value = StUsuario                                                      'usuario
-                                End With
-                                
-                                With .Fields(25)
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
-                                End With
-                                
-                                With .Fields(26)
-                                    .Value = StUsuario                                                      'usuario
-                                End With
-                            .Update
-                            .Requery
+                            In1 = .Fields(0).Value
                             .Close
                         End With
-                        
+                        sql = "update HZ_PARTY set cliente = 'Si', [Lista de Precios] = " & Combo1 & ",Mayorista ='" & Combo2 & "',last_updated_by ='" & StUsuario & "', last_update_date = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "' where id = " & In1
+                        With Cn
+                            .Execute sql
+                        End With
+
                         If InTipoAltaClienteProveedor = 1 Then
                             With frmVentas
                                 .Enabled = True
                             End With
                             Unload Me
                             Set frmClientesNuevo = Nothing
-                            
+
                             Exit Sub
                         Else
                             Unload frmClientesNuevo
                             Set frmClientesNuevo = Nothing
-                            
+
                             Exit Sub
                         End If
                     Else
-                        vbq = MsgBox("El nombre ya está registrado como proveedor, ¿Desea convertirlo también en cliente?", vbQuestion + vbYesNo, "Información")
-                        If vbq = vbYes Then
-                            With Rs
-                                If .State = 1 Then .Close
-                                .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                                .Open "Select min(id) as existe from HZ_PARTY where nombre like '" & Text1(0) & "' and isnull(proveedor,'No') = 'Si';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                                .Requery
-                                In1 = .Fields(0).Value
-                                .Close
-                            End With
-                            sql = "update HZ_PARTY set cliente = 'Si', [Lista de Precios] = " & Combo1 & ",Mayorista ='" & Combo2 & "',last_updated_by ='" & StUsuario & "', last_update_date = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "' where id = " & In1
-                            With Cn
-                                .Execute sql
-                            End With
-                            
-                            If InTipoAltaClienteProveedor = 1 Then
-                                With frmVentas
-                                    .Enabled = True
-                                End With
-                                Unload Me
-                                Set frmClientesNuevo = Nothing
-                                
-                                Exit Sub
-                            Else
-                                Unload frmClientesNuevo
-                                Set frmClientesNuevo = Nothing
-                                
-                                Exit Sub
-                            End If
-                        Else
-                            With Text1(0)
-                                .SetFocus
-                            End With
-                            
-                            Exit Sub
-                        End If
+                        With Text1(0)
+                            .SetFocus
+                        End With
+
+                        Exit Sub
                     End If
-                Else
-                    MsgBox "El cliente ya esta registrado", vbCritical, "Error"
-                    With Text1(0)
-                        .SetFocus
-                    End With
-                    
-                    Exit Sub
                 End If
-                
-                With Cn
-                    If .State = 1 Then .Close
-                End With
             Else
-                MsgBox "El nombre es obligatorio", vbCritical, "Error"
+                MsgBox "El cliente ya esta registrado", vbCritical, "Error"
                 With Text1(0)
                     .SetFocus
                 End With
-                
+
                 Exit Sub
             End If
+
+            With Cn
+                If .State = 1 Then .Close
+            End With
         Else
-            Unload Me
+            MsgBox "El nombre es obligatorio", vbCritical, "Error"
+            With Text1(0)
+                .SetFocus
+            End With
+
+            Exit Sub
         End If
+    Else
+        Unload Me
+    End If
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesNuevo:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        With Rs
-            If .State = 1 Then .Close
-        End With
-        
-        With Cn
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs = Nothing
-        Set Cn = Nothing
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesNuevo:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set Cn = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesNuevo:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesNuevo:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

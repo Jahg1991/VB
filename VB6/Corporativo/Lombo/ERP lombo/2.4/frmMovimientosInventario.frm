@@ -148,7 +148,7 @@ Begin VB.Form frmMovimientosInventario
             CalendarTitleBackColor=   8421504
             CalendarTitleForeColor=   14737632
             CalendarTrailingForeColor=   8421504
-            Format          =   61145089
+            Format          =   140771329
             CurrentDate     =   43915
             MaxDate         =   2958101
          End
@@ -176,7 +176,7 @@ Begin VB.Form frmMovimientosInventario
             CalendarTitleBackColor=   8421504
             CalendarTitleForeColor=   14737632
             CalendarTrailingForeColor=   8421504
-            Format          =   61145089
+            Format          =   140771329
             CurrentDate     =   43915
             MaxDate         =   2958101
          End
@@ -402,588 +402,588 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//RECORDSET
-    Dim Rs As New adodb.Recordset
-    Dim RS1 As New adodb.Recordset
-    '//OTROS
-    Dim i As Long
+Option Explicit
 
-    Private Sub Form_Load()
-        On Error GoTo errHandler
-        With DTPicker1(0)
-            .Value = Date
-        End With
-        
-        With DTPicker1(1)
-            .Value = Date
-        End With
-       
-       With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
-        End With
-        
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select * from MTL_MATERIAL_TRANSACTIONS_V order by 1,2;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount > 0 Then
-                .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
-                .Requery
-                With DataGrid1
-                    Set .DataSource = Rs
-                    
-                    With .Columns(0)
-                        .Width = 1700
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(1)
-                        .Width = 2000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(2)
-                        .Width = 4400
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(3)
-                        .Width = 3000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(4)
-                        .Width = 1300
-                        .Locked = True
-                        .Alignment = dbgRight
-                    End With
-                    
-                    With .Columns(5)
-                        .Width = 1200
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(6)
-                        .Visible = False
-                    End With
-                End With
-            Else
-                MsgBox "No hay registros existentes", vbOKOnly, "Información"
-            End If
-        End With
-        With RS1
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select distinct transaccion as transaccion from MTL_MATERIAL_TRANSACTIONS_V order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then
-                .MoveFirst
-                With Combo1
-                    .AddItem ""
-                End With
-                
-                While Not .EOF
-                    Combo1.AddItem .Fields(0).Value
-                    .MoveNext
-                Wend
-                .Close
-            End If
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub DTPicker1_Change(Index As Integer)
-        On Error Resume Next
-        Select Case Index
-            Case 0
-                With Rs
-                    If .State = 1 Then .Close
-                    .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "  SELECT *                                                                                          " & _
-                          "    FROM MTL_MATERIAL_TRANSACTIONS_V                                                                " & _
-                          "   WHERE (Codigo LIKE ISNULL('%" & Text1(0) & "%',Codigo)                                           " & _
-                          "      OR Descripcion LIKE ISNULL('%" & Text1(0) & "%',Descripcion))                                 " & _
-                          "     AND Transaccion = CASE WHEN '" & Combo1 & "' = '' THEN Transaccion ELSE '" & Combo1 & "' END   " & _
-                          "ORDER BY 1,2;                                                                                       ", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                    .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
-                    .Requery
-                End With
-                
-                With DataGrid1
-                    Set .DataSource = Rs
-                    
-                    With .Columns(0)
-                        .Width = 1700
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(1)
-                        .Width = 2000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(2)
-                        .Width = 4400
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(3)
-                        .Width = 3000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(4)
-                        .Width = 1300
-                        .Locked = True
-                        .Alignment = dbgRight
-                    End With
-                    
-                    With .Columns(5)
-                        .Width = 1200
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(6)
-                        .Visible = False
-                    End With
-                End With
-            Case 1
-                With Rs
-                    If .State = 1 Then .Close
-                    .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "  SELECT *                                                                                          " & _
-                          "    FROM MTL_MATERIAL_TRANSACTIONS_V                                                                " & _
-                          "   WHERE (Codigo LIKE ISNULL('%" & Text1(0) & "%',Codigo)                                           " & _
-                          "      OR Descripcion LIKE ISNULL('%" & Text1(0) & "%',Descripcion))                                 " & _
-                          "     AND Transaccion = CASE WHEN '" & Combo1 & "' = '' THEN Transaccion ELSE '" & Combo1 & "' END   " & _
-                          "ORDER BY 1,2;                                                                                       ", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                    .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
-                    .Requery
-                End With
-                
-                With DataGrid1
-                    Set .DataSource = Rs
-                    
-                    With .Columns(0)
-                        .Width = 1700
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(1)
-                        .Width = 2000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(2)
-                        .Width = 4400
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(3)
-                        .Width = 3000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(4)
-                        .Width = 1300
-                        .Locked = True
-                        .Alignment = dbgRight
-                    End With
-                    
-                    With .Columns(5)
-                        .Width = 1200
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(6)
-                        .Visible = False
-                    End With
-                End With
-        End Select
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:DTPicker1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
 
-    Private Sub Text1_Change(Index As Integer)
-        On Error Resume Next
-        Select Case Index
-            Case 0
-                With Rs
-                    If .State = 1 Then .Close
-                    .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "  SELECT *                                                                                          " & _
-                          "    FROM MTL_MATERIAL_TRANSACTIONS_V                                                                " & _
-                          "   WHERE (Codigo LIKE ISNULL('%" & Text1(0) & "%',Codigo)                                           " & _
-                          "      OR Descripcion LIKE ISNULL('%" & Text1(0) & "%',Descripcion))                                 " & _
-                          "     AND Transaccion = CASE WHEN '" & Combo1 & "' = '' THEN Transaccion ELSE '" & Combo1 & "' END   " & _
-                          "ORDER BY 1,2;                                                                                       ", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                    .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
-                    .Requery
-                End With
-                
-                With DataGrid1
-                    Set .DataSource = Rs
-                    
-                    With .Columns(0)
-                        .Width = 1700
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(1)
-                        .Width = 2000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(2)
-                        .Width = 4400
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(3)
-                        .Width = 3000
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(4)
-                        .Width = 1300
-                        .Locked = True
-                        .Alignment = dbgRight
-                    End With
-                    
-                    With .Columns(5)
-                        .Width = 1200
-                        .Locked = True
-                    End With
-                    
-                    With .Columns(6)
-                        .Visible = False
-                    End With
-                End With
-        End Select
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Text1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Combo1_Click()
-        On Error GoTo errHandler
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "  SELECT *                                                                                          " & _
-                  "    FROM MTL_MATERIAL_TRANSACTIONS_V                                                                " & _
-                  "   WHERE (Codigo LIKE ISNULL('%" & Text1(0) & "%',Codigo)                                           " & _
-                  "      OR Descripcion LIKE ISNULL('%" & Text1(0) & "%',Descripcion))                                 " & _
-                  "     AND Transaccion = CASE WHEN '" & Combo1 & "' = '' THEN Transaccion ELSE '" & Combo1 & "' END   " & _
-                  "ORDER BY 1,2;                                                                                       ", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+'//RECORDSET
+Dim Rs As New adodb.Recordset
+Dim RS1 As New adodb.Recordset
+'//OTROS
+Dim i As Long
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+    With DTPicker1(0)
+        .Value = Date
+    End With
+
+    With DTPicker1(1)
+        .Value = Date
+    End With
+
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select * from MTL_MATERIAL_TRANSACTIONS_V order by 1,2;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount > 0 Then
             .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
             .Requery
-        End With
-        
-        With DataGrid1
-            Set .DataSource = Rs
-            
-            With .Columns(0)
-                .Width = 1700
-                .Locked = True
-            End With
-            
-            With .Columns(1)
-                .Width = 2000
-                .Locked = True
-            End With
-            
-            With .Columns(2)
-                .Width = 4400
-                .Locked = True
-            End With
-            
-            With .Columns(3)
-                .Width = 3000
-                .Locked = True
-            End With
-            
-            With .Columns(4)
-                .Width = 1300
-                .Locked = True
-                .Alignment = dbgRight
-            End With
-            
-            With .Columns(5)
-                .Width = 1200
-                .Locked = True
-            End With
-            
-            With .Columns(6)
-                .Visible = False
-            End With
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Combo1_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+            With DataGrid1
+                Set .DataSource = Rs
 
-    Private Sub Combo1_KeyUp(KeyCode As Integer, Shift As Integer)
-        On Error GoTo errHandler
-        Static cadena As String
-        
-        With Combo1
-            ' si pesionamos las teclas de las flechas sale de la rutina
-            If KeyCode = vbKeyUp Then Exit Sub
-            
-            If KeyCode = vbKeyDown Then Exit Sub
-            
-            If KeyCode = vbKeyLeft Then Exit Sub
-            
-            If KeyCode = vbKeyRight Then Exit Sub
-            
-            ' verifica qu no se presionó la tecla backspace
-            If KeyCode <> vbKeyBack Then
-                cadena = Mid(.Text, 1, Len(.Text) - .SelLength)
-            Else
-                '...tecla backspace
-                If cadena <> "" Then
-                    cadena = Mid(cadena, 1, Len(cadena) - 1)
-                End If
-            End If
-            
-            For i = 0 To .ListCount - 1
-                If UCase(cadena) = UCase(Mid(.List(i), 1, Len(cadena))) Then
-                    .ListIndex = i
-                    Exit For
-                End If
-            Next
-            ' Seelecciona
-            .SelStart = Len(cadena)
-            .SelLength = Len(.Text)
-            If .ListIndex = -1 Then
-                ' color de fondo del combo en caso de que no hay coincidencias
-                .BackColor = COLOR_NO_ENCONTRADO
-            Else
-                .BackColor = COLOR_NORMAL
-            End If
-        End With
-        
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "  SELECT *                                                                                          " & _
-                  "    FROM MTL_MATERIAL_TRANSACTIONS_V                                                                " & _
-                  "   WHERE (Codigo LIKE ISNULL('%" & Text1(0) & "%',Codigo)                                           " & _
-                  "      OR Descripcion LIKE ISNULL('%" & Text1(0) & "%',Descripcion))                                 " & _
-                  "     AND Transaccion = CASE WHEN '" & Combo1 & "' = '' THEN Transaccion ELSE '" & Combo1 & "' END   " & _
-                  "ORDER BY 1,2;                                                                                       ", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
-            .Requery
-        End With
-        
-        With DataGrid1
-            Set .DataSource = Rs
-            
-            With .Columns(0)
-                .Width = 1700
-                .Locked = True
+                With .Columns(0)
+                    .Width = 1700
+                    .Locked = True
+                End With
+
+                With .Columns(1)
+                    .Width = 2000
+                    .Locked = True
+                End With
+
+                With .Columns(2)
+                    .Width = 4400
+                    .Locked = True
+                End With
+
+                With .Columns(3)
+                    .Width = 3000
+                    .Locked = True
+                End With
+
+                With .Columns(4)
+                    .Width = 1300
+                    .Locked = True
+                    .Alignment = dbgRight
+                End With
+
+                With .Columns(5)
+                    .Width = 1200
+                    .Locked = True
+                End With
+
+                With .Columns(6)
+                    .Visible = False
+                End With
             End With
-            
-            With .Columns(1)
-                .Width = 2000
-                .Locked = True
-            End With
-            
-            With .Columns(2)
-                .Width = 4400
-                .Locked = True
-            End With
-            
-            With .Columns(3)
-                .Width = 3000
-                .Locked = True
-            End With
-            
-            With .Columns(4)
-                .Width = 1300
-                .Locked = True
-                .Alignment = dbgRight
-            End With
-            
-            With .Columns(5)
-                .Width = 1200
-                .Locked = True
-            End With
-            
-            With .Columns(6)
-                .Visible = False
-            End With
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Combo1_KeyUp" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Command2_Click()
-        On Error GoTo errHandler
-        'PARA EXPORTAR A EXCEL
-        Dim N As Long, sTemp As String
-        Dim FileName As String
-        FileName = App.Path & "\Temp\TEMP_MI_" & CStr(Format(Date, "YYYYMMDD")) & "_" & CStr(Format(Time, "HHMMSS")) & ".xls"
-        Open FileName For Output As #1
-        'ENCABEZADO
-        sTemp = "INFORME DE MOVIMIENTOS DE INVENTARIO"
-        Print #1, sTemp
-        sTemp = vbNullString
-        sTemp = "Desde: " & DTPicker1(0).Value & " Hasta: " & DTPicker1(1).Value
-        Print #1, sTemp
-        sTemp = vbNullString
-        sTemp = "Articulo: " & Text1(0).Text
-        Print #1, sTemp
-        sTemp = vbNullString
-        sTemp = "Tipo de transacciòn: " & Combo1.Text
-        Print #1, sTemp
-        sTemp = vbNullString
-        sTemp = "Fecha de Ejecucion del informe: " & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")
-        Print #1, sTemp
-        sTemp = vbNullString
-        Print #1, sTemp
-        sTemp = vbNullString
-        'CABECERA
-        For N = 0 To Rs.Fields.Count - 1
-            sTemp = sTemp & UCase(Rs.Fields(N).Name) & IIf(N = Rs.Fields.Count - 1, vbNullString, vbTab)
-        Next N
-        
-        Print #1, sTemp
-        sTemp = vbNullString
-        'DETALLE
-        With Rs
+        Else
+            MsgBox "No hay registros existentes", vbOKOnly, "Información"
+        End If
+    End With
+    With RS1
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select distinct transaccion as transaccion from MTL_MATERIAL_TRANSACTIONS_V order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then
             .MoveFirst
-            Do Until .EOF
-                For N = 0 To .Fields.Count - 1
-                    If N = 4 Then 'CONVERTIR A NUMERO
-                        sTemp = sTemp & Replace(CStr(.Fields(N).Value), ",", ".") & IIf(N = .Fields.Count - 1, vbNullString, vbTab)
-                    Else
-                        sTemp = sTemp & .Fields(N).Value & IIf(N = .Fields.Count - 1, vbNullString, vbTab)
-                    End If
-                Next N
-                
-                Print #1, sTemp
-                sTemp = vbNullString
+            With Combo1
+                .AddItem ""
+            End With
+
+            While Not .EOF
+                Combo1.AddItem .Fields(0).Value
                 .MoveNext
-            Loop
-        End With
-        
-        Close #1
-        
-        'PARA ABRIR EL ARCHIVO DE EXCEL AL TERMINAR DE EXPORTAR
-        Dim xltmp As Excel.Application
-        
-        Set xltmp = New Excel.Application
-        
-        With xltmp
-            With .Workbooks
-                .Open FileName
-            End With
-            
-            With .Range("A7", "H7")
-                With .Interior
-                    .Color = RGB(80, 80, 80)
-                End With
-                
-                With .Font
-                    .Color = RGB(255, 255, 255)
-                End With
-            End With
-            
-            With .ActiveWorkbook
-                .Save
-            End With
-            .Visible = True
-        End With
-        Unload Me
+            Wend
+            .Close
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Command2_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        With DataGrid1
-            Set .DataSource = Nothing
-        End With
-        
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub DTPicker1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+    Case 0
         With Rs
             If .State = 1 Then .Close
+            .CursorLocation = adodb.CursorLocationEnum.adUseClient
+            .Open "  SELECT *                                                                                          " & _
+                "    FROM MTL_MATERIAL_TRANSACTIONS_V                                                                " & _
+                "   WHERE (Codigo LIKE ISNULL('%" & Text1(0) & "%',Codigo)                                           " & _
+                "      OR Descripcion LIKE ISNULL('%" & Text1(0) & "%',Descripcion))                                 " & _
+                "     AND Transaccion = CASE WHEN '" & Combo1 & "' = '' THEN Transaccion ELSE '" & Combo1 & "' END   " & _
+                  "ORDER BY 1,2;                                                                                       ", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+            .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
+            .Requery
         End With
-        
-        With RS1
+
+        With DataGrid1
+            Set .DataSource = Rs
+
+            With .Columns(0)
+                .Width = 1700
+                .Locked = True
+            End With
+
+            With .Columns(1)
+                .Width = 2000
+                .Locked = True
+            End With
+
+            With .Columns(2)
+                .Width = 4400
+                .Locked = True
+            End With
+
+            With .Columns(3)
+                .Width = 3000
+                .Locked = True
+            End With
+
+            With .Columns(4)
+                .Width = 1300
+                .Locked = True
+                .Alignment = dbgRight
+            End With
+
+            With .Columns(5)
+                .Width = 1200
+                .Locked = True
+            End With
+
+            With .Columns(6)
+                .Visible = False
+            End With
+        End With
+    Case 1
+        With Rs
             If .State = 1 Then .Close
+            .CursorLocation = adodb.CursorLocationEnum.adUseClient
+            .Open "  SELECT *                                                                                          " & _
+                "    FROM MTL_MATERIAL_TRANSACTIONS_V                                                                " & _
+                "   WHERE (Codigo LIKE ISNULL('%" & Text1(0) & "%',Codigo)                                           " & _
+                "      OR Descripcion LIKE ISNULL('%" & Text1(0) & "%',Descripcion))                                 " & _
+                "     AND Transaccion = CASE WHEN '" & Combo1 & "' = '' THEN Transaccion ELSE '" & Combo1 & "' END   " & _
+                  "ORDER BY 1,2;                                                                                       ", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+            .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
+            .Requery
         End With
-        
-        With Cn
-            If .State = 1 Then .Close
+
+        With DataGrid1
+            Set .DataSource = Rs
+
+            With .Columns(0)
+                .Width = 1700
+                .Locked = True
+            End With
+
+            With .Columns(1)
+                .Width = 2000
+                .Locked = True
+            End With
+
+            With .Columns(2)
+                .Width = 4400
+                .Locked = True
+            End With
+
+            With .Columns(3)
+                .Width = 3000
+                .Locked = True
+            End With
+
+            With .Columns(4)
+                .Width = 1300
+                .Locked = True
+                .Alignment = dbgRight
+            End With
+
+            With .Columns(5)
+                .Width = 1200
+                .Locked = True
+            End With
+
+            With .Columns(6)
+                .Visible = False
+            End With
         End With
-        
-        Set Rs = Nothing
-        Set RS1 = Nothing
-        Set Cn = Nothing
+    End Select
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:DTPicker1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text1_Change(Index As Integer)
+    On Error Resume Next
+    Select Case Index
+    Case 0
+        With Rs
+            If .State = 1 Then .Close
+            .CursorLocation = adodb.CursorLocationEnum.adUseClient
+            .Open "  SELECT *                                                                                          " & _
+                "    FROM MTL_MATERIAL_TRANSACTIONS_V                                                                " & _
+                "   WHERE (Codigo LIKE ISNULL('%" & Text1(0) & "%',Codigo)                                           " & _
+                "      OR Descripcion LIKE ISNULL('%" & Text1(0) & "%',Descripcion))                                 " & _
+                "     AND Transaccion = CASE WHEN '" & Combo1 & "' = '' THEN Transaccion ELSE '" & Combo1 & "' END   " & _
+                  "ORDER BY 1,2;                                                                                       ", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+            .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
+            .Requery
+        End With
+
+        With DataGrid1
+            Set .DataSource = Rs
+
+            With .Columns(0)
+                .Width = 1700
+                .Locked = True
+            End With
+
+            With .Columns(1)
+                .Width = 2000
+                .Locked = True
+            End With
+
+            With .Columns(2)
+                .Width = 4400
+                .Locked = True
+            End With
+
+            With .Columns(3)
+                .Width = 3000
+                .Locked = True
+            End With
+
+            With .Columns(4)
+                .Width = 1300
+                .Locked = True
+                .Alignment = dbgRight
+            End With
+
+            With .Columns(5)
+                .Width = 1200
+                .Locked = True
+            End With
+
+            With .Columns(6)
+                .Visible = False
+            End With
+        End With
+    End Select
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Text1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Combo1_Click()
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "  SELECT *                                                                                          " & _
+            "    FROM MTL_MATERIAL_TRANSACTIONS_V                                                                " & _
+            "   WHERE (Codigo LIKE ISNULL('%" & Text1(0) & "%',Codigo)                                           " & _
+            "      OR Descripcion LIKE ISNULL('%" & Text1(0) & "%',Descripcion))                                 " & _
+            "     AND Transaccion = CASE WHEN '" & Combo1 & "' = '' THEN Transaccion ELSE '" & Combo1 & "' END   " & _
+              "ORDER BY 1,2;                                                                                       ", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
+        .Requery
+    End With
+
+    With DataGrid1
+        Set .DataSource = Rs
+
+        With .Columns(0)
+            .Width = 1700
+            .Locked = True
+        End With
+
+        With .Columns(1)
+            .Width = 2000
+            .Locked = True
+        End With
+
+        With .Columns(2)
+            .Width = 4400
+            .Locked = True
+        End With
+
+        With .Columns(3)
+            .Width = 3000
+            .Locked = True
+        End With
+
+        With .Columns(4)
+            .Width = 1300
+            .Locked = True
+            .Alignment = dbgRight
+        End With
+
+        With .Columns(5)
+            .Width = 1200
+            .Locked = True
+        End With
+
+        With .Columns(6)
+            .Visible = False
+        End With
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Combo1_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Combo1_KeyUp(KeyCode As Integer, Shift As Integer)
+    On Error GoTo errHandler
+    Static cadena As String
+
+    With Combo1
+        ' si pesionamos las teclas de las flechas sale de la rutina
+        If KeyCode = vbKeyUp Then Exit Sub
+
+        If KeyCode = vbKeyDown Then Exit Sub
+
+        If KeyCode = vbKeyLeft Then Exit Sub
+
+        If KeyCode = vbKeyRight Then Exit Sub
+
+        ' verifica qu no se presionó la tecla backspace
+        If KeyCode <> vbKeyBack Then
+            cadena = Mid(.Text, 1, Len(.Text) - .SelLength)
+        Else
+            '...tecla backspace
+            If cadena <> "" Then
+                cadena = Mid(cadena, 1, Len(cadena) - 1)
+            End If
+        End If
+
+        For i = 0 To .ListCount - 1
+            If UCase(cadena) = UCase(Mid(.List(i), 1, Len(cadena))) Then
+                .ListIndex = i
+                Exit For
+            End If
+        Next
+        ' Seelecciona
+        .SelStart = Len(cadena)
+        .SelLength = Len(.Text)
+        If .ListIndex = -1 Then
+            ' color de fondo del combo en caso de que no hay coincidencias
+            .BackColor = COLOR_NO_ENCONTRADO
+        Else
+            .BackColor = COLOR_NORMAL
+        End If
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "  SELECT *                                                                                          " & _
+            "    FROM MTL_MATERIAL_TRANSACTIONS_V                                                                " & _
+            "   WHERE (Codigo LIKE ISNULL('%" & Text1(0) & "%',Codigo)                                           " & _
+            "      OR Descripcion LIKE ISNULL('%" & Text1(0) & "%',Descripcion))                                 " & _
+            "     AND Transaccion = CASE WHEN '" & Combo1 & "' = '' THEN Transaccion ELSE '" & Combo1 & "' END   " & _
+              "ORDER BY 1,2;                                                                                       ", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
+        .Requery
+    End With
+
+    With DataGrid1
+        Set .DataSource = Rs
+
+        With .Columns(0)
+            .Width = 1700
+            .Locked = True
+        End With
+
+        With .Columns(1)
+            .Width = 2000
+            .Locked = True
+        End With
+
+        With .Columns(2)
+            .Width = 4400
+            .Locked = True
+        End With
+
+        With .Columns(3)
+            .Width = 3000
+            .Locked = True
+        End With
+
+        With .Columns(4)
+            .Width = 1300
+            .Locked = True
+            .Alignment = dbgRight
+        End With
+
+        With .Columns(5)
+            .Width = 1200
+            .Locked = True
+        End With
+
+        With .Columns(6)
+            .Visible = False
+        End With
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Combo1_KeyUp" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Command2_Click()
+    On Error GoTo errHandler
+    'PARA EXPORTAR A EXCEL
+    Dim N As Long, sTemp As String
+    Dim FileName As String
+    FileName = App.Path & "\Temp\TEMP_MI_" & CStr(Format(Date, "YYYYMMDD")) & "_" & CStr(Format(Time, "HHMMSS")) & ".xls"
+    Open FileName For Output As #1
+    'ENCABEZADO
+    sTemp = "INFORME DE MOVIMIENTOS DE INVENTARIO"
+    Print #1, sTemp
+    sTemp = vbNullString
+    sTemp = "Desde: " & DTPicker1(0).Value & " Hasta: " & DTPicker1(1).Value
+    Print #1, sTemp
+    sTemp = vbNullString
+    sTemp = "Articulo: " & Text1(0).Text
+    Print #1, sTemp
+    sTemp = vbNullString
+    sTemp = "Tipo de transacciòn: " & Combo1.Text
+    Print #1, sTemp
+    sTemp = vbNullString
+    sTemp = "Fecha de Ejecucion del informe: " & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")
+    Print #1, sTemp
+    sTemp = vbNullString
+    Print #1, sTemp
+    sTemp = vbNullString
+    'CABECERA
+    For N = 0 To Rs.Fields.Count - 1
+        sTemp = sTemp & UCase(Rs.Fields(N).Name) & IIf(N = Rs.Fields.Count - 1, vbNullString, vbTab)
+    Next N
+
+    Print #1, sTemp
+    sTemp = vbNullString
+    'DETALLE
+    With Rs
+        .MoveFirst
+        Do Until .EOF
+            For N = 0 To .Fields.Count - 1
+                If N = 4 Then    'CONVERTIR A NUMERO
+                    sTemp = sTemp & Replace(CStr(.Fields(N).Value), ",", ".") & IIf(N = .Fields.Count - 1, vbNullString, vbTab)
+                Else
+                    sTemp = sTemp & .Fields(N).Value & IIf(N = .Fields.Count - 1, vbNullString, vbTab)
+                End If
+            Next N
+
+            Print #1, sTemp
+            sTemp = vbNullString
+            .MoveNext
+        Loop
+    End With
+
+    Close #1
+
+    'PARA ABRIR EL ARCHIVO DE EXCEL AL TERMINAR DE EXPORTAR
+    Dim xltmp As Excel.Application
+
+    Set xltmp = New Excel.Application
+
+    With xltmp
+        With .Workbooks
+            .Open FileName
+        End With
+
+        With .Range("A7", "H7")
+            With .Interior
+                .Color = RGB(80, 80, 80)
+            End With
+
+            With .Font
+                .Color = RGB(255, 255, 255)
+            End With
+        End With
+
+        With .ActiveWorkbook
+            .Save
+        End With
+        .Visible = True
+    End With
+    Unload Me
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Command2_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With DataGrid1
+        Set .DataSource = Nothing
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With RS1
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set RS1 = Nothing
+    Set Cn = Nothing
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMovimientosInventario:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

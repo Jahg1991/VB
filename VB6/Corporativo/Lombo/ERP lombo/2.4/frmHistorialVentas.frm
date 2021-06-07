@@ -443,7 +443,7 @@ Begin VB.Form frmHistorialVentas
             CalendarTitleBackColor=   8421504
             CalendarTitleForeColor=   14737632
             CalendarTrailingForeColor=   8421504
-            Format          =   126156801
+            Format          =   140771329
             CurrentDate     =   43915
             MaxDate         =   2958101
          End
@@ -471,7 +471,7 @@ Begin VB.Form frmHistorialVentas
             CalendarTitleBackColor=   8421504
             CalendarTitleForeColor=   14737632
             CalendarTrailingForeColor=   8421504
-            Format          =   126156801
+            Format          =   140771329
             CurrentDate     =   43915
             MaxDate         =   2958101
          End
@@ -645,95 +645,1050 @@ Attribute VB_Exposed = False
 '                                               puntos si no se cumple la cantidad
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//OTROS
-    Dim i                   As Long
-    Dim Prt                 As Printer
-    '//RECORSET
-    Dim Rs                  As New adodb.Recordset  'Cabecera ComprasVentas
-    Dim RS1                 As New adodb.Recordset  'VentasCompras
-    Dim Rs2                 As New adodb.Recordset  'Pagos
-    Dim Rs3                 As New adodb.Recordset  'inventarios
-    Dim Rs4                 As New adodb.Recordset  'puntos
-    Dim Rs5                 As New adodb.Recordset  'terjeta
-    Dim Rs6                 As New adodb.Recordset  'ticket
-    Dim Rs7                 As New adodb.Recordset  'tipo de terminal
-    '//VENTAS
-    Dim c1                  As String
-    Dim c2                  As String
-    Dim c3                  As String
-    Dim c4                  As String
-    Dim c5                  As String
-    Dim c6                  As String
-    Dim c7                  As String
-    Dim nc                  As Long
-    Dim v2                  As String               'folio
-    '//CLIENTES
-    Dim ClienteMayorista    As String
-    Dim v1                  As Long                 'id cliente
-    Dim ListaPrecios        As Long
-    '//TICKET
-    Dim vTicketSubtotal     As String
-    Dim vTicketIva          As String
-    Dim vTicketTotal        As String
-    '//CANCELAR
-    Dim sql                 As String
-    '//OTROS
-    Dim DineroRestante As String
-    Dim TMovimiento As String
-    Dim TPagado As String
-    Dim TDebido As String
-    
-    Private Sub Form_Load()
-        On Error GoTo errHandler
-        With frmHistorialVentas
-            With .Pagar
-                .Caption = "Cobrar Venta"
-            End With
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+'//OTROS
+Dim i As Long
+Dim Prt As Printer
+'//RECORSET
+Dim Rs As New adodb.Recordset    'Cabecera ComprasVentas
+Dim RS1 As New adodb.Recordset    'VentasCompras
+Dim Rs2 As New adodb.Recordset    'Pagos
+Dim Rs3 As New adodb.Recordset    'inventarios
+Dim Rs4 As New adodb.Recordset    'puntos
+Dim Rs5 As New adodb.Recordset    'terjeta
+Dim Rs6 As New adodb.Recordset    'ticket
+Dim Rs7 As New adodb.Recordset    'tipo de terminal
+'//VENTAS
+Dim c1 As String
+Dim c2 As String
+Dim c3 As String
+Dim c4 As String
+Dim c5 As String
+Dim c6 As String
+Dim c7 As String
+Dim nc As Long
+Dim v2 As String    'folio
+'//CLIENTES
+Dim ClienteMayorista As String
+Dim v1 As Long    'id cliente
+Dim ListaPrecios As Long
+'//TICKET
+Dim vTicketSubtotal As String
+Dim vTicketIva As String
+Dim vTicketTotal As String
+'//CANCELAR
+Dim sql As String
+'//OTROS
+Dim DineroRestante As String
+Dim TMovimiento As String
+Dim TPagado As String
+Dim TDebido As String
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+    With frmHistorialVentas
+        With .Pagar
+            .Caption = "Cobrar Venta"
         End With
-        
-        For i = 0 To 1
-            With DTPicker1(i)
-                .Value = Date
-            End With
-        Next i
-        
-        With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
+    End With
+
+    For i = 0 To 1
+        With DTPicker1(i)
+            .Value = Date
         End With
-        
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If StTipoVenta = "Local" Then
-                .Open "Select * from PO_HEADERS_ALL_R where LugarVenta = 'Local';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            End If
-            
-            If StTipoVenta = "Domicilio" Then
-                .Open "Select * from PO_HEADERS_ALL_R where LugarVenta = 'Domicilio';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            End If
-            
-            If StTipoVenta = "Abiertas" Then
-                .Open "Select * from PO_HEADERS_ALL_R where totalPagado < total;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            End If
+    Next i
+
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If StTipoVenta = "Local" Then
+            .Open "Select * from PO_HEADERS_ALL_R where LugarVenta = 'Local';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        End If
+
+        If StTipoVenta = "Domicilio" Then
+            .Open "Select * from PO_HEADERS_ALL_R where LugarVenta = 'Domicilio';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        End If
+
+        If StTipoVenta = "Abiertas" Then
+            .Open "Select * from PO_HEADERS_ALL_R where totalPagado < total;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        End If
+        .Requery
+        If .RecordCount > 0 Then
+            .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
             .Requery
-            If .RecordCount > 0 Then
-                .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
+            With List1
+                .Clear
+            End With
+
+            With List2
+                .Clear
+            End With
+
+            Do Until .EOF
+                c1 = Mid(Rs!folio, 1, 10)
+                c2 = Mid(Rs!fecha, 1, 10)
+                c3 = Mid(Rs!Nombre, 1, 44)
+                c5 = Replace(Format(Mid(Rs!Total, 1, 12), "0.00"), ",", ".")
+                c6 = Replace(Format(Mid(Rs!TotalPagado, 1, 12), "0.00"), ",", ".")
+                c7 = Replace(Format(Mid(Rs!TotalDebido, 1, 12), "0.00"), ",", ".")
+                nc = 10 - Len(c1)
+                For i = 1 To nc
+                    c1 = c1 & " "
+                Next i
+                nc = 10 - Len(c2)
+                For i = 1 To nc
+                    c2 = c2 & " "
+                Next i
+                nc = 44 - Len(c3)
+                For i = 1 To nc
+                    c3 = c3 & " "
+                Next i
+                nc = 12 - Len(c5)
+                For i = 1 To nc
+                    c5 = " " & c5
+                Next i
+                nc = 12 - Len(c6)
+                For i = 1 To nc
+                    c6 = " " & c6
+                Next i
+                nc = 12 - Len(c7)
+                For i = 1 To nc
+                    c7 = " " & c7
+                Next i
+
+                With List1
+                    .AddItem c1 & " " & c2 & " " & c3 & " " & c5 & " " & c6 & " " & c7
+                End With
+                .MoveNext
+            Loop
+
+            With RS1
+                If .State = 1 Then .Close
+                .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                .Open "Select * from PO_LINES_ALL", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
                 .Requery
+            End With
+
+            With Rs2
+                If .State = 1 Then .Close
+                .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                .Open "Select * from RA_CASH_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                .Requery
+            End With
+
+            With Rs3
+                If .State = 1 Then .Close
+                .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                .Open "Select * from MTL_MATERIAL_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                .Requery
+            End With
+
+            With Rs4
+                If .State = 1 Then .Close
+                .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                .Open "Select * from RA_POINT_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                .Requery
+            End With
+        End If
+    End With
+
+    With Combo2
+        .AddItem "Efectivo"
+        .AddItem "Tarjeta"
+        .AddItem "Puntos"
+    End With
+
+    With Rs7
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select * from RA_TERMINAL order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Filter = ""
+        .Requery
+        If .RecordCount <> 0 Then
+            With Combo3
+                .Clear
+            End With
+
+            While Not .EOF
+                Combo3.AddItem .Fields(0)
+                .MoveNext
+            Wend
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub DTPicker1_Change(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 0
+        With List1
+            .Clear
+        End With
+
+        With List2
+            .Clear
+        End With
+
+        With Rs
+            .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
+            .Requery
+            Do Until .EOF
+                c1 = Mid(Rs!folio, 1, 10)
+                c2 = Mid(Rs!fecha, 1, 10)
+                c3 = Mid(Rs!Nombre, 1, 44)
+                c5 = Replace(Format(Mid(Rs!Total, 1, 12), "0.00"), ",", ".")
+                c6 = Replace(Format(Mid(Rs!TotalPagado, 1, 12), "0.00"), ",", ".")
+                c7 = Replace(Format(Mid(Rs!TotalDebido, 1, 12), "0.00"), ",", ".")
+                nc = 10 - Len(c1)
+                For i = 1 To nc
+                    c1 = c1 & " "
+                Next i
+                nc = 10 - Len(c2)
+                For i = 1 To nc
+                    c2 = c2 & " "
+                Next i
+                nc = 44 - Len(c3)
+                For i = 1 To nc
+                    c3 = c3 & " "
+                Next i
+                nc = 12 - Len(c5)
+                For i = 1 To nc
+                    c5 = " " & c5
+                Next i
+                nc = 12 - Len(c6)
+                For i = 1 To nc
+                    c6 = " " & c6
+                Next i
+                nc = 12 - Len(c7)
+                For i = 1 To nc
+                    c7 = " " & c7
+                Next i
+
+                With List1
+                    .AddItem c1 & " " & c2 & " " & c3 & " " & c5 & " " & c6 & " " & c7
+                End With
+                .MoveNext
+            Loop
+        End With
+    Case 1
+        With List1
+            .Clear
+        End With
+
+        With List2
+            .Clear
+        End With
+
+        With Rs
+            .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
+            .Requery
+            Do Until .EOF
+                c1 = Mid(Rs!folio, 1, 10)
+                c2 = Mid(Rs!fecha, 1, 10)
+                c3 = Mid(Rs!Nombre, 1, 44)
+                c5 = Replace(Format(Mid(Rs!Total, 1, 12), "0.00"), ",", ".")
+                c6 = Replace(Format(Mid(Rs!TotalPagado, 1, 12), "0.00"), ",", ".")
+                c7 = Replace(Format(Mid(Rs!TotalDebido, 1, 12), "0.00"), ",", ".")
+                nc = 10 - Len(c1)
+                For i = 1 To nc
+                    c1 = c1 & " "
+                Next i
+                nc = 10 - Len(c2)
+                For i = 1 To nc
+                    c2 = c2 & " "
+                Next i
+                nc = 44 - Len(c3)
+                For i = 1 To nc
+                    c3 = c3 & " "
+                Next i
+                nc = 12 - Len(c5)
+                For i = 1 To nc
+                    c5 = " " & c5
+                Next i
+                nc = 12 - Len(c6)
+                For i = 1 To nc
+                    c6 = " " & c6
+                Next i
+                nc = 12 - Len(c7)
+                For i = 1 To nc
+                    c7 = " " & c7
+                Next i
+
+                With List1
+                    .AddItem c1 & " " & c2 & " " & c3 & " " & c5 & " " & c6 & " " & c7
+                End With
+                .MoveNext
+            Loop
+        End With
+    End Select
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:DTPicker1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub List1_Click()
+    On Error GoTo errHandler
+    With Label2
+        .Caption = Get_Comentario(Trim(Mid(List1.Text, 1, 10)))
+    End With
+
+    With List2
+        .Clear
+    End With
+
+    With RS1
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select * from PO_LINES_ALL", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        .Filter = "Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
+        Do Until .EOF
+            c1 = Mid(RS1!DescripcionArticulo & " (" & RS1!UDM & ")" & " (" & RS1!CodigoArticulo & ")", 1, 27)
+            c2 = Replace(Format(Mid(RS1!cantidad, 1, 12), "0.00"), ",", ".")
+            c3 = Replace(Format(Mid(RS1!Precio, 1, 12), "0.00"), ",", ".")
+            c4 = Replace(Format(Mid(RS1!Subtotal, 1, 12), "0.00"), ",", ".")
+            c5 = Replace(Format(Mid(RS1!IVA, 1, 12), "0.00"), ",", ".")
+            c6 = Replace(Format(Mid(RS1!Total, 1, 12), "0.00"), ",", ".")
+            nc = 27 - Len(c1)
+            For i = 1 To nc
+                c1 = c1 & " "
+            Next i
+            nc = 12 - Len(c2)
+            For i = 1 To nc
+                c2 = " " & c2
+            Next i
+            nc = 12 - Len(c3)
+            For i = 1 To nc
+                c3 = " " & c3
+            Next i
+            nc = 12 - Len(c4)
+            For i = 1 To nc
+                c4 = " " & c4
+            Next i
+            nc = 12 - Len(c5)
+            For i = 1 To nc
+                c5 = " " & c5
+            Next i
+            nc = 12 - Len(c6)
+            For i = 1 To nc
+                c6 = " " & c6
+            Next i
+
+            With List2
+                .AddItem c1 & " " & c2 & " " & c3 & " " & c4 & " " & c5 & " " & c6
+            End With
+            .MoveNext
+        Loop
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:List1_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Public Sub Ticket_Click()
+    On Error GoTo errHandler
+    With List1
+        If Mid(.Text, 1, 10) <> "" Then
+            v2 = Trim(Mid(.Text, 1, 10))
+            v1 = Get_ClienteFolio(v2)
+            With Rs6
+                If .State = 1 Then .Close
+                .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                .Open "Select * from PO_TRANSACTION_TICKET where folio = '" & Trim(Mid(List1.Text, 1, 10)) & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                .Requery
+                If .RecordCount <> 0 Then
+                    vTicketSubtotal = Get_SumSubtotal(.Fields(6))
+                    vTicketIva = Get_SumIva(.Fields(6))
+                    vTicketTotal = Get_SumTotal(.Fields(6))
+                    vTicketSubtotal = Replace(Format(Val(vTicketSubtotal), "0.00"), ",", ".")
+                    vTicketIva = Replace(Format(Val(vTicketIva), "0.00"), ",", ".")
+                    vTicketTotal = Replace(Format(Val(vTicketTotal), "0.00"), ",", ".")
+                    With dsrComprasVentas
+                        Set .DataSource = Rs6
+
+                        With .Sections("Sección4")
+                            With .Controls("Etiqueta2")
+                                .Caption = "TICKET DE VENTA"
+                            End With
+
+                            With .Controls("Etiqueta30")
+                                .Caption = "Usuario: " & StUsuario
+                            End With
+
+                            With .Controls("Etiqueta3")
+                                .Caption = PcNombreEmpresa
+                            End With
+
+                            With .Controls("Etiqueta4")
+                                .Caption = PcRFC
+                            End With
+
+                            With .Controls("Etiqueta5")
+                                .Caption = PcDireccion
+                            End With
+
+                            With .Controls("Etiqueta6")
+                                .Caption = PcTelefono
+                            End With
+
+                            With .Controls("Etiqueta11")
+                                .Caption = Rs6.Fields(2)    'cliente
+                            End With
+
+                            With .Controls("Etiqueta12")
+                                .Caption = Rs6.Fields(3)    'calle
+                            End With
+
+                            With .Controls("Etiqueta13")
+                                .Caption = Rs6.Fields(4)    'colonia
+                            End With
+
+                            With .Controls("Etiqueta14")
+                                .Caption = Rs6.Fields(5)    'telefono
+                            End With
+
+                            With .Controls("Etiqueta17")
+                                .Caption = Rs6.Fields(7)    'fecha
+                            End With
+
+                            With .Controls("Etiqueta18")
+                                .Caption = Rs6.Fields(6)    'folio
+                            End With
+                        End With
+
+                        With .Sections("Sección1")
+                            With .Controls("Texto1")
+                                .DataField = "cantidad"
+                            End With
+
+                            With .Controls("Texto2")
+                                .DataField = "articulo"
+                            End With
+
+                            With .Controls("Texto3")
+                                .DataField = "subtotal"
+                            End With
+                        End With
+                        With .Sections("Sección5")
+                            With .Controls("Etiqueta23")
+                                .Caption = "$ " & vTicketSubtotal   'subtotal
+                            End With
+
+                            With .Controls("Etiqueta26")
+                                .Caption = "$ " & vTicketIva        'iva
+                            End With
+
+                            With .Controls("Etiqueta27")
+                                .Caption = "$ " & vTicketTotal      'total
+                            End With
+
+                            With .Controls("Label3")
+                                .Caption = Get_PuntosPorVenta(v2)
+                            End With
+
+                            With .Controls("Label4")
+                                .Caption = Get_ClientePuntos(v1)    'Funcion Puntos
+                            End With
+
+                            With .Controls("Label6")
+                                .Caption = Get_Monedero(v1)
+                            End With
+
+                            If StTipoVentasCompras = "Ventas" And StTipoVenta = "Abiertas" Then
+                                With .Controls("Etiqueta25")
+                                    .Visible = True
+                                End With
+
+                                With .Controls("Etiqueta28")
+                                    .Visible = True
+                                End With
+                            Else
+                                With .Controls("Etiqueta25")
+                                    .Visible = False
+                                End With
+
+                                With .Controls("Etiqueta28")
+                                    .Visible = False
+                                End With
+                            End If
+                        End With
+                        .Show 1
+                    End With
+                End If
+                .Close
+            End With
+        Else
+            MsgBox "Seleccionar un elemento en la lista", vbCritical, "Advertencia"
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Ticket_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Pagar_Click()
+    On Error GoTo errHandler
+    With List1
+        If Mid(.Text, 1, 10) <> "" Then
+            With Archivo
+                .Enabled = False
+            End With
+
+            With Frame1
+                .Enabled = False
+            End With
+
+            With Frame2(0)
+                .Visible = True
+            End With
+
+            With RS1
+                .Filter = "Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
+                .Requery
+            End With
+            v2 = Trim(Mid(.Text, 1, 10))
+            v1 = Get_ClienteFolio(v2)
+            Text2(0) = Replace(Format(Val(Mid(.Text, 68, 12)) - Val(Mid(.Text, 81, 12)), "0.00"), ",", ".")
+            Text2(1) = ""
+            Text2(3) = Get_ClientePuntos(v1)    'Funcion Puntos
+        Else
+            MsgBox "Seleccionar un elemento en la lista", vbCritical, "Advertencia"
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Pagar_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text2_Change(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 0
+        With Text2(2)
+            .Text = Replace(Format(Val(Text2(1)) - Val(Text2(0)), "0.00"), ",", ".")
+        End With
+    Case 1
+        With Text2(2)
+            .Text = Replace(Format(Val(Text2(1)) - Val(Text2(0)), "0.00"), ",", ".")
+        End With
+    End Select
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Text2_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Combo2_click()
+    On Error GoTo errHandler
+    With Combo2
+        If .Text = "Puntos" Then
+            With Text2(1)
+                .Enabled = False
+            End With
+        Else
+            With Text2(1)
+                .Enabled = True
+            End With
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Combo2_click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Command2_Click()
+    On Error GoTo errHandler
+    vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
+    If vbq = vbYes Then
+        With Frame1
+            .Enabled = True
+        End With
+
+        With Frame2(0)
+            .Visible = False
+        End With
+
+        'Pago con tarjeta
+        With Combo2
+            If .Text = "Tarjeta" Then
+                With Text2(4)
+                    If .Text = "" Then
+                        MsgBox "La referencia es obligatoria en el pago con tarjeta", vbCritical, "Advertencia"
+                        With Frame1
+                            .Enabled = False
+                        End With
+
+                        With Frame2(0)
+                            .Visible = True
+                        End With
+
+                        Exit Sub
+                    End If
+                End With
+
+                With Combo3
+                    If .Text = "" Then
+                        MsgBox "El tipo de terminal es obligatoria en el pago con tarjeta", vbCritical, "Advertencia"
+                        With Frame1
+                            .Enabled = False
+                        End With
+
+                        With Frame2(0)
+                            .Visible = True
+                        End With
+
+                        Exit Sub
+                    End If
+                End With
+
+                With Text2(1)
+                    If Val(.Text) = 0 Then
+                        .Text = Text2(0)
+                    End If
+                End With
+
+                With Rs5
+                    If .State = 1 Then .Close
+                    .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                    .Open "Select * from RA_BANK_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                    .Requery
+                    .AddNew
+                    With .Fields(1)
+                        .Value = Date                                                           'fecha
+                    End With
+
+                    With .Fields(2)
+                        .Value = Text2(1)                                                       'cantidad
+                    End With
+
+                    With .Fields(3)
+                        .Value = v2                                                             'folio
+                    End With
+
+                    With .Fields(4)
+                        .Value = "No"                                                           'cancelado
+                    End With
+
+                    With .Fields(5)
+                        .Value = frmMenuInicial.Combo1.Text                                     'caja
+                    End With
+
+                    With .Fields(6)
+                        .Value = Text2(4)                                                       'referencia
+                    End With
+
+                    With .Fields(7)
+                        .Value = v1                                                             'cliente
+                    End With
+
+                    With .Fields(8)
+                        .Value = Combo3.Text                                                    'tipotarjeta
+                    End With
+
+                    With .Fields("created_by")
+                        .Value = StUsuario                                                      'usuario
+                    End With
+
+                    With .Fields("creation_date")
+                        .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                    End With
+
+                    With .Fields("last_updated_by")
+                        .Value = StUsuario                                                      'usuario
+                    End With
+
+                    With .Fields("last_update_date")
+                        .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                    End With
+                    .Update
+                    .Requery
+                End With
+            End If
+        End With
+
+        'Pago con puntos
+        If Combo2 = "Puntos" Then
+            With Text2(3)
+                If Val(.Text) < Val(Text2(0)) Then
+                    MsgBox "Puntos insuficientes para pagar la venta", vbOKOnly, "Informacion"
+                    Exit Sub
+                End If
+            End With
+
+            If Val(Text2(3)) > Val(Text2(0)) Then
+                With Text2(1)
+                    .Text = Text2(0).Text
+                End With
+            Else
+                With Text2(1)
+                    .Text = Text2(3).Text
+                End With
+            End If
+
+            With Text2(1)
+                If Val(.Text) <> 0 Then
+                    With Rs4
+                        If .State = 1 Then .Close
+                        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                        .Open "Select * from RA_POINT_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                        .Requery
+                        .AddNew
+                        With .Fields(1)
+                            .Value = v1                                                             'cliente
+                        End With
+
+                        With .Fields(2)
+                            .Value = Replace(Val(Text2(1)) * -1, ",", ".")                          'puntos
+                        End With
+
+                        With .Fields(3)
+                            .Value = v2                                                             'folio
+                        End With
+
+                        With .Fields(4)
+                            .Value = "No"                                                           'cancelado
+                        End With
+
+                        With .Fields(5)
+                            .Value = Date                                                           'fecha
+                        End With
+
+                        With .Fields("created_by")
+                            .Value = StUsuario                                                      'usuario
+                        End With
+
+                        With .Fields("creation_date")
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                        End With
+
+                        With .Fields("last_updated_by")
+                            .Value = StUsuario                                                      'usuario
+                        End With
+
+                        With .Fields("last_update_date")
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                        End With
+                        .Update
+                        .Requery
+                    End With
+                End If
+            End With
+        End If
+
+        'pago con efectivo
+        With Combo2
+            If .Text = "Efectivo" And Val(Text2(1)) > 0 Then
+                With Rs2
+                    .AddNew
+                    With .Fields(1)
+                        .Value = Date                                                           'fecha
+                    End With
+
+                    With .Fields(2)
+                        .Value = "Pago de venta"                                                'tipo
+                    End With
+
+                    If Val(Text2(1)) >= Val(Text2(0)) Then
+                        With .Fields(3)
+                            .Value = Replace(Format(Val(Text2(0)), "0.00"), ",", ".")           'cantidad
+                        End With
+                    Else
+                        With .Fields(3)
+                            .Value = Replace(Format(Val(Text2(1)), "0.00"), ",", ".")           'cantidad
+                        End With
+                    End If
+
+                    With .Fields(4)
+                        .Value = Trim(Mid(List1.Text, 1, 10))                                   'folio
+                    End With
+
+                    With .Fields(5)
+                        .Value = "No"                                                           'cancelado
+                    End With
+
+                    With .Fields(6)
+                        .Value = frmMenuInicial.Combo1.Text                                     'caja
+                    End With
+
+                    With .Fields("created_by")
+                        .Value = StUsuario                                                      'usuario
+                    End With
+
+                    With .Fields("creation_date")
+                        .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                    End With
+
+                    With .Fields("last_updated_by")
+                        .Value = StUsuario                                                      'usuario
+                    End With
+
+                    With .Fields("last_update_date")
+                        .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                    End With
+                    .Update
+                    .Requery
+                End With
+            End If
+        End With
+
+        'si la venta no es credito
+        With Combo2
+            If Val(Text2(1)) > 0 And .Text = "Efectivo" Then
+                'puntos
+                ClienteMayorista = Get_ClienteMayorista(v1)
+                ListaPrecios = Get_ClienteListaP(v1)
+                If ClienteMayorista = "No" And ListaPrecios = 1 Then
+                    With Rs4
+                        If .State = 1 Then .Close
+                        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                        .Open "Select * from RA_POINT_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                        .Requery
+                        .AddNew
+                        With .Fields(1)
+                            .Value = v1                                                                     'id cliente
+                        End With
+
+                        If Val(Text2(1)) > (Val(Text2(0))) Then
+                            With .Fields(2)
+                                .Value = Replace(Round(Val(Text2(0)) * Val(PcValorPuntos), 2), ",", ".")    'puntos
+                            End With
+                        Else
+                            With .Fields(2)
+                                .Value = Replace(Round(Val(Text2(1)) * Val(PcValorPuntos), 2), ",", ".")    'puntos
+                            End With
+                        End If
+
+                        With .Fields(3)
+                            .Value = v2                                                                     'folio
+                        End With
+
+                        With .Fields(4)
+                            .Value = "No"                                                                   'cancelado
+                        End With
+
+                        With .Fields(5)
+                            .Value = Date                                                                   'fecha
+                        End With
+
+                        With .Fields("created_by")
+                            .Value = StUsuario                                                              'usuario
+                        End With
+
+                        With .Fields("creation_date")
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")            'creacion
+                        End With
+
+                        With .Fields("last_updated_by")
+                            .Value = StUsuario                                                              'usuario
+                        End With
+
+                        With .Fields("last_update_date")
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")            'modificacion
+                        End With
+                        .Update
+                        .Requery
+                    End With
+                End If
+            End If
+        End With
+
+        With Text2(1)
+            If Val(.Text) > 0 Then
+                DineroRestante = Val(.Text)
+                With RS1
+                    Do Until .EOF
+                        TMovimiento = Replace(.Fields(15), ",", ".")
+                        TPagado = Replace(.Fields(16), ",", ".")
+                        TDebido = Replace(Val(TMovimiento) - Val(TPagado), ",", ".")
+                        If Val(TDebido) > 0 Then
+                            If DineroRestante > Val(TDebido) Then
+                                With .Fields(16)
+                                    .Value = .Fields(15)                                                        'pagado
+                                End With
+                                DineroRestante = DineroRestante - Val(TDebido)
+                            Else
+                                With .Fields(16)
+                                    .Value = Val(TPagado) + DineroRestante                                      'pagado
+                                End With
+                                DineroRestante = 0
+                            End If
+
+                            With .Fields("last_updated_by")
+                                .Value = StUsuario                                                              'usuario
+                            End With
+
+                            With .Fields("last_update_date")
+                                .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")            'modificacion
+                            End With
+                        End If
+                        .MoveNext
+                    Loop
+                    .Requery
+                End With
+
+                With Rs
+                    .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
+                    .Requery
+                End With
+
                 With List1
                     .Clear
                 End With
-                
+
                 With List2
                     .Clear
                 End With
-                
+
+                With Rs
+                    Do Until .EOF
+                        c1 = Mid(Rs!folio, 1, 10)
+                        c2 = Mid(Rs!fecha, 1, 10)
+                        c3 = Mid(Rs!Nombre, 1, 44)
+                        c4 = ""
+                        c5 = Replace(Format(Mid(Rs!Total, 1, 12), "0.00"), ",", ".")
+                        c6 = Replace(Format(Mid(Rs!TotalPagado, 1, 12), "0.00"), ",", ".")
+                        c7 = Replace(Format(Mid(Rs!TotalDebido, 1, 12), "0.00"), ",", ".")
+                        nc = 10 - Len(c1)
+                        For i = 1 To nc
+                            c1 = c1 & " "
+                        Next i
+                        nc = 10 - Len(c2)
+                        For i = 1 To nc
+                            c2 = c2 & " "
+                        Next i
+                        nc = 44 - Len(c3)
+                        For i = 1 To nc
+                            c3 = c3 & " "
+                        Next i
+                        nc = 12 - Len(c5)
+                        For i = 1 To nc
+                            c5 = " " & c5
+                        Next i
+                        nc = 12 - Len(c6)
+                        For i = 1 To nc
+                            c6 = " " & c6
+                        Next i
+                        nc = 12 - Len(c7)
+                        For i = 1 To nc
+                            c7 = " " & c7
+                        Next i
+
+                        With List1
+                            .AddItem c1 & " " & c2 & " " & c3 & " " & c5 & " " & c6 & " " & c7
+                        End With
+                        .MoveNext
+                    Loop
+                End With
+
+                With Frame1
+                    .Enabled = True
+                End With
+
+                With Frame2(0)
+                    .Visible = False
+                End With
+            End If
+        End With
+    End If
+
+    With Archivo
+        .Enabled = True
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Command2_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Cancelar_Click()
+    On Error GoTo errHandler
+    If Mid(List1.Text, 1, 10) <> "" Then
+        vbq = MsgBox("¿Desea cancelar el movimiento?", vbQuestion + vbYesNo, "Información")
+        If vbq = vbYes Then
+            sql = "UPDATE PO_LINES_ALL SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
+            With Cn
+                .Execute sql
+            End With
+            sql = "UPDATE RA_CASH_TRANSACTIONS SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
+            With Cn
+                .Execute sql
+            End With
+            sql = "UPDATE MTL_MATERIAL_TRANSACTIONS SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
+            With Cn
+                .Execute sql
+            End With
+            sql = "UPDATE RA_POINT_TRANSACTIONS SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
+            With Cn
+                .Execute sql
+            End With
+            sql = "UPDATE RA_BANK_TRANSACTIONS SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
+            With Cn
+                .Execute sql
+            End With
+            MsgBox "Movimiento Cancelado", vbOKOnly, "Terminado"
+            With List1
+                .Clear
+            End With
+
+            With List2
+                .Clear
+            End With
+
+            With Rs
+                .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
+                .Requery
                 Do Until .EOF
                     c1 = Mid(Rs!folio, 1, 10)
                     c2 = Mid(Rs!fecha, 1, 10)
@@ -765,1099 +1720,144 @@ Attribute VB_Exposed = False
                     For i = 1 To nc
                         c7 = " " & c7
                     Next i
-                    
+
                     With List1
                         .AddItem c1 & " " & c2 & " " & c3 & " " & c5 & " " & c6 & " " & c7
                     End With
                     .MoveNext
                 Loop
-                
-                With RS1
-                    If .State = 1 Then .Close
-                    .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "Select * from PO_LINES_ALL", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                    .Requery
-                End With
-                
-                With Rs2
-                    If .State = 1 Then .Close
-                    .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "Select * from RA_CASH_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                    .Requery
-                End With
-                
-                With Rs3
-                    If .State = 1 Then .Close
-                    .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "Select * from MTL_MATERIAL_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                    .Requery
-                End With
-                
-                With Rs4
-                    If .State = 1 Then .Close
-                    .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "Select * from RA_POINT_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                    .Requery
-                End With
-            End If
-        End With
-        
-        With Combo2
-            .AddItem "Efectivo"
-            .AddItem "Tarjeta"
-            .AddItem "Puntos"
-        End With
-        
-        With Rs7
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select * from RA_TERMINAL order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Filter = ""
-            .Requery
-            If .RecordCount <> 0 Then
-                With Combo3
-                    .Clear
-                End With
-                
-                While Not .EOF
-                    Combo3.AddItem .Fields(0)
-                    .MoveNext
-                Wend
-            End If
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub DTPicker1_Change(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 0
-                With List1
-                    .Clear
-                End With
-                
-                With List2
-                    .Clear
-                End With
-                
-                With Rs
-                    .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
-                    .Requery
-                    Do Until .EOF
-                        c1 = Mid(Rs!folio, 1, 10)
-                        c2 = Mid(Rs!fecha, 1, 10)
-                        c3 = Mid(Rs!Nombre, 1, 44)
-                        c5 = Replace(Format(Mid(Rs!Total, 1, 12), "0.00"), ",", ".")
-                        c6 = Replace(Format(Mid(Rs!TotalPagado, 1, 12), "0.00"), ",", ".")
-                        c7 = Replace(Format(Mid(Rs!TotalDebido, 1, 12), "0.00"), ",", ".")
-                        nc = 10 - Len(c1)
-                        For i = 1 To nc
-                            c1 = c1 & " "
-                        Next i
-                        nc = 10 - Len(c2)
-                        For i = 1 To nc
-                            c2 = c2 & " "
-                        Next i
-                        nc = 44 - Len(c3)
-                        For i = 1 To nc
-                            c3 = c3 & " "
-                        Next i
-                        nc = 12 - Len(c5)
-                        For i = 1 To nc
-                            c5 = " " & c5
-                        Next i
-                        nc = 12 - Len(c6)
-                        For i = 1 To nc
-                            c6 = " " & c6
-                        Next i
-                        nc = 12 - Len(c7)
-                        For i = 1 To nc
-                            c7 = " " & c7
-                        Next i
-                        
-                        With List1
-                            .AddItem c1 & " " & c2 & " " & c3 & " " & c5 & " " & c6 & " " & c7
-                        End With
-                        .MoveNext
-                    Loop
-                End With
-            Case 1
-                With List1
-                    .Clear
-                End With
-                
-                With List2
-                    .Clear
-                End With
-                
-                With Rs
-                    .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
-                    .Requery
-                    Do Until .EOF
-                        c1 = Mid(Rs!folio, 1, 10)
-                        c2 = Mid(Rs!fecha, 1, 10)
-                        c3 = Mid(Rs!Nombre, 1, 44)
-                        c5 = Replace(Format(Mid(Rs!Total, 1, 12), "0.00"), ",", ".")
-                        c6 = Replace(Format(Mid(Rs!TotalPagado, 1, 12), "0.00"), ",", ".")
-                        c7 = Replace(Format(Mid(Rs!TotalDebido, 1, 12), "0.00"), ",", ".")
-                        nc = 10 - Len(c1)
-                        For i = 1 To nc
-                            c1 = c1 & " "
-                        Next i
-                        nc = 10 - Len(c2)
-                        For i = 1 To nc
-                            c2 = c2 & " "
-                        Next i
-                        nc = 44 - Len(c3)
-                        For i = 1 To nc
-                            c3 = c3 & " "
-                        Next i
-                        nc = 12 - Len(c5)
-                        For i = 1 To nc
-                            c5 = " " & c5
-                        Next i
-                        nc = 12 - Len(c6)
-                        For i = 1 To nc
-                            c6 = " " & c6
-                        Next i
-                        nc = 12 - Len(c7)
-                        For i = 1 To nc
-                            c7 = " " & c7
-                        Next i
-                        
-                        With List1
-                            .AddItem c1 & " " & c2 & " " & c3 & " " & c5 & " " & c6 & " " & c7
-                        End With
-                        .MoveNext
-                    Loop
-                End With
-        End Select
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:DTPicker1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub List1_Click()
-        On Error GoTo errHandler
-        With Label2
-            .Caption = Get_Comentario(Trim(Mid(List1.Text, 1, 10)))
-        End With
-        
-        With List2
-            .Clear
-        End With
-        
-        With RS1
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select * from PO_LINES_ALL", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            .Filter = "Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
-            Do Until .EOF
-                c1 = Mid(RS1!DescripcionArticulo & " (" & RS1!UDM & ")" & " (" & RS1!CodigoArticulo & ")", 1, 27)
-                c2 = Replace(Format(Mid(RS1!cantidad, 1, 12), "0.00"), ",", ".")
-                c3 = Replace(Format(Mid(RS1!Precio, 1, 12), "0.00"), ",", ".")
-                c4 = Replace(Format(Mid(RS1!Subtotal, 1, 12), "0.00"), ",", ".")
-                c5 = Replace(Format(Mid(RS1!IVA, 1, 12), "0.00"), ",", ".")
-                c6 = Replace(Format(Mid(RS1!Total, 1, 12), "0.00"), ",", ".")
-                nc = 27 - Len(c1)
-                For i = 1 To nc
-                    c1 = c1 & " "
-                Next i
-                nc = 12 - Len(c2)
-                For i = 1 To nc
-                    c2 = " " & c2
-                Next i
-                nc = 12 - Len(c3)
-                For i = 1 To nc
-                    c3 = " " & c3
-                Next i
-                nc = 12 - Len(c4)
-                For i = 1 To nc
-                    c4 = " " & c4
-                Next i
-                nc = 12 - Len(c5)
-                For i = 1 To nc
-                    c5 = " " & c5
-                Next i
-                nc = 12 - Len(c6)
-                For i = 1 To nc
-                    c6 = " " & c6
-                Next i
-                
-                With List2
-                    .AddItem c1 & " " & c2 & " " & c3 & " " & c4 & " " & c5 & " " & c6
-                End With
-                .MoveNext
-            Loop
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:List1_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Public Sub Ticket_Click()
-        On Error GoTo errHandler
-        With List1
-            If Mid(.Text, 1, 10) <> "" Then
-                v2 = Trim(Mid(.Text, 1, 10))
-                v1 = Get_ClienteFolio(v2)
-                With Rs6
-                    If .State = 1 Then .Close
-                    .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                    .Open "Select * from PO_TRANSACTION_TICKET where folio = '" & Trim(Mid(List1.Text, 1, 10)) & "';", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                    .Requery
-                    If .RecordCount <> 0 Then
-                        vTicketSubtotal = Get_SumSubtotal(.Fields(6))
-                        vTicketIva = Get_SumIva(.Fields(6))
-                        vTicketTotal = Get_SumTotal(.Fields(6))
-                        vTicketSubtotal = Replace(Format(Val(vTicketSubtotal), "0.00"), ",", ".")
-                        vTicketIva = Replace(Format(Val(vTicketIva), "0.00"), ",", ".")
-                        vTicketTotal = Replace(Format(Val(vTicketTotal), "0.00"), ",", ".")
-                        With dsrComprasVentas
-                            Set .DataSource = Rs6
-                            
-                            With .Sections("Sección4")
-                                With .Controls("Etiqueta2")
-                                    .Caption = "TICKET DE VENTA"
-                                End With
-                                
-                                With .Controls("Etiqueta30")
-                                    .Caption = "Usuario: " & StUsuario
-                                End With
-                                
-                                With .Controls("Etiqueta3")
-                                    .Caption = PcNombreEmpresa
-                                End With
-                                
-                                With .Controls("Etiqueta4")
-                                    .Caption = PcRFC
-                                End With
-                                
-                                With .Controls("Etiqueta5")
-                                    .Caption = PcDireccion
-                                End With
-                                
-                                With .Controls("Etiqueta6")
-                                    .Caption = PcTelefono
-                                End With
-                                
-                                With .Controls("Etiqueta11")
-                                    .Caption = Rs6.Fields(2) 'cliente
-                                End With
-                                
-                                With .Controls("Etiqueta12")
-                                    .Caption = Rs6.Fields(3) 'calle
-                                End With
-                                
-                                With .Controls("Etiqueta13")
-                                    .Caption = Rs6.Fields(4) 'colonia
-                                End With
-                                
-                                With .Controls("Etiqueta14")
-                                    .Caption = Rs6.Fields(5) 'telefono
-                                End With
-                                
-                                With .Controls("Etiqueta17")
-                                    .Caption = Rs6.Fields(7) 'fecha
-                                End With
-                                
-                                With .Controls("Etiqueta18")
-                                    .Caption = Rs6.Fields(6) 'folio
-                                End With
-                            End With
-                            
-                            With .Sections("Sección1")
-                                With .Controls("Texto1")
-                                    .DataField = "cantidad"
-                                End With
-                                
-                                With .Controls("Texto2")
-                                    .DataField = "articulo"
-                                End With
-                                
-                                With .Controls("Texto3")
-                                    .DataField = "subtotal"
-                                End With
-                            End With
-                            With .Sections("Sección5")
-                                With .Controls("Etiqueta23")
-                                    .Caption = "$ " & vTicketSubtotal   'subtotal
-                                End With
-                                
-                                With .Controls("Etiqueta26")
-                                    .Caption = "$ " & vTicketIva        'iva
-                                End With
-                                
-                                With .Controls("Etiqueta27")
-                                    .Caption = "$ " & vTicketTotal      'total
-                                End With
-                                
-                                With .Controls("Label3")
-                                    .Caption = Get_PuntosPorVenta(v2)
-                                End With
-                                
-                                With .Controls("Label4")
-                                    .Caption = Get_ClientePuntos(v1)    'Funcion Puntos
-                                End With
-                                
-                                With .Controls("Label6")
-                                    .Caption = Get_Monedero(v1)
-                                End With
-                                
-                                If StTipoVentasCompras = "Ventas" And StTipoVenta = "Abiertas" Then
-                                    With .Controls("Etiqueta25")
-                                        .Visible = True
-                                    End With
-                                    
-                                    With .Controls("Etiqueta28")
-                                        .Visible = True
-                                    End With
-                                Else
-                                    With .Controls("Etiqueta25")
-                                        .Visible = False
-                                    End With
-                                    
-                                    With .Controls("Etiqueta28")
-                                        .Visible = False
-                                    End With
-                                End If
-                            End With
-                            .Show 1
-                        End With
-                    End If
-                    .Close
-                End With
-            Else
-                MsgBox "Seleccionar un elemento en la lista", vbCritical, "Advertencia"
-            End If
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Ticket_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Pagar_Click()
-        On Error GoTo errHandler
-        With List1
-            If Mid(.Text, 1, 10) <> "" Then
-                With Archivo
-                    .Enabled = False
-                End With
-                
-                With Frame1
-                    .Enabled = False
-                End With
-                
-                With Frame2(0)
-                    .Visible = True
-                End With
-                
-                With RS1
-                    .Filter = "Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
-                    .Requery
-                End With
-                v2 = Trim(Mid(.Text, 1, 10))
-                v1 = Get_ClienteFolio(v2)
-                Text2(0) = Replace(Format(Val(Mid(.Text, 68, 12)) - Val(Mid(.Text, 81, 12)), "0.00"), ",", ".")
-                Text2(1) = ""
-                Text2(3) = Get_ClientePuntos(v1) 'Funcion Puntos
-            Else
-                MsgBox "Seleccionar un elemento en la lista", vbCritical, "Advertencia"
-            End If
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Pagar_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Text2_Change(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 0
-                With Text2(2)
-                    .Text = Replace(Format(Val(Text2(1)) - Val(Text2(0)), "0.00"), ",", ".")
-                End With
-            Case 1
-                With Text2(2)
-                    .Text = Replace(Format(Val(Text2(1)) - Val(Text2(0)), "0.00"), ",", ".")
-                End With
-        End Select
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Text2_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Combo2_click()
-        On Error GoTo errHandler
-        With Combo2
-            If .Text = "Puntos" Then
-                With Text2(1)
-                    .Enabled = False
-                End With
-            Else
-                With Text2(1)
-                    .Enabled = True
-                End With
-            End If
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Combo2_click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Command2_Click()
-        On Error GoTo errHandler
-        vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
-        If vbq = vbYes Then
-            With Frame1
-                .Enabled = True
             End With
-            
-            With Frame2(0)
-                .Visible = False
-            End With
-            
-            'Pago con tarjeta
-            With Combo2
-                If .Text = "Tarjeta" Then
-                    With Text2(4)
-                        If .Text = "" Then
-                            MsgBox "La referencia es obligatoria en el pago con tarjeta", vbCritical, "Advertencia"
-                            With Frame1
-                                .Enabled = False
-                            End With
-                            
-                            With Frame2(0)
-                                .Visible = True
-                            End With
-                            
-                            Exit Sub
-                        End If
-                    End With
-                    
-                    With Combo3
-                        If .Text = "" Then
-                            MsgBox "El tipo de terminal es obligatoria en el pago con tarjeta", vbCritical, "Advertencia"
-                            With Frame1
-                                .Enabled = False
-                            End With
-                            
-                            With Frame2(0)
-                                .Visible = True
-                            End With
-                            
-                            Exit Sub
-                        End If
-                    End With
-                    
-                    With Text2(1)
-                        If Val(.Text) = 0 Then
-                            .Text = Text2(0)
-                        End If
-                    End With
-                    
-                    With Rs5
-                        If .State = 1 Then .Close
-                        .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                        .Open "Select * from RA_BANK_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                        .Requery
-                        .AddNew
-                            With .Fields(1)
-                                .Value = Date                                                           'fecha
-                            End With
-                            
-                            With .Fields(2)
-                                .Value = Text2(1)                                                       'cantidad
-                            End With
-                            
-                            With .Fields(3)
-                                .Value = v2                                                             'folio
-                            End With
-                            
-                            With .Fields(4)
-                                .Value = "No"                                                           'cancelado
-                            End With
-                            
-                            With .Fields(5)
-                                .Value = frmMenuInicial.Combo1.Text                                     'caja
-                            End With
-                            
-                            With .Fields(6)
-                                .Value = Text2(4)                                                       'referencia
-                            End With
-                            
-                            With .Fields(7)
-                                .Value = v1                                                             'cliente
-                            End With
-                            
-                            With .Fields(8)
-                                .Value = Combo3.Text                                                    'tipotarjeta
-                            End With
-                            
-                            With .Fields("created_by")
-                                .Value = StUsuario                                                      'usuario
-                            End With
-                            
-                            With .Fields("creation_date")
-                                .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
-                            End With
-                            
-                            With .Fields("last_updated_by")
-                                .Value = StUsuario                                                      'usuario
-                            End With
-                            
-                            With .Fields("last_update_date")
-                                .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
-                            End With
-                        .Update
-                        .Requery
-                    End With
-                End If
-            End With
-            
-            'Pago con puntos
-            If Combo2 = "Puntos" Then
-                With Text2(3)
-                    If Val(.Text) < Val(Text2(0)) Then
-                        MsgBox "Puntos insuficientes para pagar la venta", vbOKOnly, "Informacion"
-                        Exit Sub
-                    End If
-                End With
-                
-                If Val(Text2(3)) > Val(Text2(0)) Then
-                    With Text2(1)
-                        .Text = Text2(0).Text
-                    End With
-                Else
-                    With Text2(1)
-                        .Text = Text2(3).Text
-                    End With
-                End If
-                
-                With Text2(1)
-                    If Val(.Text) <> 0 Then
-                        With Rs4
-                            If .State = 1 Then .Close
-                            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                            .Open "Select * from RA_POINT_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                            .Requery
-                            .AddNew
-                                With .Fields(1)
-                                    .Value = v1                                                             'cliente
-                                End With
-                                
-                                With .Fields(2)
-                                    .Value = Replace(Val(Text2(1)) * -1, ",", ".")                          'puntos
-                                End With
-                                
-                                With .Fields(3)
-                                    .Value = v2                                                             'folio
-                                End With
-                                
-                                With .Fields(4)
-                                    .Value = "No"                                                           'cancelado
-                                End With
-                                
-                                With .Fields(5)
-                                    .Value = Date                                                           'fecha
-                                End With
-                            
-                                With .Fields("created_by")
-                                    .Value = StUsuario                                                      'usuario
-                                End With
-                                
-                                With .Fields("creation_date")
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
-                                End With
-                                
-                                With .Fields("last_updated_by")
-                                    .Value = StUsuario                                                      'usuario
-                                End With
-                                
-                                With .Fields("last_update_date")
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
-                                End With
-                            .Update
-                            .Requery
-                        End With
-                    End If
-                End With
-            End If
-            
-            'pago con efectivo
-            With Combo2
-                If .Text = "Efectivo" And Val(Text2(1)) > 0 Then
-                    With Rs2
-                        .AddNew
-                            With .Fields(1)
-                                .Value = Date                                                           'fecha
-                            End With
-                            
-                            With .Fields(2)
-                                .Value = "Pago de venta"                                                'tipo
-                            End With
-                            
-                            If Val(Text2(1)) >= Val(Text2(0)) Then
-                                With .Fields(3)
-                                    .Value = Replace(Format(Val(Text2(0)), "0.00"), ",", ".")           'cantidad
-                                End With
-                            Else
-                                With .Fields(3)
-                                    .Value = Replace(Format(Val(Text2(1)), "0.00"), ",", ".")           'cantidad
-                                End With
-                            End If
-                            
-                            With .Fields(4)
-                                .Value = Trim(Mid(List1.Text, 1, 10))                                   'folio
-                            End With
-                            
-                            With .Fields(5)
-                                .Value = "No"                                                           'cancelado
-                            End With
-                            
-                            With .Fields(6)
-                                .Value = frmMenuInicial.Combo1.Text                                     'caja
-                            End With
-                            
-                            With .Fields("created_by")
-                                .Value = StUsuario                                                      'usuario
-                            End With
-                            
-                            With .Fields("creation_date")
-                                .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
-                            End With
-                            
-                            With .Fields("last_updated_by")
-                                .Value = StUsuario                                                      'usuario
-                            End With
-                            
-                            With .Fields("last_update_date")
-                                .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
-                            End With
-                        .Update
-                        .Requery
-                    End With
-                End If
-            End With
-            
-            'si la venta no es credito
-            With Combo2
-                If Val(Text2(1)) > 0 And .Text = "Efectivo" Then
-                    'puntos
-                    ClienteMayorista = Get_ClienteMayorista(v1)
-                    ListaPrecios = Get_ClienteListaP(v1)
-                    If ClienteMayorista = "No" And ListaPrecios = 1 Then
-                        With Rs4
-                            If .State = 1 Then .Close
-                            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                            .Open "Select * from RA_POINT_TRANSACTIONS", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                            .Requery
-                            .AddNew
-                                With .Fields(1)
-                                    .Value = v1                                                                     'id cliente
-                                End With
-                                
-                                If Val(Text2(1)) > (Val(Text2(0))) Then
-                                    With .Fields(2)
-                                        .Value = Replace(Round(Val(Text2(0)) * Val(PcValorPuntos), 2), ",", ".")    'puntos
-                                    End With
-                                Else
-                                    With .Fields(2)
-                                        .Value = Replace(Round(Val(Text2(1)) * Val(PcValorPuntos), 2), ",", ".")    'puntos
-                                    End With
-                                End If
-                                
-                                With .Fields(3)
-                                    .Value = v2                                                                     'folio
-                                End With
-                                
-                                With .Fields(4)
-                                    .Value = "No"                                                                   'cancelado
-                                End With
-                                
-                                With .Fields(5)
-                                    .Value = Date                                                                   'fecha
-                                End With
-                            
-                                With .Fields("created_by")
-                                    .Value = StUsuario                                                              'usuario
-                                End With
-                                
-                                With .Fields("creation_date")
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")            'creacion
-                                End With
-                                
-                                With .Fields("last_updated_by")
-                                    .Value = StUsuario                                                              'usuario
-                                End With
-                                
-                                With .Fields("last_update_date")
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")            'modificacion
-                                End With
-                            .Update
-                            .Requery
-                        End With
-                    End If
-                End If
-            End With
-            
-            With Text2(1)
-                If Val(.Text) > 0 Then
-                    DineroRestante = Val(.Text)
-                    With RS1
-                        Do Until .EOF
-                            TMovimiento = Replace(.Fields(15), ",", ".")
-                            TPagado = Replace(.Fields(16), ",", ".")
-                            TDebido = Replace(Val(TMovimiento) - Val(TPagado), ",", ".")
-                            If Val(TDebido) > 0 Then
-                                If DineroRestante > Val(TDebido) Then
-                                    With .Fields(16)
-                                        .Value = .Fields(15)                                                        'pagado
-                                    End With
-                                    DineroRestante = DineroRestante - Val(TDebido)
-                                Else
-                                    With .Fields(16)
-                                        .Value = Val(TPagado) + DineroRestante                                      'pagado
-                                    End With
-                                    DineroRestante = 0
-                                End If
-                                
-                                With .Fields("last_updated_by")
-                                    .Value = StUsuario                                                              'usuario
-                                End With
-                                
-                                With .Fields("last_update_date")
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")            'modificacion
-                                End With
-                            End If
-                            .MoveNext
-                        Loop
-                        .Requery
-                    End With
-                    
-                    With Rs
-                        .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
-                        .Requery
-                    End With
-                    
-                    With List1
-                        .Clear
-                    End With
-                    
-                    With List2
-                        .Clear
-                    End With
-                    
-                    With Rs
-                        Do Until .EOF
-                            c1 = Mid(Rs!folio, 1, 10)
-                            c2 = Mid(Rs!fecha, 1, 10)
-                            c3 = Mid(Rs!Nombre, 1, 44)
-                            c4 = ""
-                            c5 = Replace(Format(Mid(Rs!Total, 1, 12), "0.00"), ",", ".")
-                            c6 = Replace(Format(Mid(Rs!TotalPagado, 1, 12), "0.00"), ",", ".")
-                            c7 = Replace(Format(Mid(Rs!TotalDebido, 1, 12), "0.00"), ",", ".")
-                            nc = 10 - Len(c1)
-                            For i = 1 To nc
-                                c1 = c1 & " "
-                            Next i
-                            nc = 10 - Len(c2)
-                            For i = 1 To nc
-                                c2 = c2 & " "
-                            Next i
-                            nc = 44 - Len(c3)
-                            For i = 1 To nc
-                                c3 = c3 & " "
-                            Next i
-                            nc = 12 - Len(c5)
-                            For i = 1 To nc
-                                c5 = " " & c5
-                            Next i
-                            nc = 12 - Len(c6)
-                            For i = 1 To nc
-                                c6 = " " & c6
-                            Next i
-                            nc = 12 - Len(c7)
-                            For i = 1 To nc
-                                c7 = " " & c7
-                            Next i
-                            
-                            With List1
-                                .AddItem c1 & " " & c2 & " " & c3 & " " & c5 & " " & c6 & " " & c7
-                            End With
-                            .MoveNext
-                        Loop
-                    End With
-                    
-                    With Frame1
-                        .Enabled = True
-                    End With
-                    
-                    With Frame2(0)
-                        .Visible = False
-                    End With
-                End If
-            End With
+
+            Exit Sub
+        Else
+            Exit Sub
         End If
-        
-        With Archivo
-            .Enabled = True
-        End With
+    Else
+        MsgBox "Seleccionar un elemento en la lista", vbCritical, "Advertencia"
+    End If
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Command2_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Cancelar_Click()
-        On Error GoTo errHandler
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Cancelar_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Agregar_Click()
+    On Error GoTo errHandler
+    With List1
         If Mid(List1.Text, 1, 10) <> "" Then
-            vbq = MsgBox("¿Desea cancelar el movimiento?", vbQuestion + vbYesNo, "Información")
-            If vbq = vbYes Then
-                sql = "UPDATE PO_LINES_ALL SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
-                With Cn
-                    .Execute sql
+            With RS1
+                .Filter = "Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
+                .Requery
+            End With
+
+            With frmAgregarArticuloVentas
+                .Caption = "Añadir artículos"
+                With .Text1(0)
+                    .Text = Trim(Mid(List1.Text, 1, 10))
                 End With
-                sql = "UPDATE RA_CASH_TRANSACTIONS SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
-                With Cn
-                    .Execute sql
+
+                With .Text1(7)
+                    .Text = RS1.Fields(2).Value
                 End With
-                sql = "UPDATE MTL_MATERIAL_TRANSACTIONS SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
-                With Cn
-                    .Execute sql
-                End With
-                sql = "UPDATE RA_POINT_TRANSACTIONS SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
-                With Cn
-                    .Execute sql
-                End With
-                sql = "UPDATE RA_BANK_TRANSACTIONS SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
-                With Cn
-                    .Execute sql
-                End With
-                MsgBox "Movimiento Cancelado", vbOKOnly, "Terminado"
-                With List1
-                    .Clear
-                End With
-                
-                With List2
-                    .Clear
-                End With
-                
-                With Rs
-                    .Filter = "Fecha >= '" & DTPicker1(0).Value & "' and  Fecha <= '" & DTPicker1(1).Value & "' "
-                    .Requery
-                    Do Until .EOF
-                        c1 = Mid(Rs!folio, 1, 10)
-                        c2 = Mid(Rs!fecha, 1, 10)
-                        c3 = Mid(Rs!Nombre, 1, 44)
-                        c5 = Replace(Format(Mid(Rs!Total, 1, 12), "0.00"), ",", ".")
-                        c6 = Replace(Format(Mid(Rs!TotalPagado, 1, 12), "0.00"), ",", ".")
-                        c7 = Replace(Format(Mid(Rs!TotalDebido, 1, 12), "0.00"), ",", ".")
-                        nc = 10 - Len(c1)
-                        For i = 1 To nc
-                            c1 = c1 & " "
-                        Next i
-                        nc = 10 - Len(c2)
-                        For i = 1 To nc
-                            c2 = c2 & " "
-                        Next i
-                        nc = 44 - Len(c3)
-                        For i = 1 To nc
-                            c3 = c3 & " "
-                        Next i
-                        nc = 12 - Len(c5)
-                        For i = 1 To nc
-                            c5 = " " & c5
-                        Next i
-                        nc = 12 - Len(c6)
-                        For i = 1 To nc
-                            c6 = " " & c6
-                        Next i
-                        nc = 12 - Len(c7)
-                        For i = 1 To nc
-                            c7 = " " & c7
-                        Next i
-                        
-                        With List1
-                            .AddItem c1 & " " & c2 & " " & c3 & " " & c5 & " " & c6 & " " & c7
-                        End With
-                        .MoveNext
-                    Loop
-                End With
-                
-                Exit Sub
-            Else
-                Exit Sub
-            End If
+
+                If IsNull(RS1.Fields(4).Value) = False Then
+                    With .Text1(8)
+                        .Text = RS1.Fields(4).Value
+                    End With
+                End If
+                .Show 1
+            End With
+            Unload frmHistorialVentas
+            Set frmHistorialVentas = Nothing
+
+            With frmHistorialVentas
+                .Show
+            End With
         Else
             MsgBox "Seleccionar un elemento en la lista", vbCritical, "Advertencia"
         End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Cancelar_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Agregar_Click()
-        On Error GoTo errHandler
-        With List1
-            If Mid(List1.Text, 1, 10) <> "" Then
-                With RS1
-                    .Filter = "Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
-                    .Requery
-                End With
-                
-                With frmAgregarArticuloVentas
-                    .Caption = "Añadir artículos"
-                    With .Text1(0)
-                        .Text = Trim(Mid(List1.Text, 1, 10))
-                    End With
-                    
-                    With .Text1(7)
-                        .Text = RS1.Fields(2).Value
-                    End With
-                    
-                    If IsNull(RS1.Fields(4).Value) = False Then
-                        With .Text1(8)
-                            .Text = RS1.Fields(4).Value
-                        End With
-                    End If
-                    .Show 1
-                End With
-                Unload frmHistorialVentas
-                Set frmHistorialVentas = Nothing
-                
-                With frmHistorialVentas
-                    .Show
-                End With
-            Else
-                MsgBox "Seleccionar un elemento en la lista", vbCritical, "Advertencia"
-            End If
-        End With
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Agregar_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Agregar_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    Unload dsrComprasVentas
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With RS1
+        If .State = 1 Then .Close
+    End With
+
+    With Rs2
+        If .State = 1 Then .Close
+    End With
+
+    With Rs3
+        If .State = 1 Then .Close
+    End With
+
+    With Rs4
+        If .State = 1 Then .Close
+    End With
+
+    With Rs5
+        If .State = 1 Then .Close
+    End With
+
+    With Rs6
+        If .State = 1 Then .Close
+    End With
+
+    With Rs7
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set RS1 = Nothing
+    Set Rs2 = Nothing
+    Set Rs3 = Nothing
+    Set Rs4 = Nothing
+    Set Rs5 = Nothing
+    Set Rs6 = Nothing
+    Set Rs7 = Nothing
+    Set Cn = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        Unload dsrComprasVentas
-        With Rs
-            If .State = 1 Then .Close
-        End With
-        
-        With RS1
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs2
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs3
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs4
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs5
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs6
-            If .State = 1 Then .Close
-        End With
-        
-        With Rs7
-            If .State = 1 Then .Close
-        End With
-        
-        With Cn
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs = Nothing
-        Set RS1 = Nothing
-        Set Rs2 = Nothing
-        Set Rs3 = Nothing
-        Set Rs4 = Nothing
-        Set Rs5 = Nothing
-        Set Rs6 = Nothing
-        Set Rs7 = Nothing
-        Set Cn = Nothing
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmHistorialVentas:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

@@ -148,152 +148,152 @@ Attribute VB_Exposed = False
 '                                               modificacion al update
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    Dim Rs                  As New adodb.Recordset
-    Dim Str                 As String
-    Dim ArrStr()            As String
-    Dim i                   As Long
-    '//PEDIDOS
-    Dim sql                 As String
-    
-    Sub Form_Load()
-        On Error GoTo errHandler
-        With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
-        End With
-        
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "SELECT Distinct Folio, '|', Nombre From PO_LINES_ALL Where Tipo= 'Pedidos' AND cancelado= 'No' order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+Dim Rs As New adodb.Recordset
+Dim Str As String
+Dim ArrStr() As String
+Dim i As Long
+'//PEDIDOS
+Dim sql As String
+
+Sub Form_Load()
+    On Error GoTo errHandler
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "SELECT Distinct Folio, '|', Nombre From PO_LINES_ALL Where Tipo= 'Pedidos' AND cancelado= 'No' order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then
+            .MoveFirst
+            With List1
+                .Clear
+            End With
+
+            While Not .EOF
+                List1.AddItem .Fields(0).Value & .Fields(1).Value & .Fields(2).Value
+                .MoveNext
+            Wend
+        End If
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCancelacionPedidos:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text1_Change()
+    On Error GoTo errHandler
+    With List1
+        .Clear
+    End With
+
+    With Rs
+        If Text1 = "" Then
+            .Filter = ""
             .Requery
             If .RecordCount <> 0 Then
                 .MoveFirst
-                With List1
-                    .Clear
-                End With
-                
+                While Not .EOF
+                    List1.AddItem .Fields(1).Value
+
+                    .MoveNext
+                Wend
+            End If
+        Else
+            .Filter = "nombre like '*" & Text1 & "*' or folio = '" & Text1 & "'"
+            .Requery
+            If .RecordCount <> 0 Then
+                .MoveFirst
                 While Not .EOF
                     List1.AddItem .Fields(0).Value & .Fields(1).Value & .Fields(2).Value
                     .MoveNext
                 Wend
             End If
-        End With
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCancelacionPedidos:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCancelacionPedidos:Text1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
 
-    Private Sub Text1_Change()
-        On Error GoTo errHandler
-        With List1
-            .Clear
-        End With
-        
-        With Rs
-            If Text1 = "" Then
-                .Filter = ""
-                .Requery
-                If .RecordCount <> 0 Then
-                    .MoveFirst
-                    While Not .EOF
-                        List1.AddItem .Fields(1).Value
-                        
-                        .MoveNext
-                    Wend
-                End If
-            Else
-                .Filter = "nombre like '*" & Text1 & "*' or folio = '" & Text1 & "'"
-                .Requery
-                If .RecordCount <> 0 Then
-                    .MoveFirst
-                    While Not .EOF
-                        List1.AddItem .Fields(0).Value & .Fields(1).Value & .Fields(2).Value
-                        .MoveNext
-                    Wend
-                End If
+Private Sub Command2_Click()
+    On Error GoTo errHandler
+    With List1
+        If .Text = "" Then
+            MsgBox "Seleccione algún pedido", vbOKOnly, "Información"
+        Else
+            vbq = MsgBox("¿Desea cancelar el pedido de venta?", vbQuestion + vbYesNo, "Información")
+            If vbq = vbYes Then
+                Str = .Text
+                ArrStr() = Split(Str, "|")
+                sql = "UPDATE PO_LINES_ALL SET Cancelado = 'Si', Last_updated_by = '" & StUsuario & "', Last_update_date = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "' Where folio = '" & ArrStr(0) & "';"
+                Cn.Execute sql
+                MsgBox "Pedido " & ArrStr(0) & " cancelado correctamente", vbOKOnly, "Terminado"
+                Unload Me
             End If
-        End With
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCancelacionPedidos:Text1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Command2_Click()
-        On Error GoTo errHandler
-        With List1
-            If .Text = "" Then
-                MsgBox "Seleccione algún pedido", vbOKOnly, "Información"
-            Else
-                vbq = MsgBox("¿Desea cancelar el pedido de venta?", vbQuestion + vbYesNo, "Información")
-                If vbq = vbYes Then
-                    Str = .Text
-                    ArrStr() = Split(Str, "|")
-                    sql = "UPDATE PO_LINES_ALL SET Cancelado = 'Si', Last_updated_by = '" & StUsuario & "', Last_update_date = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "' Where folio = '" & ArrStr(0) & "';"
-                    Cn.Execute sql
-                    MsgBox "Pedido " & ArrStr(0) & " cancelado correctamente", vbOKOnly, "Terminado"
-                    Unload Me
-                End If
-            End If
-        End With
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCancelacionPedidos:Command2_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCancelacionPedidos:Command2_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmAjusteInventario:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set frmCancelacionPedidos = Nothing
+    Set Rs = Nothing
+    Set Cn = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmAjusteInventario:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        With Rs
-            If .State = 1 Then .Close
-        End With
-        
-        With Cn
-            If .State = 1 Then .Close
-        End With
-        
-        Set frmCancelacionPedidos = Nothing
-        Set Rs = Nothing
-        Set Cn = Nothing
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCancelacionPedidos:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmCancelacionPedidos:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

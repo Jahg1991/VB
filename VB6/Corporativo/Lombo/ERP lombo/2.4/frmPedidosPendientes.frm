@@ -205,304 +205,304 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//RECORDSET
-    Dim Rs                  As New adodb.Recordset
-    
-    Private Sub Form_Load()
-        On Error GoTo errHandler
-        With frmPedidosPendientes
-            .WindowState = 2
-        End With
-        
-        With Cn
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            If .State = 0 Then .Open (StConnection)
-        End With
-        
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "SELECT top 4 min(id) as id,Folio, Nombre From PO_LINES_ALL Where Tipo= 'Pedidos' AND cancelado= 'No' group by Folio, Nombre order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then
-                .MoveFirst
-                Label1(0).Caption = "TURNO #1" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+'//RECORDSET
+Dim Rs As New adodb.Recordset
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+    With frmPedidosPendientes
+        .WindowState = 2
+    End With
+
+    With Cn
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        If .State = 0 Then .Open (StConnection)
+    End With
+
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "SELECT top 4 min(id) as id,Folio, Nombre From PO_LINES_ALL Where Tipo= 'Pedidos' AND cancelado= 'No' group by Folio, Nombre order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then
+            .MoveFirst
+            Label1(0).Caption = "TURNO #1" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
+            .MoveNext
+            If Not .EOF Then
+                Label1(3).Caption = "TURNO #2" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
                 .MoveNext
                 If Not .EOF Then
-                    Label1(3).Caption = "TURNO #2" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
+                    Label1(5).Caption = "TURNO #3" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
                     .MoveNext
                     If Not .EOF Then
-                        Label1(5).Caption = "TURNO #3" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
-                        .MoveNext
-                        If Not .EOF Then
-                            Label1(7).Caption = "TURNO #4" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
-                        Else
-                            With Label1(7)
-                                .Caption = "TURNO #4"
-                            End With
-                        End If
+                        Label1(7).Caption = "TURNO #4" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
                     Else
-                        With Label1(5)
-                            .Caption = "TURNO #3"
-                        End With
-                        
                         With Label1(7)
                             .Caption = "TURNO #4"
                         End With
                     End If
                 Else
-                    With Label1(3)
-                        .Caption = "TURNO #2"
-                    End With
-                    
                     With Label1(5)
                         .Caption = "TURNO #3"
                     End With
-                    
+
                     With Label1(7)
                         .Caption = "TURNO #4"
                     End With
                 End If
             Else
-                With Label1(0)
-                    .Caption = "TURNO #1"
-                End With
-                
                 With Label1(3)
                     .Caption = "TURNO #2"
                 End With
-                
+
                 With Label1(5)
                     .Caption = "TURNO #3"
                 End With
-                
+
                 With Label1(7)
                     .Caption = "TURNO #4"
                 End With
             End If
-        End With
-        With Timer1
-            .Enabled = True
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmPedidosPendientes:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Resize()
-        On Error GoTo errHandler
-        With Frame1(1)
-            .Left = 500
-            .Top = 250
-            .Height = (frmPedidosPendientes.Height - 1500) / 2
-            .Width = (frmPedidosPendientes.Width - 1500) / 2
-        End With
-        
-        With Frame1(2)
-            .Left = 1000 + Frame1(1).Width
-            .Top = Frame1(1).Top
-            .Height = Frame1(1).Height
-            .Width = Frame1(1).Width
-        End With
-        
-        With Frame1(4)
-            .Left = Frame1(1).Left
-            .Top = 500 + Frame1(1).Height
-            .Height = Frame1(1).Height
-            .Width = Frame1(1).Width
-        End With
-        
-        With Frame1(6)
-            .Left = Frame1(2).Left
-            .Top = Frame1(4).Top
-            .Height = Frame1(1).Height
-            .Width = Frame1(1).Width
-        End With
-        
-        With Frame1(0)
-            .Left = 250
-            .Top = 250
-            .Height = Frame1(1).Height - 500
-            .Width = Frame1(1).Width - 500
-        End With
-        
-        With Frame1(3)
-            .Left = Frame1(0).Left
-            .Top = Frame1(0).Top
-            .Height = Frame1(0).Height
-            .Width = Frame1(0).Width
-        End With
-        
-        With Frame1(5)
-            .Left = Frame1(0).Left
-            .Top = Frame1(0).Top
-            .Height = Frame1(0).Height
-            .Width = Frame1(0).Width
-        End With
-        
-        With Frame1(7)
-            .Left = Frame1(0).Left
-            .Top = Frame1(0).Top
-            .Height = Frame1(0).Height
-            .Width = Frame1(0).Width
-        End With
-        
-        With Label1(0)
-            .Left = Frame1(0).Left
-            .Top = Frame1(0).Top
-            .Height = Frame1(0).Height - 500
-            .Width = Frame1(0).Width - 500
-            .FontSize = Round(Label1(0).Height / 140)
-        End With
-        
-        With Label1(3)
-            .Left = Label1(0).Left
-            .Top = Label1(0).Top
-            .Height = Label1(0).Height
-            .Width = Label1(0).Width
-            .FontSize = Label1(0).FontSize
-        End With
-        
-        With Label1(5)
-            .Left = Label1(0).Left
-            .Top = Label1(0).Top
-            .Height = Label1(0).Height
-            .Width = Label1(0).Width
-            .FontSize = Label1(0).FontSize
-        End With
-        
-        With Label1(7)
-            .Left = Label1(0).Left
-            .Top = Label1(0).Top
-            .Height = Label1(0).Height
-            .Width = Label1(0).Width
-            .FontSize = Label1(0).FontSize
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmPedidosPendientes:Form_Resize" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+        Else
+            With Label1(0)
+                .Caption = "TURNO #1"
+            End With
 
-    Private Sub Timer1_Timer()
-        On Error GoTo errHandler
-        With Rs
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "SELECT top 4 min(id) as id,Folio, Nombre From PO_LINES_ALL Where Tipo= 'Pedidos' AND cancelado= 'No' group by Folio, Nombre order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-            .Requery
-            If .RecordCount <> 0 Then
-                .MoveFirst
-                Label1(0).Caption = "TURNO #1" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
+            With Label1(3)
+                .Caption = "TURNO #2"
+            End With
+
+            With Label1(5)
+                .Caption = "TURNO #3"
+            End With
+
+            With Label1(7)
+                .Caption = "TURNO #4"
+            End With
+        End If
+    End With
+    With Timer1
+        .Enabled = True
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmPedidosPendientes:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Resize()
+    On Error GoTo errHandler
+    With Frame1(1)
+        .Left = 500
+        .Top = 250
+        .Height = (frmPedidosPendientes.Height - 1500) / 2
+        .Width = (frmPedidosPendientes.Width - 1500) / 2
+    End With
+
+    With Frame1(2)
+        .Left = 1000 + Frame1(1).Width
+        .Top = Frame1(1).Top
+        .Height = Frame1(1).Height
+        .Width = Frame1(1).Width
+    End With
+
+    With Frame1(4)
+        .Left = Frame1(1).Left
+        .Top = 500 + Frame1(1).Height
+        .Height = Frame1(1).Height
+        .Width = Frame1(1).Width
+    End With
+
+    With Frame1(6)
+        .Left = Frame1(2).Left
+        .Top = Frame1(4).Top
+        .Height = Frame1(1).Height
+        .Width = Frame1(1).Width
+    End With
+
+    With Frame1(0)
+        .Left = 250
+        .Top = 250
+        .Height = Frame1(1).Height - 500
+        .Width = Frame1(1).Width - 500
+    End With
+
+    With Frame1(3)
+        .Left = Frame1(0).Left
+        .Top = Frame1(0).Top
+        .Height = Frame1(0).Height
+        .Width = Frame1(0).Width
+    End With
+
+    With Frame1(5)
+        .Left = Frame1(0).Left
+        .Top = Frame1(0).Top
+        .Height = Frame1(0).Height
+        .Width = Frame1(0).Width
+    End With
+
+    With Frame1(7)
+        .Left = Frame1(0).Left
+        .Top = Frame1(0).Top
+        .Height = Frame1(0).Height
+        .Width = Frame1(0).Width
+    End With
+
+    With Label1(0)
+        .Left = Frame1(0).Left
+        .Top = Frame1(0).Top
+        .Height = Frame1(0).Height - 500
+        .Width = Frame1(0).Width - 500
+        .FontSize = Round(Label1(0).Height / 140)
+    End With
+
+    With Label1(3)
+        .Left = Label1(0).Left
+        .Top = Label1(0).Top
+        .Height = Label1(0).Height
+        .Width = Label1(0).Width
+        .FontSize = Label1(0).FontSize
+    End With
+
+    With Label1(5)
+        .Left = Label1(0).Left
+        .Top = Label1(0).Top
+        .Height = Label1(0).Height
+        .Width = Label1(0).Width
+        .FontSize = Label1(0).FontSize
+    End With
+
+    With Label1(7)
+        .Left = Label1(0).Left
+        .Top = Label1(0).Top
+        .Height = Label1(0).Height
+        .Width = Label1(0).Width
+        .FontSize = Label1(0).FontSize
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmPedidosPendientes:Form_Resize" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Timer1_Timer()
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "SELECT top 4 min(id) as id,Folio, Nombre From PO_LINES_ALL Where Tipo= 'Pedidos' AND cancelado= 'No' group by Folio, Nombre order by 1;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+        If .RecordCount <> 0 Then
+            .MoveFirst
+            Label1(0).Caption = "TURNO #1" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
+            .MoveNext
+            If Not .EOF Then
+                Label1(3).Caption = "TURNO #2" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
                 .MoveNext
                 If Not .EOF Then
-                    Label1(3).Caption = "TURNO #2" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
+                    Label1(5).Caption = "TURNO #3" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
                     .MoveNext
                     If Not .EOF Then
-                        Label1(5).Caption = "TURNO #3" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
-                        .MoveNext
-                        If Not .EOF Then
-                            Label1(7).Caption = "TURNO #4" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
-                        Else
-                            With Label1(7)
-                                .Caption = "TURNO #4"
-                            End With
-                        End If
+                        Label1(7).Caption = "TURNO #4" & vbNewLine & "FOLIO : " & .Fields(1).Value & vbNewLine & "CLIENTE : " & .Fields(2).Value
                     Else
-                        With Label1(5)
-                            .Caption = "TURNO #3"
-                        End With
-                        
                         With Label1(7)
                             .Caption = "TURNO #4"
                         End With
                     End If
                 Else
-                    With Label1(3)
-                        .Caption = "TURNO #2"
-                    End With
-                    
                     With Label1(5)
                         .Caption = "TURNO #3"
                     End With
-                    
+
                     With Label1(7)
                         .Caption = "TURNO #4"
                     End With
                 End If
             Else
-                With Label1(0)
-                    .Caption = "TURNO #1"
-                End With
-                
                 With Label1(3)
                     .Caption = "TURNO #2"
                 End With
-                
+
                 With Label1(5)
                     .Caption = "TURNO #3"
                 End With
-                
+
                 With Label1(7)
                     .Caption = "TURNO #4"
                 End With
             End If
-        End With
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmPedidosPendientes:Timer1_Timer" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-    End Sub
+        Else
+            With Label1(0)
+                .Caption = "TURNO #1"
+            End With
 
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
+            With Label1(3)
+                .Caption = "TURNO #2"
+            End With
+
+            With Label1(5)
+                .Caption = "TURNO #3"
+            End With
+
+            With Label1(7)
+                .Caption = "TURNO #4"
+            End With
+        End If
+    End With
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmPedidosPendientes:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        With Rs
-            If .State = 1 Then .Close
-        End With
-        
-        With Cn
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs = Nothing
-        Set Cn = Nothing
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmPedidosPendientes:Timer1_Timer" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+End Sub
+
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmPedidosPendientes:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmPedidosPendientes:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With Rs
+        If .State = 1 Then .Close
+    End With
+
+    With Cn
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs = Nothing
+    Set Cn = Nothing
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmPedidosPendientes:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub

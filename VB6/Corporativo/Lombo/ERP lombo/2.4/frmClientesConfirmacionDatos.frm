@@ -629,306 +629,306 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '***********************************************************************************
-    Option Explicit
-    
-    '===============================================================================
-    'DECLARACION DE VARIABLES
-    '===============================================================================
-    
-    '//RECORDSET
-    Dim Rs10    As New adodb.Recordset
-    '//OTROS
-    Dim i       As Long
-    
-    Private Sub Form_Load()
-        On Error GoTo errHandler
+Option Explicit
+
+'===============================================================================
+'DECLARACION DE VARIABLES
+'===============================================================================
+
+'//RECORDSET
+Dim Rs10 As New adodb.Recordset
+'//OTROS
+Dim i As Long
+
+Private Sub Form_Load()
+    On Error GoTo errHandler
+    With Rs10
+        If .State = 1 Then .Close
+        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+        .Open "Select * from HZ_PARTY where id =" & IdCliente, Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+        .Requery
+    End With
+
+    For i = 0 To (12)
+        With Text1(i)
+            Set .DataSource = Rs10
+        End With
+    Next i
+
+    For i = 1 To (12)
+        With Text1(i)
+            .BackColor = COLOR_NO_ENCONTRADO
+        End With
+    Next i
+
+    With Text1(0)
+        .DataField = "Nombre"
+    End With
+
+    With Text1(1)
+        .DataField = "Calle"
+    End With
+
+    With Text1(2)
+        .DataField = "Numero"
+    End With
+
+    With Text1(3)
+        .DataField = "Colonia"
+    End With
+
+    With Text1(4)
+        .DataField = "Codigo Postal"
+    End With
+
+    With Text1(5)
+        .DataField = "Telefono"
+    End With
+
+    With Text1(6)
+        .DataField = "Monedero"
+    End With
+
+    With Text1(7)
+        .DataField = "referencias"
+    End With
+
+    With Text1(8)
+        .DataField = "Telefono2"
+    End With
+
+    With Text1(9)
+        .DataField = "Telefono3"
+    End With
+
+    With Text1(10)
+        .DataField = "Telefono4"
+    End With
+
+    With Text1(11)
+        .DataField = "Telefono5"
+    End With
+
+    With Text1(12)
+        .DataField = "Telefono6"
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesConfirmacionDatos:Form_Load" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Text1_Change(Index As Integer)
+    On Error GoTo errHandler
+    Select Case Index
+    Case 1
+        With Text1(1)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 2
+        With Text1(2)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 3
+        With Text1(3)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 4
+        With Text1(4)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 5
+        With Text1(5)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 6
+        With Text1(6)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 7
+        With Text1(7)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 8
+        With Text1(8)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 9
+        With Text1(9)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 10
+        With Text1(10)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 11
+        With Text1(11)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    Case 12
+        With Text1(12)
+            If .Text = "" Then
+                .BackColor = COLOR_NO_ENCONTRADO
+            Else
+                .BackColor = COLOR_NORMAL
+            End If
+        End With
+    End Select
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesConfirmacionDatos:Text1_Change" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Guardar_Click()
+    On Error GoTo errHandler
+    vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
+    If vbq = vbYes Then
         With Rs10
-            If .State = 1 Then .Close
-            .CursorLocation = adodb.CursorLocationEnum.adUseClient
-            .Open "Select * from HZ_PARTY where id =" & IdCliente, Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+            With .Fields(1)
+                .Value = Text1(0)
+            End With
+
+            With .Fields(2)
+                .Value = Text1(1)
+            End With
+
+            With .Fields(3)
+                .Value = Text1(2)
+            End With
+
+            With .Fields(4)
+                .Value = Text1(3)
+            End With
+
+            With .Fields(5)
+                .Value = Text1(4)
+            End With
+
+            With .Fields(6)
+                .Value = Text1(5)
+            End With
+
+            With .Fields(7)
+                .Value = Text1(8)
+            End With
+
+            With .Fields(8)
+                .Value = Text1(9)
+            End With
+
+            With .Fields(9)
+                .Value = Text1(10)
+            End With
+
+            With .Fields(10)
+                .Value = Text1(11)
+            End With
+
+            With .Fields(11)
+                .Value = Text1(12)
+            End With
+
+            With .Fields(22)
+                .Value = Text1(6)
+            End With
+
+            With .Fields(13)
+                .Value = Text1(7)
+            End With
+            .Update
             .Requery
         End With
-        
-        For i = 0 To (12)
-            With Text1(i)
-                Set .DataSource = Rs10
-            End With
-        Next i
-        
-        For i = 1 To (12)
-            With Text1(i)
-                .BackColor = COLOR_NO_ENCONTRADO
-            End With
-        Next i
-        
-        With Text1(0)
-            .DataField = "Nombre"
-        End With
-        
-        With Text1(1)
-            .DataField = "Calle"
-        End With
-        
-        With Text1(2)
-            .DataField = "Numero"
-        End With
-        
-        With Text1(3)
-            .DataField = "Colonia"
-        End With
-        
-        With Text1(4)
-            .DataField = "Codigo Postal"
-        End With
-        
-        With Text1(5)
-            .DataField = "Telefono"
-        End With
-        
-        With Text1(6)
-            .DataField = "Monedero"
-        End With
-        
-        With Text1(7)
-            .DataField = "referencias"
-        End With
-        
-        With Text1(8)
-            .DataField = "Telefono2"
-        End With
-        
-        With Text1(9)
-            .DataField = "Telefono3"
-        End With
-        
-        With Text1(10)
-            .DataField = "Telefono4"
-        End With
-        
-        With Text1(11)
-            .DataField = "Telefono5"
-        End With
-        
-        With Text1(12)
-            .DataField = "Telefono6"
-        End With
+    End If
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesConfirmacionDatos:Form_Load" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesConfirmacionDatos:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
 
-    Private Sub Text1_Change(Index As Integer)
-        On Error GoTo errHandler
-        Select Case Index
-            Case 1
-                With Text1(1)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 2
-                With Text1(2)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 3
-                With Text1(3)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 4
-                With Text1(4)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 5
-                With Text1(5)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 6
-                With Text1(6)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 7
-                With Text1(7)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 8
-                With Text1(8)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 9
-                With Text1(9)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 10
-                With Text1(10)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 11
-                With Text1(11)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-            Case 12
-                With Text1(12)
-                    If .Text = "" Then
-                        .BackColor = COLOR_NO_ENCONTRADO
-                    Else
-                        .BackColor = COLOR_NORMAL
-                    End If
-                End With
-        End Select
+Private Sub Salir_Click()
+    On Error GoTo errHandler
+    Unload Me
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesConfirmacionDatos:Text1_Change" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Guardar_Click()
-        On Error GoTo errHandler
-        vbq = MsgBox("¿Desea guardar la información?", vbQuestion + vbYesNo, "Información")
-        If vbq = vbYes Then
-            With Rs10
-                With .Fields(1)
-                    .Value = Text1(0)
-                End With
-                
-                With .Fields(2)
-                    .Value = Text1(1)
-                End With
-                
-                With .Fields(3)
-                    .Value = Text1(2)
-                End With
-                
-                With .Fields(4)
-                    .Value = Text1(3)
-                End With
-                
-                With .Fields(5)
-                    .Value = Text1(4)
-                End With
-                
-                With .Fields(6)
-                    .Value = Text1(5)
-                End With
-                
-                With .Fields(7)
-                    .Value = Text1(8)
-                End With
-                
-                With .Fields(8)
-                    .Value = Text1(9)
-                End With
-                
-                With .Fields(9)
-                    .Value = Text1(10)
-                End With
-                
-                With .Fields(10)
-                    .Value = Text1(11)
-                End With
-                
-                With .Fields(11)
-                    .Value = Text1(12)
-                End With
-                
-                With .Fields(22)
-                    .Value = Text1(6)
-                End With
-                
-                With .Fields(13)
-                    .Value = Text1(7)
-                End With
-                .Update
-                .Requery
-            End With
-        End If
-        Unload Me
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesConfirmacionDatos:Salir_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    On Error GoTo errHandler
+    With Rs10
+        If .State = 1 Then .Close
+    End With
+
+    Set Rs10 = Nothing
     Exit Sub
 errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesConfirmacionDatos:Guardar_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Salir_Click()
-        On Error GoTo errHandler
-        Unload Me
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesConfirmacionDatos:Salir_Click" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
-    
-    Private Sub Form_Unload(Cancel As Integer)
-        On Error GoTo errHandler
-        With Rs10
-            If .State = 1 Then .Close
-        End With
-        
-        Set Rs10 = Nothing
-    Exit Sub
-errHandler:
-        FileNum = FreeFile
-        Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-        Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesConfirmacionDatos:Form_Unload" & vbTab & err.Number & vbTab & err.Description
-        Close FileNum
-        err.Clear
-        MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
-    End Sub
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmClientesConfirmacionDatos:Form_Unload" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
