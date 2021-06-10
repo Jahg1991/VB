@@ -443,7 +443,7 @@ Begin VB.Form frmHistorialVentas
             CalendarTitleBackColor=   8421504
             CalendarTitleForeColor=   14737632
             CalendarTrailingForeColor=   8421504
-            Format          =   140771329
+            Format          =   126484481
             CurrentDate     =   43915
             MaxDate         =   2958101
          End
@@ -471,7 +471,7 @@ Begin VB.Form frmHistorialVentas
             CalendarTitleBackColor=   8421504
             CalendarTitleForeColor=   14737632
             CalendarTrailingForeColor=   8421504
-            Format          =   140771329
+            Format          =   126484481
             CurrentDate     =   43915
             MaxDate         =   2958101
          End
@@ -1550,9 +1550,7 @@ Private Sub Command2_Click()
                         TDebido = Replace(Val(TMovimiento) - Val(TPagado), ",", ".")
                         If Val(TDebido) > 0 Then
                             If DineroRestante > Val(TDebido) Then
-                                With .Fields(16)
-                                    .Value = .Fields(15)                                                        'pagado
-                                End With
+                                .Fields(16) = .Fields(15)                                                        'pagado
                                 DineroRestante = DineroRestante - Val(TDebido)
                             Else
                                 With .Fields(16)
