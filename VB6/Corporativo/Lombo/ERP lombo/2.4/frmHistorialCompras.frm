@@ -240,7 +240,7 @@ Begin VB.Form frmHistorialCompras
             CalendarTitleBackColor=   8421504
             CalendarTitleForeColor=   14737632
             CalendarTrailingForeColor=   8421504
-            Format          =   140771329
+            Format          =   126746625
             CurrentDate     =   43915
             MaxDate         =   2958101
          End
@@ -304,7 +304,7 @@ Begin VB.Form frmHistorialCompras
             CalendarTitleBackColor=   8421504
             CalendarTitleForeColor=   14737632
             CalendarTrailingForeColor=   8421504
-            Format          =   140771329
+            Format          =   126746625
             CurrentDate     =   43915
             MaxDate         =   2958101
          End
@@ -472,6 +472,8 @@ Attribute VB_Exposed = False
 '                                               creacion, modificacion a los insert
 '                                               y updates
 '
+'1.2        11/06/2021     Alfredo Hernandez    Se agrego validacion para inventario
+'                                               negativo en la cancelacion
 '***********************************************************************************
 Option Explicit
 
@@ -482,6 +484,7 @@ Option Explicit
 '//OTROS
 Dim i As Long
 Dim Prt As Printer
+Dim vin As Long
 '//RECORDSET
 Dim Rs As New adodb.Recordset    'Cabecera ComprasVentas
 Dim RS1 As New adodb.Recordset    'VentasCompras
@@ -1166,6 +1169,30 @@ Private Sub Cancelar_Click()
     If Mid(List1.Text, 1, 10) <> "" Then
         vbq = MsgBox("¿Desea cancelar el movimiento?", vbQuestion + vbYesNo, "Información")
         If vbq = vbYes Then
+            'Validacion inventarios negativos
+            vin = 0
+            With RS1
+                .Filter = "Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
+                .Requery
+                If .RecordCount > 0 Then
+                    Do Until .EOF
+                        If Get_ItemUDM(.Fields("IdArticulo").Value) <> "Servicio" And Get_ItemCategoria(.Fields("IdArticulo").Value) = "Inventario" Then
+                            If PcInventarios = False Then
+                                If Val(Get_CantidadItem(.Fields("IdArticulo").Value)) < Val(.Fields("Cantidad").Value) Then
+                                   vin = vin + 1
+                                End If
+                            End If
+                        End If
+                        .MoveNext
+                    Loop
+                    .Filter = ""
+                    .Requery
+                End If
+            End With
+            If vin > 0 Then
+                MsgBox "No se puede cancelar la compra porque " & vin & " artículos no tienen exixtencias suficientes", vbOKOnly, "Error"
+                Exit Sub
+            End If
             sql = "UPDATE PO_LINES_ALL SET CANCELADO = 'Si', LAST_UPDATE_DATE = '" & Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS") & "', LAST_UPDATED_BY = '" & StUsuario & "' WHERE Folio = '" & Trim(Mid(List1.Text, 1, 10)) & "'"
             With Cn
                 .Execute sql

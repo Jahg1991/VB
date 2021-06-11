@@ -15,7 +15,6 @@ Option Explicit
 '===============================================================================
 'DECLARACION DE VARIABLES
 '===============================================================================
-
 '//CONEXION
 Public Cn As New adodb.Connection
 '//DATOS DE CONEXION
