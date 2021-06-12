@@ -618,7 +618,7 @@ Attribute VB_Exposed = False
 '1.1        19/05/2021     Alfredo Hernandez    Se agrego usuario, fecha de creacion
 '                                               y modificacion a todos los insert
 '
-'1.2        19/05/2021     Alfredo Hernandez    Se agrego validacion para inv.
+'1.2        12/06/2021     Alfredo Hernandez    Se agrego validacion para inv.
 '                                               negativos
 '
 '***********************************************************************************
@@ -1088,197 +1088,206 @@ Private Sub Guardar_Click()
                     vCantidadDev = Get_CantidadDev(v8, v3)
                     vDevExiste = Get_DevItemExiste(v8, v3)
                     If Val(v11) < 0 And vDevExiste = 0 Then
-                        MsgBox "No se puede devolver el artículo porque no existe en la compra", vbCritical, "Error"
-                    Else
-                        If Val(vCantidadDev) < Val(v11) * -1 And Val(v11) < 0 Then
-                            MsgBox "No se puede devolver " & Val(v11) * -1 & " porque excede la cantidad comprada que es de " & Val(vCantidadDev), vbCritical, "Advertencia"
-                        Else
-                            With Rs5
-                                If .State = 1 Then .Close
-                                .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                                .Open "Select * from MTL_MATERIAL_TRANSACTIONS;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                                .Requery
-                                If v12 <> "Servicio" And vCategoria = "Inventario" Then
-                                    .AddNew
-                                    With .Fields(1)
-                                        .Value = v8                                                             'id
-                                    End With
+                        MsgBox "No se puede devolver el artículo " & v10 & " porque no existe en la compra", vbCritical, "Error"
+                        GoTo Siguiente
+                    End If
 
-                                    With .Fields(2)
-                                        .Value = v9                                                             'codigo
-                                    End With
+                    If Val(vCantidadDev) < Val(v11) * -1 And Val(v11) < 0 Then
+                        MsgBox "No se puede devolver " & v10 & ", la cantidad " & Val(v11) * -1 & " excede la cantidad comprada que es de " & Val(vCantidadDev), vbCritical, "Advertencia"
+                        GoTo Siguiente
+                    End If
 
-                                    With .Fields(3)
-                                        .Value = v10                                                            'descripcion
-                                    End With
-
-                                    With .Fields(4)
-                                        .Value = Date                                                           'fecha
-                                    End With
-
-                                    If Val(v11) > 0 Then
-                                        With .Fields(5)
-                                            .Value = "Recepción de compra"                                      'tipo de transaccion
-                                        End With
-                                    Else
-                                        With .Fields(5)
-                                            .Value = "Devolución de compra"                                     'tipo de transaccion
-                                        End With
-                                    End If
-
-                                    With .Fields(6)
-                                        .Value = Replace(Format(Val(v11), "0.00"), ",", ".")                    'cantidad
-                                    End With
-
-                                    With .Fields(7)
-                                        .Value = v12                                                            'udm
-                                    End With
-
-                                    With .Fields(8)
-                                        .Value = v3                                                             'folio
-                                    End With
-
-                                    With .Fields(9)
-                                        .Value = v18                                                            'cancelado
-                                    End With
-
-                                    If ControlLote = True Then
-                                        With .Fields(10)
-                                            .Value = v21                                                        'lote
-                                        End With
-                                    End If
-
-                                    With .Fields("created_by")
-                                        .Value = StUsuario                                                      'usuario
-                                    End With
-
-                                    With .Fields("creation_date")
-                                        .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
-                                    End With
-
-                                    With .Fields("last_updated_by")
-                                        .Value = StUsuario                                                      'usuario
-                                    End With
-
-                                    With .Fields("last_update_date")
-                                        .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
-                                    End With
-                                    .Update
-                                    .Requery
+                    With Rs5
+                        If .State = 1 Then .Close
+                        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                        .Open "Select * from MTL_MATERIAL_TRANSACTIONS;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                        .Requery
+                        If v12 <> "Servicio" And vCategoria = "Inventario" Then
+                            If PcInventarios = False Then
+                                If Val(Get_CantidadItem(v8)) < Val(v11) * -1 And Val(v11) < 0 Then
+                                    MsgBox "No se puede devolver " & v10 & " porque no hay cantidad suficiente", vbCritical, "Advertencia"
+                                    GoTo Siguiente
                                 End If
-                                .Close
+                            End If
+                            .AddNew
+                            With .Fields(1)
+                                .Value = v8                                                             'id
                             End With
 
-                            'guardar compra o venta
-                            With Rs3
-                                If .State = 1 Then .Close
-                                .CursorLocation = adodb.CursorLocationEnum.adUseClient
-                                .Open "Select * from PO_LINES_ALL;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
-                                .Requery
-                                .AddNew
-                                With .Fields(1)
-                                    .Value = v1                                                             'idclienteproveedor
-                                End With
+                            With .Fields(2)
+                                .Value = v9                                                             'codigo
+                            End With
 
-                                With .Fields(2)
-                                    .Value = v2                                                             'nombre cliente proveedor
-                                End With
+                            With .Fields(3)
+                                .Value = v10                                                            'descripcion
+                            End With
 
-                                With .Fields(3)
-                                    .Value = v3                                                             'folio
-                                End With
+                            With .Fields(4)
+                                .Value = Date                                                           'fecha
+                            End With
 
+                            If Val(v11) > 0 Then
                                 With .Fields(5)
-                                    .Value = v6                                                             'fecha
+                                    .Value = "Recepción de compra"                                      'tipo de transaccion
                                 End With
-
-                                With .Fields(6)
-                                    .Value = v7                                                             'Tipoarticulo
+                            Else
+                                With .Fields(5)
+                                    .Value = "Devolución de compra"                                     'tipo de transaccion
                                 End With
+                            End If
 
-                                With .Fields(7)
-                                    .Value = v8                                                             'idarticulo
-                                End With
+                            With .Fields(6)
+                                .Value = Replace(Format(Val(v11), "0.00"), ",", ".")                    'cantidad
+                            End With
 
-                                With .Fields(8)
-                                    .Value = v9                                                             'codigo articulo
-                                End With
+                            With .Fields(7)
+                                .Value = v12                                                            'udm
+                            End With
 
-                                With .Fields(9)
-                                    .Value = v10                                                            'descripcion articulo
-                                End With
+                            With .Fields(8)
+                                .Value = v3                                                             'folio
+                            End With
 
+                            With .Fields(9)
+                                .Value = v18                                                            'cancelado
+                            End With
+
+                            If ControlLote = True Then
                                 With .Fields(10)
-                                    .Value = v11                                                            'cantidad
+                                    .Value = v21                                                        'lote
                                 End With
+                            End If
 
-                                With .Fields(11)
-                                    .Value = v12                                                            'UDM
-                                End With
+                            With .Fields("created_by")
+                                .Value = StUsuario                                                      'usuario
+                            End With
 
-                                With .Fields(12)
-                                    .Value = v13                                                            'precio
-                                End With
+                            With .Fields("creation_date")
+                                .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                            End With
 
-                                With .Fields(13)
-                                    .Value = v14                                                            'subtotal
-                                End With
+                            With .Fields("last_updated_by")
+                                .Value = StUsuario                                                      'usuario
+                            End With
 
-                                With .Fields(14)
-                                    .Value = v15                                                            'iva
-                                End With
+                            With .Fields("last_update_date")
+                                .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                            End With
+                            .Update
+                            .Requery
+                        End If
+                        .Close
+                    End With
 
-                                With .Fields(15)
-                                    .Value = v16                                                            'total
-                                End With
+                    'guardar compra o venta
+                    With Rs3
+                        If .State = 1 Then .Close
+                        .CursorLocation = adodb.CursorLocationEnum.adUseClient
+                        .Open "Select * from PO_LINES_ALL;", Cn, adodb.CursorTypeEnum.adOpenStatic, adodb.LockTypeEnum.adLockOptimistic
+                        .Requery
+                        .AddNew
+                        With .Fields(1)
+                            .Value = v1                                                             'idclienteproveedor
+                        End With
 
-                                With .Fields(16)
-                                    .Value = v17                                                            'totalpagado
-                                End With
+                        With .Fields(2)
+                            .Value = v2                                                             'nombre cliente proveedor
+                        End With
 
-                                With .Fields(17)
-                                    .Value = v18                                                            'cancelado
-                                End With
+                        With .Fields(3)
+                            .Value = v3                                                             'folio
+                        End With
 
-                                With .Fields(18)
-                                    .Value = v19                                                            'comentarios
-                                End With
+                        With .Fields(5)
+                            .Value = v6                                                             'fecha
+                        End With
 
-                                With .Fields(19)
-                                    .Value = v20                                                            'tipo
-                                End With
+                        With .Fields(6)
+                            .Value = v7                                                             'Tipoarticulo
+                        End With
 
-                                With .Fields(20)
-                                    .Value = Replace(Replace(v3, "V-", ""), "C-", "")                       'NUM_FOLIO
-                                End With
+                        With .Fields(7)
+                            .Value = v8                                                             'idarticulo
+                        End With
 
-                                If ControlLote = True Then
-                                    With .Fields(10)
-                                        .Value = v21                                                        'lote
-                                    End With
-                                End If
+                        With .Fields(8)
+                            .Value = v9                                                             'codigo articulo
+                        End With
 
-                                With .Fields("created_by")
-                                    .Value = StUsuario                                                      'usuario
-                                End With
+                        With .Fields(9)
+                            .Value = v10                                                            'descripcion articulo
+                        End With
 
-                                With .Fields("creation_date")
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
-                                End With
+                        With .Fields(10)
+                            .Value = v11                                                            'cantidad
+                        End With
 
-                                With .Fields("last_updated_by")
-                                    .Value = StUsuario                                                      'usuario
-                                End With
+                        With .Fields(11)
+                            .Value = v12                                                            'UDM
+                        End With
 
-                                With .Fields("last_update_date")
-                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
-                                End With
-                                .Update
-                                .Requery
-                                .Close
+                        With .Fields(12)
+                            .Value = v13                                                            'precio
+                        End With
+
+                        With .Fields(13)
+                            .Value = v14                                                            'subtotal
+                        End With
+
+                        With .Fields(14)
+                            .Value = v15                                                            'iva
+                        End With
+
+                        With .Fields(15)
+                            .Value = v16                                                            'total
+                        End With
+
+                        With .Fields(16)
+                            .Value = v17                                                            'totalpagado
+                        End With
+
+                        With .Fields(17)
+                            .Value = v18                                                            'cancelado
+                        End With
+
+                        With .Fields(18)
+                            .Value = v19                                                            'comentarios
+                        End With
+
+                        With .Fields(19)
+                            .Value = v20                                                            'tipo
+                        End With
+
+                        With .Fields(20)
+                            .Value = Replace(Replace(v3, "V-", ""), "C-", "")                       'NUM_FOLIO
+                        End With
+
+                        If ControlLote = True Then
+                            With .Fields(10)
+                                .Value = v21                                                        'lote
                             End With
                         End If
-                    End If
+
+                        With .Fields("created_by")
+                            .Value = StUsuario                                                      'usuario
+                        End With
+
+                        With .Fields("creation_date")
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                        End With
+
+                        With .Fields("last_updated_by")
+                            .Value = StUsuario                                                      'usuario
+                        End With
+
+                        With .Fields("last_update_date")
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                        End With
+                        .Update
+                        .Requery
+                        .Close
+                    End With
+Siguiente:
                 Next i
 
                 With frmHistorialCompras

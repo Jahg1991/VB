@@ -3,3 +3,7 @@
 2021-06-10	13:53:50	Error en: frmMenuInicial:Form_Load	76	No se ha encontrado la ruta: '\\10.2.2.5\Desarrollos\GitHub\VB\VB6\Corporativo\Lombo\ERP lombo\2.4\Images\Inicio.jpg'
 2021-06-10	13:58:42	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210610135842.bak'. Operating system error 21(El dispositivo no está listo.).
 [Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2021-06-12	09:54:00	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210612095400.bak'. Operating system error 21(El dispositivo no está listo.).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2021-06-12	09:55:37	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210612095537.bak'. Operating system error 21(El dispositivo no está listo.).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
