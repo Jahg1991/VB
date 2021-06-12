@@ -254,6 +254,7 @@ Attribute VB_Exposed = False
 '-----------------------------------------------------------------------------------
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
+'1.1        12/06/2021     Alfredo Hernandez    Validacion inv. negativos
 '***********************************************************************************
 Option Explicit
 
@@ -460,6 +461,13 @@ Private Sub Command1_Click(Index As Integer)
             If Val(.Text) < 0 Then
                 MsgBox "la cantidad es inválida", vbCritical, "Error"
                 Exit Sub
+            End If
+            
+            If PcInventarios = False Then
+                If Val(Get_CantidadItem(RS1.Fields(0).Value)) < Val(.Text) Then
+                    MsgBox "No se puede agregar el articulo porque no cuenta con existencias suficientes", vbCritical, "Error"
+                    Exit Sub
+                End If
             End If
 
             If Combo1(0) <> "" And .Text <> "" Then
