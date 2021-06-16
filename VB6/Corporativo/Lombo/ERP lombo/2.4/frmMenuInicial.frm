@@ -266,6 +266,9 @@ Begin VB.Form frmMenuInicial
          End
       End
    End
+   Begin VB.Menu Desarrollador 
+      Caption         =   "Desarrollador"
+   End
    Begin VB.Menu AcercaDe 
       Caption         =   "Acerca de"
    End
@@ -1024,6 +1027,21 @@ errHandler:
     FileNum = FreeFile
     Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
     Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMenuInicial:Rastreabilidad_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+'**********************************************
+'DESARROLLADOR
+'**********************************************
+Private Sub Desarrollador_Click()
+On Error GoTo errHandler
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMenuInicial:Desarrollador_Click" & vbTab & err.Number & vbTab & err.Description
     Close FileNum
     err.Clear
     MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"

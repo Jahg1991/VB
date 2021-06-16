@@ -35,6 +35,26 @@ Begin VB.Form frmUsuariosExistente
       TabIndex        =   0
       Top             =   240
       Width           =   16935
+      Begin VB.ComboBox Combo1 
+         BackColor       =   &H00808080&
+         BeginProperty Font 
+            Name            =   "Comic Sans MS"
+            Size            =   12
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00E0E0E0&
+         Height          =   465
+         Index           =   20
+         Left            =   11040
+         Style           =   2  'Dropdown List
+         TabIndex        =   54
+         Top             =   7320
+         Width           =   1000
+      End
       Begin VB.Frame Frame2 
          BackColor       =   &H00404040&
          Caption         =   "REPORTES"
@@ -48,7 +68,7 @@ Begin VB.Form frmUsuariosExistente
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00C0C000&
-         Height          =   3720
+         Height          =   3000
          Index           =   0
          Left            =   8760
          TabIndex        =   44
@@ -793,6 +813,27 @@ Begin VB.Form frmUsuariosExistente
       Begin VB.Label Label1 
          Alignment       =   1  'Right Justify
          BackStyle       =   0  'Transparent
+         Caption         =   "DESARROLLADOR"
+         BeginProperty Font 
+            Name            =   "Comic Sans MS"
+            Size            =   12
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00C0C000&
+         Height          =   375
+         Index           =   23
+         Left            =   8520
+         TabIndex        =   53
+         Top             =   7320
+         Width           =   2295
+      End
+      Begin VB.Label Label1 
+         Alignment       =   1  'Right Justify
+         BackStyle       =   0  'Transparent
          Caption         =   "ARCHIVO"
          BeginProperty Font 
             Name            =   "Comic Sans MS"
@@ -1134,6 +1175,8 @@ Attribute VB_Exposed = False
 '1.1        14/05/2021     Alfredo Hernandez    Se agrego confirmacion de salida sin
 '                                               guardar datos
 '
+'1.2        16/06/2021     Alfredo Hernandez    Se agrego la responsabilidad de
+'                                               Desarrollador
 '***********************************************************************************
 Option Explicit
 
@@ -1300,6 +1343,11 @@ Private Sub Form_Load()
             With Combo1(19)
                 Set .DataSource = Rs
                 .DataField = "RCorte"
+            End With
+            
+            With Combo1(20)
+                Set .DataSource = Rs
+                .DataField = "Desarrollador"
             End With
         Else
             MsgBox "No hay registros existentes", vbOKOnly, "Información"

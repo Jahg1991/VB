@@ -255,6 +255,10 @@ Attribute VB_Exposed = False
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
 '1.1        12/06/2021     Alfredo Hernandez    Validacion inv. negativos
+'
+'1.2        14/05/2021     Alfredo Hernandez    Se agrego usuario, fecha de creacion
+'                                               y modificacion a todos los insert
+'
 '***********************************************************************************
 Option Explicit
 
@@ -613,6 +617,22 @@ Private Sub Guardar_Click()
                                         End With
                                         CantidadRestante = Val(CantidadRestante) - Val(vCantidadLote)
                                     End If
+                                    
+                                    With .Fields("created_by")
+                                        .Value = StUsuario                                                          'usuario
+                                    End With
+                
+                                    With .Fields("creation_date")
+                                        .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")        'creacion
+                                    End With
+                
+                                    With .Fields("last_updated_by")
+                                        .Value = StUsuario                                                          'usuario
+                                    End With
+                
+                                    With .Fields("last_update_date")
+                                        .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")        'modificacion
+                                    End With
                                     .Update
                                     .Requery
                                 End With
@@ -627,35 +647,51 @@ Private Sub Guardar_Click()
                             With Rs
                                 .AddNew
                                 With .Fields(1)
-                                    .Value = v4                     'id
+                                    .Value = v4                                                             'id
                                 End With
 
                                 With .Fields(2)
-                                    .Value = v5                     'codigo
+                                    .Value = v5                                                             'codigo
                                 End With
 
                                 With .Fields(3)
-                                    .Value = v6                     'descripcion
+                                    .Value = v6                                                             'descripcion
                                 End With
 
                                 With .Fields(4)
-                                    .Value = Date                   'fecha
+                                    .Value = Date                                                           'fecha
                                 End With
 
                                 With .Fields(5)
-                                    .Value = "Salida de Insumos"    'transaccion
+                                    .Value = "Salida de Insumos"                                            'transaccion
                                 End With
 
                                 With .Fields(6)
-                                    .Value = v7                     'cantidad
+                                    .Value = v7                                                             'cantidad
                                 End With
 
                                 With .Fields(7)
-                                    .Value = v1                     'udm
+                                    .Value = v1                                                             'udm
                                 End With
 
                                 With .Fields(9)
-                                    .Value = "No"                   'cancelado
+                                    .Value = "No"                                                           'cancelado
+                                End With
+                                
+                                With .Fields("created_by")
+                                    .Value = StUsuario                                                      'usuario
+                                End With
+            
+                                With .Fields("creation_date")
+                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                                End With
+            
+                                With .Fields("last_updated_by")
+                                    .Value = StUsuario                                                      'usuario
+                                End With
+            
+                                With .Fields("last_update_date")
+                                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
                                 End With
                                 .Update
                                 .Requery

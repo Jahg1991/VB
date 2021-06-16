@@ -26,14 +26,25 @@ Begin VB.Form frmUsuariosNuevo
    ScaleWidth      =   17415
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.ComboBox Combo1 
+      BackColor       =   &H00808080&
+      ForeColor       =   &H00E0E0E0&
+      Height          =   465
+      Index           =   20
+      Left            =   5520
+      Style           =   2  'Dropdown List
+      TabIndex        =   28
+      Top             =   8520
+      Width           =   2895
+   End
    Begin VB.Frame Frame2 
       BackColor       =   &H00404040&
       Caption         =   "REPORTES"
       ForeColor       =   &H00C0C000&
-      Height          =   7080
+      Height          =   5280
       Index           =   0
       Left            =   10800
-      TabIndex        =   36
+      TabIndex        =   37
       Top             =   1440
       Width           =   6255
       Begin VB.ComboBox Combo1 
@@ -43,7 +54,7 @@ Begin VB.Form frmUsuariosNuevo
          Index           =   12
          Left            =   3120
          Style           =   2  'Dropdown List
-         TabIndex        =   28
+         TabIndex        =   29
          Top             =   480
          Width           =   2895
       End
@@ -54,7 +65,7 @@ Begin VB.Form frmUsuariosNuevo
          Index           =   13
          Left            =   3120
          Style           =   2  'Dropdown List
-         TabIndex        =   29
+         TabIndex        =   30
          Top             =   1080
          Width           =   2895
       End
@@ -65,7 +76,7 @@ Begin VB.Form frmUsuariosNuevo
          Index           =   14
          Left            =   3120
          Style           =   2  'Dropdown List
-         TabIndex        =   30
+         TabIndex        =   31
          Top             =   1680
          Width           =   2895
       End
@@ -76,7 +87,7 @@ Begin VB.Form frmUsuariosNuevo
          Index           =   15
          Left            =   3120
          Style           =   2  'Dropdown List
-         TabIndex        =   31
+         TabIndex        =   32
          Top             =   2280
          Width           =   2895
       End
@@ -87,7 +98,7 @@ Begin VB.Form frmUsuariosNuevo
          Index           =   16
          Left            =   3120
          Style           =   2  'Dropdown List
-         TabIndex        =   32
+         TabIndex        =   33
          Top             =   2880
          Width           =   2895
       End
@@ -98,7 +109,7 @@ Begin VB.Form frmUsuariosNuevo
          Index           =   17
          Left            =   3120
          Style           =   2  'Dropdown List
-         TabIndex        =   33
+         TabIndex        =   34
          Top             =   3480
          Width           =   2895
       End
@@ -109,7 +120,7 @@ Begin VB.Form frmUsuariosNuevo
          Index           =   18
          Left            =   3120
          Style           =   2  'Dropdown List
-         TabIndex        =   34
+         TabIndex        =   35
          Top             =   4080
          Width           =   2895
       End
@@ -120,7 +131,7 @@ Begin VB.Form frmUsuariosNuevo
          Index           =   19
          Left            =   3120
          Style           =   2  'Dropdown List
-         TabIndex        =   35
+         TabIndex        =   36
          Top             =   4680
          Width           =   2895
       End
@@ -132,7 +143,7 @@ Begin VB.Form frmUsuariosNuevo
          Height          =   375
          Index           =   14
          Left            =   -2160
-         TabIndex        =   44
+         TabIndex        =   45
          Top             =   480
          Width           =   5055
       End
@@ -144,7 +155,7 @@ Begin VB.Form frmUsuariosNuevo
          Height          =   375
          Index           =   15
          Left            =   -2160
-         TabIndex        =   43
+         TabIndex        =   44
          Top             =   1080
          Width           =   5055
       End
@@ -156,7 +167,7 @@ Begin VB.Form frmUsuariosNuevo
          Height          =   375
          Index           =   16
          Left            =   0
-         TabIndex        =   42
+         TabIndex        =   43
          Top             =   1680
          Width           =   2895
       End
@@ -168,7 +179,7 @@ Begin VB.Form frmUsuariosNuevo
          Height          =   375
          Index           =   18
          Left            =   -360
-         TabIndex        =   41
+         TabIndex        =   42
          Top             =   2880
          Width           =   3255
       End
@@ -180,7 +191,7 @@ Begin VB.Form frmUsuariosNuevo
          Height          =   375
          Index           =   19
          Left            =   0
-         TabIndex        =   40
+         TabIndex        =   41
          Top             =   2280
          Width           =   2895
       End
@@ -192,7 +203,7 @@ Begin VB.Form frmUsuariosNuevo
          Height          =   375
          Index           =   20
          Left            =   480
-         TabIndex        =   39
+         TabIndex        =   40
          Top             =   3480
          Width           =   2415
       End
@@ -204,7 +215,7 @@ Begin VB.Form frmUsuariosNuevo
          Height          =   375
          Index           =   21
          Left            =   480
-         TabIndex        =   38
+         TabIndex        =   39
          Top             =   4080
          Width           =   2415
       End
@@ -216,7 +227,7 @@ Begin VB.Form frmUsuariosNuevo
          Height          =   375
          Index           =   22
          Left            =   600
-         TabIndex        =   37
+         TabIndex        =   38
          Top             =   4680
          Width           =   2295
       End
@@ -378,6 +389,18 @@ Begin VB.Form frmUsuariosNuevo
       TabIndex        =   14
       Top             =   360
       Width           =   11535
+   End
+   Begin VB.Label Label1 
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
+      Caption         =   "DESARROLLADOR"
+      ForeColor       =   &H00C0C000&
+      Height          =   375
+      Index           =   17
+      Left            =   240
+      TabIndex        =   46
+      Top             =   8520
+      Width           =   5055
    End
    Begin VB.Label Label1 
       Alignment       =   1  'Right Justify
@@ -576,6 +599,8 @@ Attribute VB_Exposed = False
 '1.1        14/05/2021     Alfredo Hernandez    Se agrego confirmacion de salida sin
 '                                               guardar datos
 '
+'1.2        16/06/2021     Alfredo Hernandez    Se agrego la responsabilidad de
+'                                               Desarrollador
 '***********************************************************************************
 Option Explicit
 
@@ -612,7 +637,7 @@ Private Sub Form_Load()
         .Text = "Caja 1"
     End With
 
-    For i = 12 To 19
+    For i = 12 To 20
         With Combo1(i)
             .AddItem "Si"
             .AddItem "No"
@@ -770,20 +795,24 @@ Private Sub Guardar_Click()
                         With .Fields(22)
                             .Value = Combo1(19)                                                     'RCorte
                         End With
-
+                        
                         With .Fields(23)
-                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                            .Value = Combo1(20)                                                     'Desarrollador
                         End With
 
                         With .Fields(24)
-                            .Value = StUsuario                                                      'usuario
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
                         End With
 
                         With .Fields(25)
-                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                            .Value = StUsuario                                                      'usuario
                         End With
 
                         With .Fields(26)
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                        End With
+
+                        With .Fields(27)
                             .Value = StUsuario                                                      'usuario
                         End With
                         .Update
@@ -935,18 +964,22 @@ Private Sub Salir_Click()
                         End With
 
                         With .Fields(23)
-                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
+                            .Value = Combo1(20)                                                     'Desarrollador
                         End With
 
                         With .Fields(24)
-                            .Value = StUsuario                                                      'usuario
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'creacion
                         End With
 
                         With .Fields(25)
-                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                            .Value = StUsuario                                                      'usuario
                         End With
 
                         With .Fields(26)
+                            .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")    'modificacion
+                        End With
+
+                        With .Fields(27)
                             .Value = StUsuario                                                      'usuario
                         End With
                         .Update
