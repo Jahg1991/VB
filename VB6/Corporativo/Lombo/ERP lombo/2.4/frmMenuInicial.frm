@@ -268,6 +268,12 @@ Begin VB.Form frmMenuInicial
    End
    Begin VB.Menu Desarrollador 
       Caption         =   "Desarrollador"
+      Begin VB.Menu DesarrolladorNuevo 
+         Caption         =   "Nuevo"
+      End
+      Begin VB.Menu DesarrolladorExistente 
+         Caption         =   "Existente"
+      End
    End
    Begin VB.Menu AcercaDe 
       Caption         =   "Acerca de"
@@ -1035,13 +1041,31 @@ End Sub
 '**********************************************
 'DESARROLLADOR
 '**********************************************
-Private Sub Desarrollador_Click()
-On Error GoTo errHandler
+Private Sub DesarrolladorNuevo_Click()
+    On Error GoTo errHandler
+    With frmRegistroReportes
+        .Show 1
+    End With
     Exit Sub
 errHandler:
     FileNum = FreeFile
     Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
-    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMenuInicial:Desarrollador_Click" & vbTab & err.Number & vbTab & err.Description
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMenuInicial:DesarrolladorNuevo_Click" & vbTab & err.Number & vbTab & err.Description
+    Close FileNum
+    err.Clear
+    MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"
+End Sub
+
+Private Sub DesarrolladorExistente_Click()
+    On Error GoTo errHandler
+    With frmRegistroReportes
+        .Show 1
+    End With
+    Exit Sub
+errHandler:
+    FileNum = FreeFile
+    Open App.Path & "\ErrorRegistry.txt" For Append As FileNum
+    Print #FileNum, Format(Date, "YYYY-MM-DD") & vbTab & Format(Time, "HH:MM:SS") & vbTab & "Error en: frmMenuInicial:DesarrolladorExistente_Click" & vbTab & err.Number & vbTab & err.Description
     Close FileNum
     err.Clear
     MsgBox "Hubo un error consulte la bitacora", vbInformation, "Error"

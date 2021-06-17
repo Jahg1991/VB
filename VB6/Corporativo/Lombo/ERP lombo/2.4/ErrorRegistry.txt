@@ -7,3 +7,20 @@
 [Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
 2021-06-12	09:55:37	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210612095537.bak'. Operating system error 21(El dispositivo no está listo.).
 [Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2021-06-17	14:59:49	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210617145949.bak'. Operating system error 21(El dispositivo no está listo.).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2021-06-17	15:02:07	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210617150207.bak'. Operating system error 21(El dispositivo no está listo.).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2021-06-17	15:04:10	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210617150410.bak'. Operating system error 21(El dispositivo no está listo.).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2021-06-17	15:10:36	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210617151035.bak'. Operating system error 21(El dispositivo no está listo.).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2021-06-17	15:14:31	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210617151431.bak'. Operating system error 21(El dispositivo no está listo.).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2021-06-17	15:16:53	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210617151653.bak'. Operating system error 21(El dispositivo no está listo.).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2021-06-17	15:17:08	Error en: frmRegistroReportes:Text2_Change	-2147217908	No se estableció ningún texto de comando para el objeto de comando.
+2021-06-17	15:17:22	Error en: frmRegistroReportes:Text2_Change	-2147217865	Invalid object name 'dual'.
+2021-06-17	15:24:37	Error en: Main	-2147218303	[Microsoft][ODBC SQL Server Driver][SQL Server]Cannot open backup device 'E:\Backup\Automatico_20210617152437.bak'. Operating system error 21(El dispositivo no está listo.).
+[Microsoft][ODBC SQL Server Driver][SQL Server]BACKUP DATABASE is terminating abnormally.
+2021-06-17	15:25:50	Error en: frmRegistroReportes:Guardar_Click	-2147217900	Could not find stored procedure 'aaa'.

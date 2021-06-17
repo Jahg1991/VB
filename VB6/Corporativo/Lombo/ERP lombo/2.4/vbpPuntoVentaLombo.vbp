@@ -56,6 +56,7 @@ Form=frmCancelacionPedidos.frm
 Form=frmClientesExistente.frm
 Form=frmCategoriaArticuloNuevo.frm
 Form=frmCategoriaProveedorNuevo.frm
+Form=frmRegistroReportes.frm
 IconForm="frmMenuInicial"
 Startup="Sub Main"
 HelpFile=""

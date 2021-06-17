@@ -159,6 +159,9 @@ Attribute VB_Exposed = False
 '-----------------------------------------------------------------------------------
 '1.0        13/05/2021     Alfredo Hernandez    Creacion
 '
+'1.1        17/06/2021     Alfredo Hernandez    Se agrego usuario y fecha a los
+'                                               insert
+'
 '***********************************************************************************
 Option Explicit
 
@@ -239,38 +242,54 @@ Private Sub Guardar_Click()
             With Rs
                 .AddNew
                 With .Fields(1)
-                    .Value = Date                                                       'fecha
+                    .Value = Date                                                               'fecha
                 End With
                 If StTipoEntradaSalida = "Entrada" Then
                     With .Fields(2)
-                        .Value = "Entrada Manual de Efectivo"                           'tipo
+                        .Value = "Entrada Manual de Efectivo"                                   'tipo
                     End With
 
                     With .Fields(3)
-                        .Value = Replace(Format(Val(Text2(0)), "0.00"), ",", ".")       'cantidad
+                        .Value = Replace(Format(Val(Text2(0)), "0.00"), ",", ".")               'cantidad
                     End With
                 End If
 
                 If StTipoEntradaSalida = "Salida" Then
                     With .Fields(2)
-                        .Value = "Retiro Manual de Efectivo"                            'tipo
+                        .Value = "Retiro Manual de Efectivo"                                    'tipo
                     End With
 
                     With .Fields(3)
-                        .Value = Replace(Format(Val(Text2(0)) * -1, "0.00"), ",", ".")  'cantidad
+                        .Value = Replace(Format(Val(Text2(0)) * -1, "0.00"), ",", ".")          'cantidad
                     End With
                 End If
 
                 With .Fields(4)
-                    .Value = Text2(1)                                                   'referencia
+                    .Value = Text2(1)                                                           'referencia
                 End With
 
                 With .Fields(5)
-                    .Value = "No"                                                       'cancelado
+                    .Value = "No"                                                               'cancelado
                 End With
 
                 With .Fields(6)
-                    .Value = frmMenuInicial.Combo1.Text                                 'caja
+                    .Value = frmMenuInicial.Combo1.Text                                         'caja
+                End With
+                
+                With .Fields("created_by")
+                    .Value = StUsuario                                                          'usuario
+                End With
+                
+                With .Fields("creation_date")
+                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")        'creacion
+                End With
+                
+                With .Fields("last_updated_by")
+                    .Value = StUsuario                                                          'usuario
+                End With
+                
+                With .Fields("last_update_date")
+                    .Value = Format(Date, "YYYY-MM-DD") & " " & Format(Time, "HH:MM:SS")        'modificacion
                 End With
                 .Update
                 .Requery
