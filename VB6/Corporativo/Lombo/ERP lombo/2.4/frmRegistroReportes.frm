@@ -211,7 +211,7 @@ Begin VB.Form frmRegistroReportes
             Index           =   2
             Left            =   -480
             TabIndex        =   13
-            Top             =   120
+            Top             =   240
             Width           =   3615
          End
          Begin VB.Label Label1 
@@ -259,7 +259,7 @@ Begin VB.Form frmRegistroReportes
          Begin VB.Label Label1 
             Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
-            Caption         =   "PARAMETRO DE TEXTO"
+            Caption         =   "DESCRIPCION"
             BeginProperty Font 
                Name            =   "Comic Sans MS"
                Size            =   12

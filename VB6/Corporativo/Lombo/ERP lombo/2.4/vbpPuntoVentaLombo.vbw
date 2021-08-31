@@ -1,4 +1,4 @@
-frmMenuInicial = -59, 158, 820, 592, , 26, 26, 905, 460, C
+frmMenuInicial = -59, 158, 820, 592, Z, 26, 26, 905, 460, C
 frmItemNuevo = 104, 104, 1404, 764, , -164, 99, 1173, 759, C
 frmItemExistente = 78, 78, 1378, 738, , 130, 130, 1467, 790, C
 frmListaIngredientesNuevo = 46, 25, 1346, 685, , 156, 156, 1493, 816, C
@@ -43,4 +43,4 @@ frmCancelacionPedidos = 234, 234, 1465, 766, , 208, 208, 1439, 740, C
 frmClientesExistente = 22, 29, 1014, 559, , 176, 232, 947, 762, C
 frmCategoriaArticuloNuevo = 104, 104, 1340, 754, , 78, 78, 1314, 728, C
 frmCategoriaProveedorNuevo = 208, 208, 1265, 858, , 182, 182, 1436, 832, C
-frmRegistroReportes = 26, 26, 1234, 676, Z, 78, 78, 1286, 728, C
+frmRegistroReportes = 26, 26, 1234, 676, , 78, 78, 1286, 728, C

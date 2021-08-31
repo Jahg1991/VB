@@ -261,9 +261,9 @@ Begin VB.Form frmMenuInicial
          Begin VB.Menu Rastreabilidad 
             Caption         =   "Rastreabilidad"
          End
-         Begin VB.Menu rCorteDeCaja 
-            Caption         =   "Corte de Caja"
-         End
+      End
+      Begin VB.Menu rCorteDeCaja 
+         Caption         =   "Corte de Caja"
       End
    End
    Begin VB.Menu Desarrollador 
